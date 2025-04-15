@@ -6,14 +6,12 @@ CLEAR		= \033[K\r
 NAME		= minishell
 CC			= cc
 CFLAGS		= -Wall -Wextra -Werror
+LFLAGS		= -lreadline
 AR			= ar rcs
 INCLUDES	= -I./headers/ -I./libft/headers/
 LIBFT_DIR	= libft
 LIBFT		= $(addprefix $(LIBFT_DIR)/, libft.a)
-SRC			= src/main.c \
-			  src/execution/main.c \
-			  src/execution/builtins/main.c \
-			  src/parsing/main.c
+SRC			= src/main.c 
 OBJ			= $(patsubst src/%.c, obj/%.o, $(SRC))
 
 all: $(NAME)
@@ -21,7 +19,7 @@ all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
 	@echo "$(CLEAR)$(YELLOW)linking $(NAME)...$(RESET)"
-	@$(CC) $(OBJ) $(LIBFT) -o $(NAME)
+	@$(CC) $(OBJ) $(LFLAGS) $(LIBFT) -o $(NAME)
 
 obj/%.o: src/%.c
 	@mkdir -p $(dir $@)
