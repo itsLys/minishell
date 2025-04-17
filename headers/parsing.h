@@ -27,14 +27,17 @@ typedef enum e_token_type
 	T_REDIR_OUT,
 	T_APPEND,
 	T_HERDOC,
-	T_PAREN_OPEN,
-	T_PAREN_CLOSE,
+	T_LPAR,
+	T_RPAR,
 	T_WILDCART,
+	T_INS_DOUB_Q,
+	T_INS_SING_Q,
 	T_END,
 }	t_token_type;
 
 typedef struct s_token
 {
+	struct s_token	*prev;
 	char			*val;
 	t_token_type	type;
 	struct s_token	*next;

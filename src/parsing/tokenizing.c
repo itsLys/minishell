@@ -38,7 +38,7 @@ bool	is_whitespace(char str)
 bool	char_in_arr(char c, char *arr)
 {
 	int (i) = 0;
-	while (i)
+	while (arr[i])
 	{
 		if (c == arr[i])
 			return (true);
@@ -125,14 +125,14 @@ void	handle_redir_out(t_token **tokens, char *line, int *i)
 void	handle_open_par(t_token **tokens, char *line, int *i)
 {
 	(void)line;
-	add_token(tokens, T_PAREN_OPEN, "(");
+	add_token(tokens, T_LPAR, "(");
 	*i += 1;
 }
 
 void	handle_close_par(t_token **tokens, char *line, int *i)
 {
 	(void)line;
-	add_token(tokens, T_PAREN_CLOSE, ")");
+	add_token(tokens, T_RPAR, ")");
 	*i += 1;
 }
 
@@ -150,11 +150,35 @@ void	handle_word(t_token **tokens, char *line, int *i)
 	int (start);
 	start = *i;
 	while (line[*i] && !is_whitespace(line[*i])
-		&& !char_in_arr(line[*i], "|><()*"))
-		*i += 1;
+		&& !char_in_arr(line[*i], "|><()*&\"\'"))
+		(*i)++;
 	word = ft_strndup(&line[start], *i - start);
 	add_token(tokens, T_WORD, word);
+	printf("handle_word: '%.*s'\n", *i - start, &line[start]);
 	free(word);
+}
+
+void	handle_quotes(t_token **tokens, char *line, int *i)
+{
+	char	quote;
+	char	*value;
+	
+	quote = line[*i];
+	*i += 1;
+	int (start) = *i;
+	while (line[*i] && line[*i] != quote)
+		*i += 1;
+	if (line[*i] == quote)
+	{
+		value = ft_strndup(&line[start], *i - start);
+		if (quote == '\"')
+			add_token(tokens, T_INS_DOUB_Q, value);
+		else
+			add_token(tokens, T_INS_SING_Q, value);
+		free(value);
+		*i += 1;
+	}
+	// TODO : if the quote didn't get closed should write an error
 }
 
 void	lexer(char *line, t_token **tokens)
@@ -162,7 +186,8 @@ void	lexer(char *line, t_token **tokens)
 	static t_handlers handle[] = {{'&', handle_and}, {'|', handle_pipe},
 			{'>', handle_redir_out}, {'<', handle_redir_in}, 
 			{'(', handle_open_par}, {'*', handle_wildcart},
-			{')', handle_close_par}};
+			{')', handle_close_par}, {'\'', handle_quotes},
+			{'\"', handle_quotes}};
 	
 	int (i) = 0;
 	while (line[i]) 
@@ -170,7 +195,7 @@ void	lexer(char *line, t_token **tokens)
 		while (line[i] && is_whitespace(line[i]))
 			i++;
 		int (j) = 0;
-		while (j < 7)
+		while (j < 9)
 		{
 			if (handle[j].c == line[i])
 			{
@@ -179,7 +204,7 @@ void	lexer(char *line, t_token **tokens)
 			}
 			j++;
 		}
-		if (j == 7)
+		if (j == 9)
 			handle_word(tokens, line, &i);
 	}
 	add_token(tokens, T_END, NULL);
