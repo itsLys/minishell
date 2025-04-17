@@ -14,7 +14,6 @@
 # define PARSING_H
 
 // includes
-# include "minishell.h"
 # include <readline/history.h>
 # include <readline/readline.h>
 
@@ -26,7 +25,7 @@ typedef enum e_token_type
 	T_AND,
 	T_REDIR_IN,
 	T_REDIR_OUT,
-	T_REDIR_APPEND,
+	T_APPEND,
 	T_HERDOC,
 	T_PAREN_OPEN,
 	T_PAREN_CLOSE,
@@ -40,6 +39,12 @@ typedef struct s_token
 	t_token_type	type;
 	struct s_token	*next;
 }	t_token;
+
+typedef struct s_handlers
+{
+	char c;
+	void (*f)(t_token **, char *, int *);
+}	t_handlers;
 
 void	lexer(char *line, t_token **tokens);
 void	print_tokens(t_token *tokens);

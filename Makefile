@@ -11,7 +11,8 @@ AR			= ar rcs
 INCLUDES	= -I./headers/ -I./libft/headers/
 LIBFT_DIR	= libft
 LIBFT		= $(addprefix $(LIBFT_DIR)/, libft.a)
-SRC			= src/main.c 
+SRC			= src/parsing/main.c \
+			  src/parsing/tokenizing.c
 OBJ			= $(patsubst src/%.c, obj/%.o, $(SRC))
 
 all: $(NAME)

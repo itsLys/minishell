@@ -22,6 +22,7 @@ SRC			= src/ft_isalnum.c \
 			  src/ft_memcmp.c \
 			  src/ft_memcpy.c \
 			  src/ft_strisnum.c \
+			  src/ft_strndup.c \
 			  src/ft_memmove.c \
 			  src/ft_memset.c \
 			  src/ft_putchar_fd.c \
