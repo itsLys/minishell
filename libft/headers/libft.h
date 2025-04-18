@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 11:50:35 by ihajji            #+#    #+#             */
-/*   Updated: 2025/03/19 10:10:33 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/04/18 12:59:46 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # define LIBFT_H
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdbool.h>
 
 # define STDIN 0
 # define STDOUT 1
@@ -94,5 +95,6 @@ char				**ft_tokenize(char const *s);
 char				*ft_getenv(char **envp, char *var);
 char				**ft_getpath(char *path);
 void				**ft_free_vector(char **vector);
+bool				char_in_arr(char c, char *arr);
 
 #endif // !LIBFT_H

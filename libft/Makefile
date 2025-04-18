@@ -8,6 +8,7 @@ INCLUDES	= -I./headers
 CC			= cc -c -Wall -Wextra -Werror
 AR			= ar rcs
 SRC			= src/ft_isalnum.c \
+			  src/char_in_arr.c \
 			  src/ft_isalpha.c \
 			  src/ft_isascii.c \
 			  src/ft_isdigit.c \

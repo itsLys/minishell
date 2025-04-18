@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strndup.c                                       :+:      :+:    :+:   */
+/*   char_in_arr.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/14 22:49:32 by zbengued          #+#    #+#             */
-/*   Updated: 2025/04/18 12:35:49 by zbengued         ###   ########.fr       */
+/*   Created: 2025/04/18 10:57:53 by zbengued          #+#    #+#             */
+/*   Updated: 2025/04/18 10:58:14 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strndup(const char *src, size_t n)
+bool	char_in_arr(char c, char *arr)
 {
-	char	*dest;
-
-	dest = malloc(n + 1);
-	if (!dest)
-		return (NULL);
-	ft_memcpy(dest, src, n);
-	dest[n] = '\0';
-	return (dest);
+	int (i) = 0;
+	while (arr[i])
+	{
+		if (c == arr[i])
+			return (true);
+		i++;
+	}
+	return (false);
 }
