@@ -72,5 +72,6 @@ void	handle_wildcart(t_token **tokens, char *line, int *i);
 void	handle_word(t_token **tokens, char *line, int *i);
 void	handle_quotes(t_token **tokens, char *line, int *i);
 void	handle_new_cmd(t_token **tokens, char *line, int *i);
+void	free_tokens(t_token **head);
 
 #endif // !PARSING_H

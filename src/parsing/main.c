@@ -12,6 +12,7 @@
 
 #include "libft.h"
 #include "minishell.h"
+#include "parsing.h"
 
 char	*build_prompt(void)
 {
@@ -21,9 +22,9 @@ char	*build_prompt(void)
 	prompt[0] = '\0';
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
 		return (NULL);
-	ft_strlcat(prompt, color_Blue, sizeof(prompt));
+	ft_strlcat(prompt, COLOR_BLUE, sizeof(prompt));
 	ft_strlcat(prompt, cwd, sizeof(prompt));
-	ft_strlcat(prompt, color_Reset, sizeof(prompt));
+	ft_strlcat(prompt, COLOR_RESET, sizeof(prompt));
 	ft_strlcat(prompt, " minishell$ ", sizeof(prompt));
 	return (prompt);
 }
@@ -48,6 +49,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)),
 		if (*line)
 			add_history(line);
 		print_tokens(tokens);
+		free_tokens(&tokens);
 		free(line);
 	}
 }

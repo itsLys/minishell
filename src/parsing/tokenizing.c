@@ -6,7 +6,7 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 20:32:41 by zbengued          #+#    #+#             */
-/*   Updated: 2025/04/18 13:55:18 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/04/18 14:05:35 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 void	print_tokens(t_token *tokens)
 {
@@ -56,7 +57,25 @@ void	add_token(t_token **head, t_token_type type, const char *value)
 	}
 }
 
-// NOTE: should check if there is a char that can't be considered as word
+void	free_tokens(t_token **head)
+{
+	t_token	*next;
+	t_token	*tmp;
+
+	if (!head || !*head)
+		return ;
+	tmp = *head;
+	while (tmp)
+	{
+		next = tmp->next;
+		free(tmp->val);
+		free(tmp);
+		tmp = next;
+	}
+	*head = NULL;
+}
+
+// TODO: should check if there is a char that can't be considered as word
 void	lexer(char *line, t_token **tokens)
 {
 	static t_handlers	handle[] = {{'&', handle_and}, {'|', handle_pipe},
