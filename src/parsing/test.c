@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   char_in_arr.c                                      :+:      :+:    :+:   */
+/*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/18 10:57:53 by zbengued          #+#    #+#             */
-/*   Updated: 2025/04/18 10:58:14 by zbengued         ###   ########.fr       */
+/*   Created: 2025/04/24 12:20:58 by zbengued          #+#    #+#             */
+/*   Updated: 2025/04/24 12:21:51 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <parsing.h>
 
-bool	char_in_arr(char c, char *arr)
+void	print_tokens(t_token *tokens)
 {
-	int (i) = 0;
-	while (arr[i])
+	while (tokens)
 	{
-		if (c == arr[i])
-			return (true);
-		i++;
+		printf("Type: %s", tokens->type);
+		if (tokens->val)
+			printf(" | Value: %s", tokens->val);
+		printf("\n");
+		tokens = tokens->next;
 	}
-	return (false);
 }

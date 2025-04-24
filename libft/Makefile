@@ -10,6 +10,7 @@ AR			= ar rcs
 SRC			= src/ft_isalnum.c \
 			  src/char_in_arr.c \
 			  src/ft_isalpha.c \
+			  src/dynamic_arr.c \
 			  src/ft_isascii.c \
 			  src/ft_isdigit.c \
 			  src/ft_isprint.c \

@@ -6,13 +6,14 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 11:50:35 by ihajji            #+#    #+#             */
-/*   Updated: 2025/04/18 12:59:46 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/04/24 12:58:20 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 
 # define LIBFT_H
+# include <stddef.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdbool.h>
@@ -32,11 +33,23 @@ typedef struct s_list
 	void			*content;
 	struct s_list	*next;
 }					t_list;
+
+typedef struct s_darr
+{
+	void	**items;
+	size_t	capacity;
+	size_t	size;
+}	t_darr;
+
+void				darr_init(t_darr *arr);
+void				darr_push(t_darr *arr, void *item);
+void				darr_free_arr(t_darr *arr, void (*f)(void *));
 int					ft_atoi(const char *nptr);
 long				ft_atol(const char *nptr);
 double				ft_atof(char *str);
 void				ft_bzero(void *s, size_t n);
 void				*ft_calloc(size_t nmemb, size_t size);
+void				*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 int					ft_isalnum(int c);
 int					ft_isalpha(int c);
 int					ft_isascii(int c);
@@ -95,6 +108,5 @@ char				**ft_tokenize(char const *s);
 char				*ft_getenv(char **envp, char *var);
 char				**ft_getpath(char *path);
 void				**ft_free_vector(char **vector);
-bool				char_in_arr(char c, char *arr);
 
 #endif // !LIBFT_H

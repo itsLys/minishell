@@ -43,9 +43,10 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)),
 		if (!line)
 		{
 			printf("exit\n");
+			free(line);
 			break ;
 		}
-		lexer(line, &tokens);
+		lexer(&tokens, line);
 		if (*line)
 			add_history(line);
 		print_tokens(tokens);
