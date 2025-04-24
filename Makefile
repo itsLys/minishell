@@ -5,15 +5,16 @@ RESET  		= \033[0m
 CLEAR		= \033[K\r
 NAME		= minishell
 CC			= cc
-CFLAGS		= -Wall -Wextra -Werror
-LFLAGS		= -lreadline
+CFLAGS		= -Wall -Wextra -Werror 
+LFLAGS		= -lreadline -g3
 AR			= ar rcs
 INCLUDES	= -I./headers/ -I./libft/headers/
 LIBFT_DIR	= libft
 LIBFT		= $(addprefix $(LIBFT_DIR)/, libft.a)
-SRC			= src/main.c 
+SRC			= src/parsing/test.c \
+			  src/parsing/main.c \
+			  src/parsing/tokenizing.c
 OBJ			= $(patsubst src/%.c, obj/%.o, $(SRC))
-
 all: $(NAME)
 	@echo "$(GREEN)$(BOLD)$(NAME) done!$(RESET)"
 

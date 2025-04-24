@@ -6,15 +6,17 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 11:50:35 by ihajji            #+#    #+#             */
-/*   Updated: 2025/03/19 10:10:33 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/04/24 12:58:20 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 
 # define LIBFT_H
+# include <stddef.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdbool.h>
 
 # define STDIN 0
 # define STDOUT 1
@@ -31,11 +33,23 @@ typedef struct s_list
 	void			*content;
 	struct s_list	*next;
 }					t_list;
+
+typedef struct s_darr
+{
+	void	**items;
+	size_t	capacity;
+	size_t	size;
+}	t_darr;
+
+void				darr_init(t_darr *arr);
+void				darr_push(t_darr *arr, void *item);
+void				darr_free_arr(t_darr *arr, void (*f)(void *));
 int					ft_atoi(const char *nptr);
 long				ft_atol(const char *nptr);
 double				ft_atof(char *str);
 void				ft_bzero(void *s, size_t n);
 void				*ft_calloc(size_t nmemb, size_t size);
+void				*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 int					ft_isalnum(int c);
 int					ft_isalpha(int c);
 int					ft_isascii(int c);
@@ -63,6 +77,7 @@ int					ft_tolower(int c);
 int					ft_toupper(int c);
 char				*ft_itoa(int n);
 int					ft_strisnum(char *str);
+char				*ft_strndup(const char *src, size_t n);
 char				*ft_substr(char const *s, unsigned int start, size_t len);
 char				*ft_strjoin(char const *s1, char const *s2);
 char				**ft_split(const char *s, char c);
