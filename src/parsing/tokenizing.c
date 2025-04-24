@@ -13,10 +13,6 @@
 #include "libft.h"
 #include "minishell.h"
 #include "parsing.h"
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 static void	add_token(t_token **head, char *type,
 				const char *value, t_token_type t_type)
