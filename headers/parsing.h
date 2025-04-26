@@ -45,14 +45,15 @@ typedef enum e_token_type
 
 typedef enum e_grammar
 {
-	G_COMMAND_LIST,
-	G_COMPOUND_LIST,
+	G_COMPOUND_COMMAND,
 	G_PIPELINE,
 	G_COMMAND,
 	G_SUBSHELL,
 	G_SIMPLE_COMMAND,
 	G_REDIRECT_LIST,
 	G_IO_REDIRECT,
+	G_AND_NODE,
+	G_OR_NODE
 }	t_grammar;
 
 typedef struct s_token
@@ -64,12 +65,13 @@ typedef struct s_token
 	struct s_token	*prev;
 }	t_token;
 
-typedef struct s_node
+typedef struct s_ast_node
 {
 	t_grammar	type;	
-	char		*cmd;
-	t_darr		*arr;	
-}	t_node;
+	char		*value;
+	struct s_ast_node	*child;
+	struct s_ast_node	*sibling;
+}	t_ast_node;
 
 typedef struct s_lexem
 {
@@ -82,5 +84,21 @@ typedef struct s_lexem
 void	print_tokens(t_token *tokens);
 void	free_tokens(t_token **head);
 void	lexer(t_token **tokens, char *line);
+void	ast_print_(t_ast_node *node, size_t depth);
+void	ast_print(t_ast_node *node, size_t depth, const char *prefix, int is_last);
+void	ast_free(t_ast_node *node);
+void	ast_add_child(t_ast_node *parent, t_ast_node *child);
+
+
+void	ast_add_child(t_ast_node *parent, t_ast_node *child);
+t_ast_node	*ast_new(t_grammar type, char *value);
+void	ast_free(t_ast_node *node);
+
+t_ast_node	*ast_new(t_grammar type, char *value);
+t_ast_node	*compound_command(t_token **tokens);
+t_ast_node	*pipeline(t_token **tokens);
+t_ast_node	*command(t_token **tokens);
+t_ast_node	*simple_command(t_token **tokens);
+t_ast_node	*subshell(t_token **tokens);
 
 #endif // !PARSING_H

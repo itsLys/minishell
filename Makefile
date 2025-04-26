@@ -12,6 +12,8 @@ INCLUDES	= -I./headers/ -I./libft/headers/
 LIBFT_DIR	= libft
 LIBFT		= $(addprefix $(LIBFT_DIR)/, libft.a)
 SRC			= src/parsing/test.c \
+			  src/parsing/parsing.c \
+			  src/parsing/ast_functions.c \
 			  src/parsing/main.c \
 			  src/parsing/tokenizing.c
 OBJ			= $(patsubst src/%.c, obj/%.o, $(SRC))

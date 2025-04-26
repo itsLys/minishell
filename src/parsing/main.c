@@ -6,11 +6,12 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:02:11 by ihajji            #+#    #+#             */
-/*   Updated: 2025/04/18 13:54:42 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/04/25 19:05:44 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "parsing.h"
 
 char	*build_prompt(void)
 {
@@ -32,6 +33,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)),
 {
 	char	*line;
 	t_token	*tokens;
+	t_ast_node	*node;
 
 	tokens = NULL;
 	(void)env;
@@ -45,9 +47,11 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)),
 			break ;
 		}
 		lexer(&tokens, line);
+		node = compound_command(&tokens);
 		if (*line)
 			add_history(line);
-		print_tokens(tokens);
+		//print_tokens(tokens);
+		ast_print(node, 0, "", 1);
 		free_tokens(&tokens);
 		free(line);
 	}
