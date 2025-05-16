@@ -24,6 +24,7 @@ t_ast_node	*ast_new(t_grammar type, char *value)
 	node->value = value;
 	node->child = NULL;
 	node->sibling = NULL;
+	node->args = NULL;
 	return (node);
 }
 

@@ -27,6 +27,8 @@
 # include <libft.h>
 # define COLOR_BLUE "\033[1;34m"
 # define COLOR_RESET "\033[0m"
+# define COUNT_WORDS 0
+# define COUNT_REDIR 1
 
 typedef enum e_token_type
 {
@@ -40,20 +42,25 @@ typedef enum e_token_type
 	T_HERDOC,
 	T_LPAR,
 	T_RPAR,
-	T_END,
+	T_END
 }	t_token_type;
 
 typedef enum e_grammar
 {
 	G_COMPOUND_COMMAND,
 	G_PIPELINE,
+	G_OR_NODE,
+	G_AND_NODE,
+	G_REDI_TRUNC,
+	G_REDI_IN,
+	G_REDI_APPEND,
+	G_REDI_HEREDOC,
 	G_COMMAND,
+	G_ARGS,
 	G_SUBSHELL,
 	G_SIMPLE_COMMAND,
 	G_REDIRECT_LIST,
-	G_IO_REDIRECT,
-	G_AND_NODE,
-	G_OR_NODE
+	G_IO_REDIRECT
 }	t_grammar;
 
 typedef struct s_token
@@ -65,10 +72,19 @@ typedef struct s_token
 	struct s_token	*prev;
 }	t_token;
 
+
+typedef struct s_redirect
+{
+	t_token_type 	type;
+	char			*dilimeter;
+	char			*filename;
+}	t_redirect;
+
 typedef struct s_ast_node
 {
 	t_grammar	type;	
 	char		*value;
+	char		**args;
 	struct s_ast_node	*child;
 	struct s_ast_node	*sibling;
 }	t_ast_node;
@@ -82,7 +98,9 @@ typedef struct s_lexem
 }	t_lexem;
 
 void	print_tokens(t_token *tokens);
+void	print_token(t_token *token);
 void	free_tokens(t_token **head);
+void	pop_token(t_token **tokens, t_token *token);
 void	lexer(t_token **tokens, char *line);
 void	ast_print_(t_ast_node *node, size_t depth);
 void	ast_print(t_ast_node *node, size_t depth, const char *prefix, int is_last);
@@ -90,7 +108,10 @@ void	ast_free(t_ast_node *node);
 void	ast_add_child(t_ast_node *parent, t_ast_node *child);
 
 
+bool	is_redi(t_token_type val);
+bool	is_word(t_token_type val);
 void	ast_add_child(t_ast_node *parent, t_ast_node *child);
+void	trait_redir(t_token **tokens);
 t_ast_node	*ast_new(t_grammar type, char *value);
 void	ast_free(t_ast_node *node);
 

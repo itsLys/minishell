@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "parsing.h"
+#include <unistd.h>
 
 static void	add_token(t_token **head, char *type,
 				const char *value, t_token_type t_type)
@@ -41,6 +42,24 @@ static void	add_token(t_token **head, char *type,
 	}
 }
 
+void	pop_token(t_token **tokens, t_token *token)
+{
+	t_token	*prev;
+	t_token	*next;
+
+	if (!token)
+		return ;
+	prev = token->prev;
+	next = token->next;
+	if (prev)
+		prev->next = next;
+	else
+		*tokens = next;
+	if (next)
+		next->prev = prev;
+	free(token);
+}
+
 void	free_tokens(t_token **head)
 {
 	t_token	*next;
@@ -66,7 +85,7 @@ static size_t	handle_word(t_token **tokens, char *line)
 	size_t	i;
 
 	i = 0;
-	while (line[i] && !ft_strchr(" \t\n><|()", line[i]))
+	while (line[i] && !ft_strchr(" \t><|()", line[i]))
 	{
 		if (!ft_strncmp(&line[i], "&&", 2))
 			break ;
@@ -132,5 +151,21 @@ void	lexer(t_token **tokens, char *line)
 		}
 		if (!lexem[j].lexem && !ft_strchr(" \t", line[i]))
 			i += handle_word(tokens, &line[i]);
+	}
+}
+
+void	trait_redir(t_token **tokens)
+{
+	t_token	*tmp;
+
+	tmp = *tokens;
+	while (tmp)
+	{
+		if (is_redi(tmp->t_type) && tmp->next && is_word(tmp->next->t_type))
+		{
+			tmp->val = tmp->next->val;
+			pop_token(tokens, tmp->next);
+		}
+		tmp = tmp->next;
 	}
 }

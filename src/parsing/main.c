@@ -47,10 +47,11 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)),
 			break ;
 		}
 		lexer(&tokens, line);
+		trait_redir(&tokens);
 		node = compound_command(&tokens);
 		if (*line)
 			add_history(line);
-		//print_tokens(tokens);
+		// print_tokens(tokens);
 		ast_print(node, 0, "", 1);
 		free_tokens(&tokens);
 		free(line);
