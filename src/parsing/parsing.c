@@ -104,6 +104,8 @@ t_ast_node	*simple_command(t_token **tokens)
 			consume_word(tokens, arg_list, &i);
 		else if (*tokens && is_redi((*tokens)->t_type))
 			consume_redir(tokens, red_list);
+		else if (*tokens && (*tokens)->t_type == T_LPAR)
+			return (NULL);
 		else if (!(*tokens) || !is_redi((*tokens)->t_type) || !is_word((*tokens)->t_type))
 			break ;
 	}
@@ -129,6 +131,8 @@ t_ast_node	*subshell(t_token **tokens)
 	if (!(*tokens))
 		return (printf("SUBSHELL ERROR\n"), NULL);
 	*tokens = (*tokens)->next;
+	if (*tokens && is_word((*tokens)->t_type))
+		return (NULL);
 	while (*tokens &&  is_redi((*tokens)->t_type))
 		consume_redir(tokens, red_list);
 	ast_add_child(subshell, compound_command_node);
@@ -155,7 +159,7 @@ t_ast_node	*command(t_token **tokens)
 	{
 		subshell_node = subshell(tokens);
 		if (!subshell_node)
-			return (printf("exit from command funf\n"), NULL);
+			return (NULL);
 		ast_add_child(command, subshell_node);
 		return (command);
 	}
@@ -208,7 +212,7 @@ t_ast_node	*compound_command(t_token **tokens, bool in_subshell)
 		if (!pipes && *tokens && (*tokens)->t_type == T_RPAR && in_subshell)
 			return (ast_add_child(compounds, pipes), compounds);
 		else if (!pipes)
-			return (printf("PARSE ERROR\n"), NULL);
+			return (printf("PARSE ERROR \n"), NULL);
 		ast_add_child(compounds, pipes);
 		if (*tokens && ((*tokens)->t_type == T_OR || (*tokens)->t_type == T_AND))
 		{
