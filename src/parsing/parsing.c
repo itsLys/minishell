@@ -121,6 +121,8 @@ t_ast_node	*subshell(t_token **tokens)
 	red_list = ast_new(G_REDIRECT_LIST, NULL);
 	subshell = ast_new(G_SUBSHELL, NULL);
 	*tokens = (*tokens)->next;
+	if (!(*tokens))
+		return (NULL); // NOTE : peut etre un parse error (case of there is only '(')
 	compound_command_node = compound_command(tokens, true);
 	if (!compound_command_node)
 		return (NULL);
@@ -153,7 +155,7 @@ t_ast_node	*command(t_token **tokens)
 	{
 		subshell_node = subshell(tokens);
 		if (!subshell_node)
-			return (NULL);
+			return (printf("exit from command funf\n"), NULL);
 		ast_add_child(command, subshell_node);
 		return (command);
 	}
@@ -203,8 +205,10 @@ t_ast_node	*compound_command(t_token **tokens, bool in_subshell)
 	while(*tokens)
 	{
 		pipes = pipeline(tokens);
-		if (!pipes)
-			return (NULL);
+		if (!pipes && *tokens && (*tokens)->t_type == T_RPAR && in_subshell)
+			return (ast_add_child(compounds, pipes), compounds);
+		else if (!pipes)
+			return (printf("PARSE ERROR\n"), NULL);
 		ast_add_child(compounds, pipes);
 		if (*tokens && ((*tokens)->t_type == T_OR || (*tokens)->t_type == T_AND))
 		{
