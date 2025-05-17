@@ -48,7 +48,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)),
 		}
 		lexer(&tokens, line);
 		trait_redir(&tokens);
-		node = compound_command(&tokens);
+		node = compound_command(&tokens, false);
 		if (*line)
 			add_history(line);
 		// print_tokens(tokens);

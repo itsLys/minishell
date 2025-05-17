@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <readline/tilde.h>
 #include <stddef.h>
 #include <stdlib.h>
 // void *return_heap()
@@ -49,114 +50,6 @@ bool	is_redi(t_token_type val)
 {
 	return ((val <= T_HERDOC && val >= T_REDIRI));
 }
-//
-// t_ast_node	*consume_redir(t_token **tokens)
-// {
-// 	t_ast_node	*redir;
-// 	t_token		*act;
-// 	t_token		*tmp;
-//
-// 	act = *tokens;
-// 	redir = ast_new(G_REDIRECT_LIST, NULL);
-// 	while (act)
-// 	{
-// 		tmp = act->next;
-// 		if (act->t_type <= T_HERDOC && act->t_type >= T_REDIRI)
-// 		{
-			// ast_add_child(redir, ast_new((t_grammar)act->t_type, act->val));
-// 			pop_token(tokens, act);
-// 			act = tmp;
-// 		}
-// 		else if (act->t_type == T_WORD)
-// 			act = tmp;
-// 		else
-// 			break ;
-// 	}
-// 	return (redir);
-// }
-//
-// void	join_and_pop(char *arg, t_token **tokens, t_token *act, t_token *tmp)
-// {
-// 	t_token	*tmp2;
-// 	
-// 	while ((*tokens)->t_type != T_WORD)
-// 		*tokens = (*tokens)->next;
-// 	tmp2 = (*tokens)->next;
-// 	arg = ft_strjoin(arg, act->val);
-// 	arg = ft_strjoin(arg, ";");
-// 	pop_token(tokens, act);
-// 	*tokens = tmp2;
-// 	act = tmp;
-// }
-// t_ast_node	*consume_word(t_token **tokens)
-// {
-// 	t_ast_node	*args;
-// 	t_token		*act;
-// 	t_token		*tmp;
-// 	t_token		*tmp2;
-// 	char *arg;
-//
-// 	arg = NULL;
-// 	act = *tokens;
-// 	while (act)
-// 	{
-// 		tmp = act->next;
-// 		if (act->t_type == T_WORD)
-// 		{
-// 			while (*tokens && (*tokens)->t_type != T_WORD)
-// 				*tokens = (*tokens)->next;
-// 			tmp2 = (*tokens)->next;
-// 			arg = ft_strjoin(arg, act->val);
-// 			arg = ft_strjoin(arg, ";");
-// 			pop_token(tokens, act);
-// 			*tokens = tmp2;
-// 			act = tmp;
-// 		}
-// 		else if (act->t_type >= T_REDIRI && act->t_type <= T_APPEND)
-// 			act = tmp;
-// 		else
-// 			break ;
-// 	}
-// 	args = ast_new(G_ARGS, arg);
-// 	return (args);
-// }
-
-// t_ast_node	*simple_command(t_token **tokens)
-// {
-//
-// 	red_list = NULL;
-// 	arg_list = NULL;
-// 	simple_command = ast_new(G_SIMPLE_COMMAND, NULL);
-// 	while (*tokens)
-// 	{
-// 		// printf("HERERE\n");
-// 		printf(":::::::::%d\n", (*tokens)->t_type);
-// 		if ((*tokens)->t_type == T_WORD)
-// 			{arg_list = consume_word(tokens);printf("word consumed\n");}
-// 		if (*tokens && (*tokens)->t_type >= T_REDIRI && (*tokens)->t_type <= T_HERDOC)	
-// 			{red_list = consume_redir(tokens);printf("redir consumed\n");}
-// 		if (*tokens)
-// 			break ;
-// 	}
-// 	if (arg_list)
-// 		ast_add_child(simple_command, arg_list);
-// 	if (red_list)
-// 		ast_add_child(simple_command, red_list);
-// 	return (simple_command);
-// }
-
-// NOTE : 
-// while (tokens are there)
-// {
-// 	if the token is a word ;
-// 		save it in 2d array
-// 	else if the token is a redir
-// 		create a redir node;
-//
-// }
-//
-//
-// }
 
 size_t	counter(t_token	**tokens, bool mode)
 {
@@ -189,21 +82,6 @@ void	consume_redir(t_token **tokens, t_ast_node *red_list)
 {
 	ast_add_child(red_list, ast_new((t_grammar)(*tokens)->t_type, (*tokens)->val));
 	*tokens = (*tokens)->next;
-}
-
-void	print_2d_array(char **arr)
-{
-	int i = 0;
-
-	if (!arr)
-		return;
-
-	while (arr[i])
-	{
-		printf("[%d] %s ", i, arr[i]);
-		i++;
-	}
-	printf("\n");
 }
 
 t_ast_node	*simple_command(t_token **tokens)
@@ -243,16 +121,12 @@ t_ast_node	*subshell(t_token **tokens)
 	red_list = ast_new(G_REDIRECT_LIST, NULL);
 	subshell = ast_new(G_SUBSHELL, NULL);
 	*tokens = (*tokens)->next;
-	compound_command_node = compound_command(tokens);
+	compound_command_node = compound_command(tokens, true);
 	if (!compound_command_node)
 		return (NULL);
 	if (!(*tokens))
-	{
-		printf("SUBSHELL ERROR\n");
-		return (NULL);
-	}
+		return (printf("SUBSHELL ERROR\n"), NULL);
 	*tokens = (*tokens)->next;
-	print_tokens(*tokens);
 	while (*tokens &&  is_redi((*tokens)->t_type))
 		consume_redir(tokens, red_list);
 	ast_add_child(subshell, compound_command_node);
@@ -283,36 +157,47 @@ t_ast_node	*command(t_token **tokens)
 		ast_add_child(command, subshell_node);
 		return (command);
 	}
+	else if (!(*tokens) && (!((*tokens)->t_type == T_LPAR)
+		|| !(is_word((*tokens)->t_type) || is_redi((*tokens)->t_type))))
+		return (printf("PARSE ERROR IN COMMAND\n"), NULL);
 	return (NULL);
+}
+
+bool	valid_pipe(t_token **tokens)
+{
+	return (is_word((*tokens)->t_type) || is_redi((*tokens)->t_type) 
+			|| ((*tokens)->t_type == T_LPAR));
 }
 
 t_ast_node	*pipeline(t_token **tokens)
 {
-	t_token		*token;
 	t_ast_node	*pipes;
 	t_ast_node	*command_node;
 	
 	pipes = ast_new(G_PIPELINE, NULL);
-	while(*tokens)
+	command_node = command(tokens);
+	if (!command_node)
+		return (NULL);
+	ast_add_child(pipes, command_node);
+	if (*tokens && (*tokens)->t_type == T_PIPE)
 	{
-		command_node = command(tokens);
-		if (!command_node)
-			return (NULL);
-		ast_add_child(pipes, command_node);
-		token = *tokens;
-		if (token && token->t_type == T_PIPE)
-			*tokens = (*tokens)->next;
-		else
-			break ;
+		*tokens = (*tokens)->next;
+		if ((*tokens && !valid_pipe(tokens)) || !(*tokens))
+			return (printf("PARSE ERROR IN PIPELINE\n"), NULL);
 	}
 	return (pipes);
 }
 
-t_ast_node	*compound_command(t_token **tokens)
+bool	valid_compound(t_token **tokens)
+{
+	return ((*tokens)->t_type != T_OR && (*tokens)->t_type != T_AND
+				&& (*tokens)->t_type != T_PIPE);
+}
+
+t_ast_node	*compound_command(t_token **tokens, bool in_subshell)
 {
 	t_ast_node	*pipes;
 	t_ast_node	*compounds;
-	t_token		*tmp;
 	
 	compounds = ast_new(G_COMPOUND_COMMAND, NULL);
 	while(*tokens)
@@ -321,14 +206,15 @@ t_ast_node	*compound_command(t_token **tokens)
 		if (!pipes)
 			return (NULL);
 		ast_add_child(compounds, pipes);
-		tmp = *tokens;
-		if (tmp && (tmp->t_type == T_OR || tmp->t_type == T_AND))
+		if (*tokens && ((*tokens)->t_type == T_OR || (*tokens)->t_type == T_AND))
 		{
-			ast_add_child(compounds, ast_new((t_grammar)tmp->t_type, NULL));
+			ast_add_child(compounds, ast_new((t_grammar)(*tokens)->t_type, NULL));
 			*tokens = (*tokens)->next;
+			if ((*tokens && !valid_compound(tokens)) || !(*tokens))
+				return (printf("PARSE ERROR IN COUMPOUND_COMMAND\n"), NULL);
 		}
-		else
-			break ;
+		else if (*tokens && !in_subshell && (*tokens)->t_type == T_RPAR)
+			return (printf("PARSE ERROR IN COUMPOUND_COMMAND\n"), NULL);
 	}
 	return (compounds);
 }

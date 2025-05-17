@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "parsing.h"
+#include <stdio.h>
 #include <unistd.h>
 
 static void	add_token(t_token **head, char *type,
@@ -160,11 +161,16 @@ void	trait_redir(t_token **tokens)
 
 	tmp = *tokens;
 	while (tmp)
-	{
+{
 		if (is_redi(tmp->t_type) && tmp->next && is_word(tmp->next->t_type))
 		{
 			tmp->val = tmp->next->val;
 			pop_token(tokens, tmp->next);
+		}
+		else if (is_redi(tmp->t_type) && ((tmp->next && !is_word(tmp->next->t_type)) || !tmp->next))
+		{
+			printf("SYNTAXE ERROR\n");
+			*tokens = NULL; // WARN: SHOULD STOP THE PARSING HERE !!
 		}
 		tmp = tmp->next;
 	}

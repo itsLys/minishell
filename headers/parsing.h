@@ -116,7 +116,7 @@ t_ast_node	*ast_new(t_grammar type, char *value);
 void	ast_free(t_ast_node *node);
 
 t_ast_node	*ast_new(t_grammar type, char *value);
-t_ast_node	*compound_command(t_token **tokens);
+t_ast_node	*compound_command(t_token **tokens, bool is_subshell);
 t_ast_node	*pipeline(t_token **tokens);
 t_ast_node	*command(t_token **tokens);
 t_ast_node	*simple_command(t_token **tokens);
