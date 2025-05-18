@@ -6,7 +6,7 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 20:32:41 by zbengued          #+#    #+#             */
-/*   Updated: 2025/04/24 12:57:31 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/05/18 17:55:59 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,24 +59,6 @@ void	pop_token(t_token **tokens, t_token *token)
 	if (next)
 		next->prev = prev;
 	free(token);
-}
-
-void	free_tokens(t_token **head)
-{
-	t_token	*next;
-	t_token	*tmp;
-
-	if (!head || !*head)
-		return ;
-	tmp = *head;
-	while (tmp)
-	{
-		next = tmp->next;
-		free(tmp->val);
-		free(tmp);
-		tmp = next;
-	}
-	*head = NULL;
 }
 
 static size_t	handle_word(t_token **tokens, char *line)
@@ -152,26 +134,5 @@ void	lexer(t_token **tokens, char *line)
 		}
 		if (!lexem[j].lexem && !ft_strchr(" \t", line[i]))
 			i += handle_word(tokens, &line[i]);
-	}
-}
-
-void	trait_redir(t_token **tokens)
-{
-	t_token	*tmp;
-
-	tmp = *tokens;
-	while (tmp)
-{
-		if (is_redi(tmp->t_type) && tmp->next && is_word(tmp->next->t_type))
-		{
-			tmp->val = tmp->next->val;
-			pop_token(tokens, tmp->next);
-		}
-		else if (is_redi(tmp->t_type) && ((tmp->next && !is_word(tmp->next->t_type)) || !tmp->next))
-		{
-			printf("SYNTAXE ERROR\n");
-			*tokens = NULL; // WARN: SHOULD STOP THE PARSING HERE !!
-		}
-		tmp = tmp->next;
 	}
 }

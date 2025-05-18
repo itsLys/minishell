@@ -10,10 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include <parsing.h>
-#include <stddef.h>
-#include <stdio.h>
 
 t_ast_node	*ast_new(t_grammar type, char *value)
 {
@@ -37,16 +34,15 @@ void	ast_add_child(t_ast_node *parent, t_ast_node *child)
 	else
 	{
 		current = parent->child;
-		while(current->sibling)
+		while (current->sibling)
 			current = current->sibling;
 		current->sibling = child;
 	}
 }
 
-
 void	ast_free(t_ast_node *node)
 {
-	t_ast_node *next;
+	t_ast_node	*next;
 
 	while (node)
 	{

@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 #include "parsing.h"
+#include <stdio.h>
 
 char	*build_prompt(void)
 {
@@ -36,6 +37,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)),
 	t_ast_node	*node;
 
 	tokens = NULL;
+	node = NULL;
 	(void)env;
 	while (1)
 	{
@@ -48,12 +50,16 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)),
 		}
 		lexer(&tokens, line);
 		trait_redir(&tokens);
-		node = compound_command(&tokens, false);
+		if (tokens)
+			node = compound_command(&tokens, false);
+		if (!node && tokens)
+			printf("SYNTAXE ERROR\n");
 		if (*line)
 			add_history(line);
 		// print_tokens(tokens);
 		ast_print(node, 0, "", 1);
 		free_tokens(&tokens);
+		// TODO: add a free_ast function !
 		free(line);
 	}
 }
