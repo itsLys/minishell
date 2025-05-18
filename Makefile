@@ -15,7 +15,10 @@ SRC			= src/parsing/test.c \
 			  src/parsing/parsing.c \
 			  src/parsing/ast_functions.c \
 			  src/parsing/main.c \
-			  src/parsing/tokenizing.c
+			  src/parsing/tokenizing.c \
+			  src/parsing/parsing_utils_1.c \
+			  src/parsing/parsing_utils_2.c \
+			  src/parsing/tokenizing_utils.c
 OBJ			= $(patsubst src/%.c, obj/%.o, $(SRC))
 all: $(NAME)
 	@echo "$(GREEN)$(BOLD)$(NAME) done!$(RESET)"

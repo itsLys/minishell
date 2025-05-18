@@ -6,7 +6,7 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 17:29:35 by zbengued          #+#    #+#             */
-/*   Updated: 2025/05/18 17:33:32 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/05/18 18:02:24 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ size_t	counter(t_token	**tokens, bool mode)
 
 	i = 0;
 	act = *tokens;
-	while (mode == COUNT_WORDS && act && is_word(act->t_type))
+	while (mode == WORDS && act && is_word(act->t_type))
 	{
 		i++;
 		act = act->next;
 	}
-	while (mode == COUNT_REDIR && act && is_redi(act->t_type))
+	while (mode == REDIR && act && is_redi(act->t_type))
 	{
 		i++;
 		act = act->next;

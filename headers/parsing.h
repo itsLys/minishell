@@ -6,7 +6,7 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 22:25:21 by zbengued          #+#    #+#             */
-/*   Updated: 2025/04/24 12:57:58 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/05/18 17:53:58 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <libft.h>
-# define COLOR_BLUE "\033[1;34m"
-# define COLOR_RESET "\033[0m"
-# define COUNT_WORDS 0
-# define COUNT_REDIR 1
+# define COLOR_BLUE "\001\033[1;34m\002"
+# define COLOR_RESET "\001\033[0m\002"
+# define WORDS 0
+# define REDIR 1
 
 typedef enum e_token_type
 {
@@ -108,12 +108,18 @@ void	ast_free(t_ast_node *node);
 void	ast_add_child(t_ast_node *parent, t_ast_node *child);
 
 
+bool	is_word_or_redir(t_token_type type);
 bool	is_redi(t_token_type val);
 bool	is_word(t_token_type val);
+bool	is_and_or(t_token_type type);
+bool	valid_pipe(t_token **tokens);
+bool	valid_compound(t_token **tokens);
+bool	is_operator(t_token_type type);
+size_t	counter(t_token	**tokens, bool mode);
+void	consume_word(t_token **tokens, t_ast_node *args_node, size_t *i);
+void	consume_redir(t_token **tokens, t_ast_node *red_list);
 void	ast_add_child(t_ast_node *parent, t_ast_node *child);
 void	trait_redir(t_token **tokens);
-t_ast_node	*ast_new(t_grammar type, char *value);
-void	ast_free(t_ast_node *node);
 
 t_ast_node	*ast_new(t_grammar type, char *value);
 t_ast_node	*compound_command(t_token **tokens, bool is_subshell);
