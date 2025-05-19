@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:02:11 by ihajji            #+#    #+#             */
-/*   Updated: 2025/04/25 19:05:44 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/05/18 18:20:37 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,13 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)),
 			printf("SYNTAXE ERROR\n");
 		if (*line)
 			add_history(line);
-		// print_tokens(tokens);
 		ast_print(node, 0, "", 1);
 		free_tokens(&tokens);
-		// TODO: add a free_ast function !
+		if (node)
+		{
+			ast_free(node);
+			node = NULL;
+		}
 		free(line);
 	}
 }

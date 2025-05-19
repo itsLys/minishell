@@ -72,19 +72,18 @@ typedef struct s_token
 	struct s_token	*prev;
 }	t_token;
 
-
 typedef struct s_redirect
 {
-	t_token_type 	type;
+	t_token_type	type;
 	char			*dilimeter;
 	char			*filename;
 }	t_redirect;
 
 typedef struct s_ast_node
 {
-	t_grammar	type;	
-	char		*value;
-	char		**args;
+	t_grammar			type;	
+	char				*value;
+	char				*args;
 	struct s_ast_node	*child;
 	struct s_ast_node	*sibling;
 }	t_ast_node;
@@ -97,29 +96,29 @@ typedef struct s_lexem
 	t_token_type	type;
 }	t_lexem;
 
-void	print_tokens(t_token *tokens);
-void	print_token(t_token *token);
-void	free_tokens(t_token **head);
-void	pop_token(t_token **tokens, t_token *token);
-void	lexer(t_token **tokens, char *line);
-void	ast_print_(t_ast_node *node, size_t depth);
-void	ast_print(t_ast_node *node, size_t depth, const char *prefix, int is_last);
-void	ast_free(t_ast_node *node);
-void	ast_add_child(t_ast_node *parent, t_ast_node *child);
+void		print_tokens(t_token *tokens);
+void		print_token(t_token *token);
+void		free_tokens(t_token **head);
+void		pop_token(t_token **tokens, t_token *token);
+void		lexer(t_token **tokens, char *line);
+void		ast_print_(t_ast_node *node, size_t depth);
+void		ast_print(t_ast_node *node,
+				size_t depth, const char *prefix, int is_last);
+void		ast_free(t_ast_node *node);
+void		ast_add_child(t_ast_node *parent, t_ast_node *child);
 
-
-bool	is_word_or_redir(t_token_type type);
-bool	is_redi(t_token_type val);
-bool	is_word(t_token_type val);
-bool	is_and_or(t_token_type type);
-bool	valid_pipe(t_token **tokens);
-bool	valid_compound(t_token **tokens);
-bool	is_operator(t_token_type type);
-size_t	counter(t_token	**tokens, bool mode);
-void	consume_word(t_token **tokens, t_ast_node *args_node, size_t *i);
-void	consume_redir(t_token **tokens, t_ast_node *red_list);
-void	ast_add_child(t_ast_node *parent, t_ast_node *child);
-void	trait_redir(t_token **tokens);
+bool		is_word_or_redir(t_token_type type);
+bool		is_redi(t_token_type val);
+bool		is_word(t_token_type val);
+bool		is_and_or(t_token_type type);
+bool		valid_pipe(t_token **tokens);
+bool		valid_compound(t_token **tokens);
+bool		is_operator(t_token_type type);
+size_t		counter(t_token	**tokens, bool mode);
+void		consume_word(t_token **tokens, t_ast_node *args_node, size_t *i);
+void		consume_redir(t_token **tokens, t_ast_node *red_list);
+void		ast_add_child(t_ast_node *parent, t_ast_node *child);
+void		trait_redir(t_token **tokens);
 
 t_ast_node	*ast_new(t_grammar type, char *value);
 t_ast_node	*compound_command(t_token **tokens, bool is_subshell);
