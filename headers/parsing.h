@@ -83,7 +83,7 @@ typedef struct s_ast_node
 {
 	t_grammar			type;	
 	char				*value;
-	char				*args;
+	char				**args;
 	struct s_ast_node	*child;
 	struct s_ast_node	*sibling;
 }	t_ast_node;
@@ -103,7 +103,7 @@ void		pop_token(t_token **tokens, t_token *token);
 void		lexer(t_token **tokens, char *line);
 void		ast_print_(t_ast_node *node, size_t depth);
 void		ast_print(t_ast_node *node,
-				size_t depth, const char *prefix, int is_last);
+			   size_t depth, const char *prefix, int is_last);
 void		ast_free(t_ast_node *node);
 void		ast_add_child(t_ast_node *parent, t_ast_node *child);
 
