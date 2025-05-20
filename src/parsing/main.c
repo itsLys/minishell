@@ -50,6 +50,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)),
 		}
 		lexer(&tokens, line);
 		trait_redir(&tokens);
+		trait_word(&tokens);
 		if (tokens)
 			node = compound_command(&tokens, false);
 		if (!node && tokens)

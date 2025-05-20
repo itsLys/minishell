@@ -119,6 +119,7 @@ void		consume_word(t_token **tokens, t_ast_node *args_node, size_t *i);
 void		consume_redir(t_token **tokens, t_ast_node *red_list);
 void		ast_add_child(t_ast_node *parent, t_ast_node *child);
 void		trait_redir(t_token **tokens);
+void		trait_word(t_token **tokens);
 
 t_ast_node	*ast_new(t_grammar type, char *value);
 t_ast_node	*compound_command(t_token **tokens, bool is_subshell);
