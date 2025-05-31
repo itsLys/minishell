@@ -6,11 +6,13 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 20:32:41 by zbengued          #+#    #+#             */
-/*   Updated: 2025/04/24 12:57:31 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/05/19 18:30:26 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
+#include <stdio.h>
+#include <unistd.h>
 
 static void	add_token(t_token **head, char *type,
 				const char *value, t_token_type t_type)
@@ -41,22 +43,22 @@ static void	add_token(t_token **head, char *type,
 	}
 }
 
-void	free_tokens(t_token **head)
+void	pop_token(t_token **tokens, t_token *token)
 {
+	t_token	*prev;
 	t_token	*next;
-	t_token	*tmp;
 
-	if (!head || !*head)
+	if (!token)
 		return ;
-	tmp = *head;
-	while (tmp)
-	{
-		next = tmp->next;
-		free(tmp->val);
-		free(tmp);
-		tmp = next;
-	}
-	*head = NULL;
+	prev = token->prev;
+	next = token->next;
+	if (prev)
+		prev->next = next;
+	else
+		*tokens = next;
+	if (next)
+		next->prev = prev;
+	free(token);
 }
 
 static size_t	handle_word(t_token **tokens, char *line)
@@ -66,7 +68,7 @@ static size_t	handle_word(t_token **tokens, char *line)
 	size_t	i;
 
 	i = 0;
-	while (line[i] && !ft_strchr(" \t\n><|()", line[i]))
+	while (line[i] && !ft_strchr(" \t><|()", line[i]))
 	{
 		if (!ft_strncmp(&line[i], "&&", 2))
 			break ;

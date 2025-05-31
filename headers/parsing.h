@@ -6,7 +6,7 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 22:25:21 by zbengued          #+#    #+#             */
-/*   Updated: 2025/04/24 12:57:58 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/05/18 17:53:58 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,10 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <libft.h>
-# define COLOR_BLUE "\033[1;34m"
-# define COLOR_RESET "\033[0m"
+# define COLOR_BLUE "\001\033[1;34m\002"
+# define COLOR_RESET "\001\033[0m\002"
+# define WORDS 0
+# define REDIR 1
 
 typedef enum e_token_type
 {
@@ -40,19 +42,25 @@ typedef enum e_token_type
 	T_HERDOC,
 	T_LPAR,
 	T_RPAR,
-	T_END,
+	T_END
 }	t_token_type;
 
 typedef enum e_grammar
 {
-	G_COMMAND_LIST,
-	G_COMPOUND_LIST,
+	G_COMPOUND_COMMAND,
 	G_PIPELINE,
+	G_OR_NODE,
+	G_AND_NODE,
+	G_REDI_TRUNC,
+	G_REDI_IN,
+	G_REDI_APPEND,
+	G_REDI_HEREDOC,
 	G_COMMAND,
+	G_ARGS,
 	G_SUBSHELL,
 	G_SIMPLE_COMMAND,
 	G_REDIRECT_LIST,
-	G_IO_REDIRECT,
+	G_IO_REDIRECT
 }	t_grammar;
 
 typedef struct s_token
@@ -64,12 +72,21 @@ typedef struct s_token
 	struct s_token	*prev;
 }	t_token;
 
-typedef struct s_node
+typedef struct s_redirect
 {
-	t_grammar	type;	
-	char		*cmd;
-	t_darr		*arr;	
-}	t_node;
+	t_token_type	type;
+	char			*dilimeter;
+	char			*filename;
+}	t_redirect;
+
+typedef struct s_ast_node
+{
+	t_grammar			type;	
+	char				*value;
+	char				**args;
+	struct s_ast_node	*child;
+	struct s_ast_node	*sibling;
+}	t_ast_node;
 
 typedef struct s_lexem
 {
@@ -79,8 +96,36 @@ typedef struct s_lexem
 	t_token_type	type;
 }	t_lexem;
 
-void	print_tokens(t_token *tokens);
-void	free_tokens(t_token **head);
-void	lexer(t_token **tokens, char *line);
+void		print_tokens(t_token *tokens);
+void		print_token(t_token *token);
+void		free_tokens(t_token **head);
+void		pop_token(t_token **tokens, t_token *token);
+void		lexer(t_token **tokens, char *line);
+void		ast_print_(t_ast_node *node, size_t depth);
+void		ast_print(t_ast_node *node,
+			   size_t depth, const char *prefix, int is_last);
+void		ast_free(t_ast_node *node);
+void		ast_add_child(t_ast_node *parent, t_ast_node *child);
+
+bool		is_word_or_redir(t_token_type type);
+bool		is_redi(t_token_type val);
+bool		is_word(t_token_type val);
+bool		is_and_or(t_token_type type);
+bool		valid_pipe(t_token **tokens);
+bool		valid_compound(t_token **tokens);
+bool		is_operator(t_token_type type);
+size_t		counter(t_token	**tokens, bool mode);
+void		consume_word(t_token **tokens, t_ast_node *args_node, size_t *i);
+void		consume_redir(t_token **tokens, t_ast_node *red_list);
+void		ast_add_child(t_ast_node *parent, t_ast_node *child);
+void		trait_redir(t_token **tokens);
+void		trait_word(t_token **tokens);
+
+t_ast_node	*ast_new(t_grammar type, char *value);
+t_ast_node	*compound_command(t_token **tokens, bool is_subshell);
+t_ast_node	*pipeline(t_token **tokens);
+t_ast_node	*command(t_token **tokens);
+t_ast_node	*simple_command(t_token **tokens);
+t_ast_node	*subshell(t_token **tokens);
 
 #endif // !PARSING_H

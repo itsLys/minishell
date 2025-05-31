@@ -6,11 +6,13 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:02:11 by ihajji            #+#    #+#             */
-/*   Updated: 2025/04/18 13:54:42 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/05/18 18:20:37 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "parsing.h"
+#include <stdio.h>
 
 char	*build_prompt(void)
 {
@@ -32,8 +34,10 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)),
 {
 	char	*line;
 	t_token	*tokens;
+	t_ast_node	*node;
 
 	tokens = NULL;
+	node = NULL;
 	(void)env;
 	while (1)
 	{
@@ -45,10 +49,21 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)),
 			break ;
 		}
 		lexer(&tokens, line);
+		trait_redir(&tokens);
+		trait_word(&tokens);
+		if (tokens)
+			node = compound_command(&tokens, false);
+		if (!node && tokens)
+			printf("SYNTAXE ERROR\n");
 		if (*line)
 			add_history(line);
-		print_tokens(tokens);
+		ast_print(node, 0, "", 1);
 		free_tokens(&tokens);
+		if (node)
+		{
+			ast_free(node);
+			node = NULL;
+		}
 		free(line);
 	}
 }
