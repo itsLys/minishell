@@ -6,25 +6,14 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 22:25:21 by zbengued          #+#    #+#             */
-/*   Updated: 2025/05/18 17:53:58 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/06/01 08:12:02 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
 
-// includes
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <stddef.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <limits.h>
-# include <string.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <libft.h>
+# include "minishell.h"
 # define COLOR_BLUE "\001\033[1;34m\002"
 # define COLOR_RESET "\001\033[0m\002"
 # define WORDS 0
@@ -96,6 +85,9 @@ typedef struct s_lexem
 	t_token_type	type;
 }	t_lexem;
 
+// entery point
+void		parse_input(char *input, t_token **tokens, t_ast_node **node);
+
 void		print_tokens(t_token *tokens);
 void		print_token(t_token *token);
 void		free_tokens(t_token **head);
@@ -103,7 +95,7 @@ void		pop_token(t_token **tokens, t_token *token);
 void		lexer(t_token **tokens, char *line);
 void		ast_print_(t_ast_node *node, size_t depth);
 void		ast_print(t_ast_node *node,
-			   size_t depth, const char *prefix, int is_last);
+				size_t depth, const char *prefix, int is_last);
 void		ast_free(t_ast_node *node);
 void		ast_add_child(t_ast_node *parent, t_ast_node *child);
 

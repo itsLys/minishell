@@ -6,12 +6,11 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 12:20:58 by zbengued          #+#    #+#             */
-/*   Updated: 2025/04/24 17:18:39 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/05/31 20:27:15 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <parsing.h>
-#include <stdio.h>
+#include "parsing.h"
 
 void	print_tokens(t_token *tokens)
 {
