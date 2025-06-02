@@ -11,10 +11,12 @@ AR			= ar rcs
 INCLUDES	= -I./headers/ -I./libft/headers/
 LIBFT_DIR	= libft
 LIBFT		= $(addprefix $(LIBFT_DIR)/, libft.a)
-SRC			= src/parsing/test.c \
+SRC			= src/main.c \
+			  src/execution/main.c \
+			  src/parsing/main.c \
+			  src/parsing/test.c \
 			  src/parsing/parsing.c \
 			  src/parsing/ast_functions.c \
-			  src/parsing/main.c \
 			  src/parsing/tokenizing.c \
 			  src/parsing/parsing_utils_1.c \
 			  src/parsing/parsing_utils_2.c \
