@@ -12,7 +12,13 @@
 
 #include "execution.h"
 
+void execute_compound(t_ast_node *node)
+{
+	execute_pipeline(node);
+}
+
 void	execute(t_ast_node *node)
 {
-	(void) node;
+	if (node->type == G_COMPOUND_COMMAND)
+		execute_compound(node->child);
 }
