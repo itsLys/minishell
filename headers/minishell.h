@@ -28,6 +28,7 @@
 typedef struct s_data
 {
 	char	*input;
+	int		status;
 }	t_data;
 
 #endif // !MINISHELL_H

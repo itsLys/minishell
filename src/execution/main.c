@@ -12,11 +12,15 @@
 
 #include "execution.h"
 
-void execute_compound(t_ast_node *node)
+int execute_compound(t_ast_node *node)
 {
+	g_data.status = execute(node);
+	return 0;
 }
 
-void	execute(t_ast_node *node)
+int	execute(t_ast_node *node)
 {
-	execute_compound(node);
+	if (node->type == G_COMPOUND_COMMAND)
+		return execute_compound(node);
+	return 0;
 }

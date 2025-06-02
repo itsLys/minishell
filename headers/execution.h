@@ -16,6 +16,7 @@
 # include "minishell.h"
 # include "parsing.h"
 
-void	execute(t_ast_node *node);
+extern t_data g_data;
+int	execute(t_ast_node *node);
 
 #endif // !EXECUTION_H
