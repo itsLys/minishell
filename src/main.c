@@ -6,11 +6,13 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:02:11 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/01 08:07:44 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/06/01 08:07:18 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "parsing.h"
+#include "execution.h"
 
 t_data	g_data;
 
@@ -35,7 +37,7 @@ int	get_input(void)
 	if (!g_data.input)
 	{
 		free(g_data.input);
-		return (printf("exit\n"));
+		return printf("exit\n");
 	}
 	return (SUCCESS);
 }
@@ -65,6 +67,8 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)),
 		if (get_input())
 			return (SUCCESS);
 		parse_input(g_data.input, &tokens, &node);
+		if (node)
+			execute(node);
 		ast_print(node, 0, "", 1);
 		free_resources(g_data.input, &tokens, &node);
 	}

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <parsing.h>
+#include "parsing.h"
 
 // WARN: SHOULD EXIT IN CASE OF CALLOC FAILING
 t_ast_node	*simple_command(t_token **tokens)

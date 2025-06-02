@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "execution.h"
 
-void	execute(char *str)
+void	execute(t_ast_node *node)
 {
-	printf("Hello %s\n", str);
+	(void) node;
 }
