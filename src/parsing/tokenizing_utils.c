@@ -26,6 +26,7 @@ bool	check_quote(char *str)
 	if (!first_quote_pos)
 		return (true);
 	quote = ft_strchr("\'\"", *first_quote_pos);
+	i++;
 	while (first_quote_pos[i] && first_quote_pos[i] != *quote)
 		i++;
 	if (!first_quote_pos[i])
