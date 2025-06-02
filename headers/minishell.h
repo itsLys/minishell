@@ -24,8 +24,6 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <libft.h>
-# include "parsing.h"
-# include "execution.h"
 
 typedef struct s_data
 {

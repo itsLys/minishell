@@ -10,11 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXECUTION_H
+#ifndef	 EXECUTION_H
 # define EXECUTION_H
 
 # include "minishell.h"
+# include "parsing.h"
 
-void	execute(char *str);
+void	execute(t_ast_node *node);
 
 #endif // !EXECUTION_H

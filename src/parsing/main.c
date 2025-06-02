@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "parsing.h"
 
 void	parse_input(char *input, t_token **tokens, t_ast_node **node)
 {
