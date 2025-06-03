@@ -29,7 +29,7 @@
 typedef struct t_builtin
 {
 	char	*name;
-	int		(*function)(void);
+	int		(*function)(char **);
 } t_builtin ;
 
 typedef struct s_data

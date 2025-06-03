@@ -12,56 +12,71 @@
 
 #include "execution.h"
 #define STR "Hello"
+
+bool	is_n_flaged(char *arg)
+{
+	int i;
+
+	i = 1;
+	if (!arg || arg[0] == '-')
+		return false;
+	if (arg[i] == 'n')
+		i++;
+	while (arg[i] == 'n')
+		i++;
+	return arg[i] == '\0';
+}
+
 int	echo(char **argv)
 {
-	int	n_flag;
-
-	n_flag = is_n_flaged(argv[1]);
-	int i = 1;
-	if (argv[1][0] == '-')
+	int	n_flaged;
+	int	i;
+	
+	i = 1;
+	n_flaged = is_n_flaged(argv[i]);
+	if (n_flaged)
+		i++;
+	while (is_n_flaged(argv[i]))
+		printf("%s:::", argv[i++]);
+	while (argv[i])
 	{
-		while (argv[0][i++] == 'n')
-			;
-		if (argv[0][i])
-			n_flag = false;
-		else
-			n_flag = true;
+		printf("%s", argv[i++]);
+		if (argv[i])
+			printf(" ");
 	}
-
-	while (argv)
-	{
-		printf("%s", argv);
-	}
+	if (!n_flaged)
+		printf("\n");
+	return 0;
 }
 
-int	cd(void)
+int	cd(char **argv)
 {
-	printf("hello from %s", "cd"); return 0;
+	(void)argv; printf("hello from %s", "cd"); return 0;
 }
 
-int	pwd(void)
+int	pwd(char **argv)
 {
-	printf("hello from %s", "pwd"); return 0;
+	(void)argv; printf("hello from %s", "pwd"); return 0;
 }
 
-int	export(void)
+int	export(char **argv)
 {
-	printf("hello from %s", "export"); return 0;
+	(void)argv; printf("hello from %s", "export"); return 0;
 }
 
-int	unset(void)
+int	unset(char **argv)
 {
-	printf("hello from %s", "unset"); return 0;
+	(void)argv; printf("hello from %s", "unset"); return 0;
 }
 
-int env(void)
+int env(char **argv)
 {
-	printf("hello from %s", "env"); return 0;
+	(void)argv; printf("hello from %s", "env"); return 0;
 }
 
-int	ft_exit(void)
+int	ft_exit(char **argv)
 {
-	printf("hello from %s", "ft_exit"); return 0;
+	(void)argv; printf("hello from %s", "ft_exit"); return 0;
 }
 
 t_builtin	*init_builtins(void)
@@ -113,7 +128,7 @@ int	execute_simple_command(t_ast_node *node)
 	argv = node->child->args;
 	int	builtin_index;
 	if ((builtin_index = find_builtin(argv[0])) != ERROR)
-		return g_data.builtins[builtin_index].function();
+		return g_data.builtins[builtin_index].function(argv);
 	else
 	{
 		if (fork() == 0)
