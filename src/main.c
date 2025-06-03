@@ -59,9 +59,9 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)),
 	t_token		*tokens;
 	t_ast_node	*node;
 
+	g_data.env = env;
 	tokens = NULL;
 	node = NULL;
-	(void)env;
 	while (1)
 	{
 		if (get_input())
