@@ -6,7 +6,7 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 22:25:21 by zbengued          #+#    #+#             */
-/*   Updated: 2025/06/01 08:12:02 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/06/11 17:12:06 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,17 @@ typedef enum e_grammar
 	G_REDIRECT_LIST,
 	G_IO_REDIRECT
 }	t_grammar;
+
+enum e_node_i
+{
+	I_COMPOUND_COMMAND,
+	I_PIPELINE,
+	I_COMMAND,
+	I_SUBSHELL,
+	I_SIMPLE_COMMAND,
+	I_ARGLIST,
+	I_RED_LIST
+};
 
 typedef struct s_token
 {
