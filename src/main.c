@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:02:11 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/11 17:13:43 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/06/10 16:43:14 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,11 @@
 #include "parsing.h"
 #include "execution.h"
 
-t_data	g_data;
+t_data *g_data(void)
+{
+	static t_data data;
+	return &data;
+}
 
 char	*build_prompt(void)
 {
@@ -33,24 +37,14 @@ char	*build_prompt(void)
 
 int	get_input(void)
 {
-	g_data.input = readline(build_prompt());
-	if (!g_data.input)
+	g_data()->input = readline(build_prompt());
+	if (!g_data()->input)
 	{
-		free(g_data.input);
-		return (printf("exit\n"));
+		free(g_data()->input);
+		return printf("exit\n");
 	}
 	return (SUCCESS);
-}
 
-void	free_resources(char *input, t_token **tokens, t_ast_node **node)
-{
-	free_tokens(tokens);
-	if (*node)
-	{
-		ast_free(*node);
-		*node = NULL;
-	}
-	free(input);
 }
 
 int	main(int ac __attribute__((unused)), char **av __attribute__((unused)),
@@ -59,17 +53,17 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)),
 	t_token		*tokens;
 	t_ast_node	*node;
 
+	init_minishell(env);
 	tokens = NULL;
 	node = NULL;
-	(void)env;
 	while (1)
 	{
 		if (get_input())
 			return (SUCCESS);
-		parse_input(g_data.input, &tokens, &node);
+		parse_input(g_data()->input, &tokens, &node);
 		if (node)
 			execute(node);
 		ast_print(node, 0, "", 1);
-		free_resources(g_data.input, &tokens, &node);
+		free_resources(g_data()->input, &tokens, &node);
 	}
 }

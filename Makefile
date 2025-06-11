@@ -12,7 +12,18 @@ INCLUDES	= -I./headers/ -I./libft/headers/
 LIBFT_DIR	= libft
 LIBFT		= $(addprefix $(LIBFT_DIR)/, libft.a)
 SRC			= src/main.c \
+			  src/free.c \
+			  src/init.c \
+			  src/testing/print_env.c \
 			  src/execution/main.c \
+			  src/execution/builtins/cd.c \
+			  src/execution/builtins/echo.c \
+			  src/execution/builtins/pwd.c \
+			  src/execution/builtins/export.c \
+			  src/execution/builtins/unset.c \
+			  src/execution/builtins/env.c \
+			  src/execution/builtins/exit.c \
+			  src/execution/builtins/utils.c \
 			  src/parsing/main.c \
 			  src/parsing/test.c \
 			  src/parsing/parsing.c \
@@ -20,8 +31,8 @@ SRC			= src/main.c \
 			  src/parsing/tokenizing.c \
 			  src/parsing/parsing_utils_1.c \
 			  src/parsing/parsing_utils_2.c \
-			  src/parsing/tokenizing_utils.c \
-			  src/parsing/expand.c
+			  src/parsing/expand.c \
+			  src/parsing/tokenizing_utils.c
 OBJ			= $(patsubst src/%.c, obj/%.o, $(SRC))
 all: $(NAME)
 	@echo "$(GREEN)$(BOLD)$(NAME) done!$(RESET)"

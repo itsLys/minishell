@@ -1,35 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution.h                                        :+:      :+:    :+:   */
+/*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/31 20:21:39 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/09 17:49:14 by ihajji           ###   ########.fr       */
+/*   Created: 2025/06/09 18:56:36 by ihajji            #+#    #+#             */
+/*   Updated: 2025/06/09 18:56:48 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef	 EXECUTION_H
-# define EXECUTION_H
+#include "execution.h"
 
-# include "minishell.h"
-# include "parsing.h"
+int	export(char **argv)
+{
+	(void)argv; printf("hello from %s", "export"); return 0;
+}
 
-// extern t_data g_data;
-int	execute(t_ast_node *node);
-
-t_builtin	*init_builtins(void);
-int	find_builtin(char *cmd);
-
-// builtins
-int	echo(char **argv);
-int	cd(char **argv);
-int	pwd(char **argv);
-int	unset(char **argv);
-int	export(char **argv);
-int	env(char **argv);
-int	ft_exit(char **argv);
-
-
-#endif // !EXECUTION_H
