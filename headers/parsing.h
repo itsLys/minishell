@@ -138,4 +138,6 @@ t_ast_node	*command(t_token **tokens);
 t_ast_node	*simple_command(t_token **tokens);
 t_ast_node	*subshell(t_token **tokens);
 
+void	free_resources(char *input, t_token **tokens, t_ast_node **node);
+
 #endif // !PARSING_H
