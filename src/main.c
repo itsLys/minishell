@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:02:11 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/01 08:07:18 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/06/11 17:13:43 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	get_input(void)
 	if (!g_data.input)
 	{
 		free(g_data.input);
-		return printf("exit\n");
+		return (printf("exit\n"));
 	}
 	return (SUCCESS);
 }
