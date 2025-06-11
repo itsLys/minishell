@@ -10,118 +10,76 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include <parsing.h>
-#include <stddef.h>
-#include <stdio.h>
 
-// NOTE: 	"adsfasdf"afadf'adsfadsf'adsf
-// 			 DDDDDDDDNNNNNSSSSSSSSNNNN
-// 			 adsfasdfafadfadsfadsfadsf
-//
-//
-size_t	mask_seter(char *word, char *flager, char *c, size_t *j)
+void	erase(char *str, size_t index)
 {
-	size_t	i;
+	size_t	len;
 
-	i = 1;
-	while (word[i] && word[i] != c[0])
+	len = ft_strlen(str);
+	if (!str || index >= len)
+		return ;
+	while (index < len)
 	{
-		flager[*j] = c[1];
-		i++;
-		(*j)++;
+		str[index] = str[index + 1];
+		index++;
 	}
-	if (i == 2)
-		flager[*j] = 'N';
-	i++;
-	return (i);
 }
 
-char	*mask_creator(char *word)
+char	*quote_mask(const char *str)
 {
-	size_t	i;
-	size_t	j;
+	int		i;
 	char	*mask;
+	bool	in_single;
+	bool	in_double;
 
-	i = 0;
-	j = 0;
-	mask = ft_calloc(sizeof(char), ft_strlen(word) + 1);
-	while (word[i])
+	i = -1;
+	in_double = false;
+	in_single = false;
+	mask = ft_calloc(sizeof(char), ft_strlen(str) + 1);
+	if (!mask)
+		return (NULL);
+	while (str[++i])
 	{
-		if (word[i] == '"')
-			i += mask_seter(&word[i], mask, "\"D", &j);
-		else if (word[i] == '\'')
-			i += mask_seter(&word[i], mask, "\'S", &j);
+		if (!in_double && str[i] == '\'')
+			in_single = !in_single;
+		else if (!in_single && str[i] == '"')
+			in_double = !in_double;
+		if (in_single)
+			mask[i] = SINNQ;
+		else if (in_double)
+			mask[i] = DOUBQ;
 		else
-		{
-			while (word[i] && word[i] != '"' && word[i] != '\'')
-			{
-				mask[j] = 'N';
-				i++;
-				j++;
-			}
-		}
+			mask[i] = NONEQ;
 	}
-	printf("ma	;%s\n", mask);
-	return mask;
+	return (mask);
 }
 
-size_t	word_seter(char *word, char *flager, char c, size_t *j)
+void	remove_quotes(char *str, char *mask)
 {
-	size_t	i;
+	bool	in_single;
+	bool	in_double;
+	int		i;
 
-	i = 1;
-	while (word[i] && word[i] != c)
+	i = 0;
+	in_single = false;
+	in_double = false;
+	while (str[i])
 	{
-		flager[*j] = word[i];
+		if (str[i] == '\'' && !in_double)
+		{
+			in_single = !in_single;
+			erase(str, i);
+			erase(mask, i);
+			continue ;
+		}
+		if (str[i] == '"' && !in_single)
+		{
+			in_double = !in_double;
+			erase(str, i);
+			erase(mask, i);
+			continue ;
+		}
 		i++;
-		(*j)++;
 	}
-	i++;
-	return (i);
 }
-
-char	*remove_quotes(char *word, size_t size_new_word)
-{
-	size_t	i;
-	size_t	j;
-	char	*new_word;
-
-	i = 0;
-	j = 0;
-	new_word = ft_calloc(sizeof(char), size_new_word + 1);
-	while (word[i])
-	{
-		if (word[i] == '"')
-			i += word_seter(&word[i], new_word, '\"', &j);
-		else if (word[i] == '\'')
-			i += word_seter(&word[i], new_word, '\'', &j);
-		else
-		{
-			while (word[i] && word[i] != '\"' && word[i] != '\'')
-			{
-				new_word[j] = word[i];
-				i++;
-				j++;
-			}
-		}
-	}
-	printf("or	;%s\naf	;%s\n", word, new_word);
-	return (new_word);
-}
-
-// NOTE : je peux passer une node pipe line et je peux donc acceder a son arg list et redir list 
-
-// char	*expand(char **env, t_ast_node *pipeline)
-// {
-// 	
-// }
-
-
-int main (int ac, char **av)
-{
-	printf("av = %s\n", av[1]);
-	remove_quotes(av[1], ft_strlen(mask_creator(av[1])));
-
-}
-

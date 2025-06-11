@@ -20,7 +20,8 @@ SRC			= src/main.c \
 			  src/parsing/tokenizing.c \
 			  src/parsing/parsing_utils_1.c \
 			  src/parsing/parsing_utils_2.c \
-			  src/parsing/tokenizing_utils.c
+			  src/parsing/tokenizing_utils.c \
+			  src/parsing/expand.c
 OBJ			= $(patsubst src/%.c, obj/%.o, $(SRC))
 all: $(NAME)
 	@echo "$(GREEN)$(BOLD)$(NAME) done!$(RESET)"
@@ -43,7 +44,7 @@ clean:
 
 fclean: clean
 	@make -C $(LIBFT_DIR)/ fclean
-	@rm -f $(NAME) 
+	@rm -f $(NAME)
 
 re: fclean all
 

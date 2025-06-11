@@ -17,6 +17,7 @@ t_ast_node	*ast_new(t_grammar type, char *value)
 	t_ast_node	*node;
 
 	node = malloc(sizeof(t_ast_node));
+	node->mask = NULL;
 	node->type = type;
 	node->value = value;
 	node->child = NULL;

@@ -18,6 +18,9 @@
 # define COLOR_RESET "\001\033[0m\002"
 # define WORDS 0
 # define REDIR 1
+# define DOUBQ 'D'
+# define SINNQ 'S'
+# define NONEQ 'N'
 
 typedef enum e_token_type
 {
@@ -73,6 +76,7 @@ typedef struct s_ast_node
 	t_grammar			type;	
 	char				*value;
 	char				**args;
+	char				**mask;
 	struct s_ast_node	*child;
 	struct s_ast_node	*sibling;
 }	t_ast_node;
@@ -112,6 +116,9 @@ void		consume_redir(t_token **tokens, t_ast_node *red_list);
 void		ast_add_child(t_ast_node *parent, t_ast_node *child);
 void		trait_redir(t_token **tokens);
 void		trait_word(t_token **tokens);
+void		erase(char *str, size_t index);
+char		*quote_mask(const char *str);
+void		remove_quotes(char *str, char *mask);
 
 t_ast_node	*ast_new(t_grammar type, char *value);
 t_ast_node	*compound_command(t_token **tokens, bool is_subshell);

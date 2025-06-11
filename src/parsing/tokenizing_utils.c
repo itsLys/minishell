@@ -14,26 +14,22 @@
 
 bool	check_quote(char *str)
 {
-	char	*first_quote_pos;
-	char	*quote;
-	size_t	i;
+	bool	in_single;
+	bool	in_double;
+	int		i;
 
 	i = 0;
-	first_quote_pos = NULL;
-	first_quote_pos = ft_strchr(str, '\'');
-	if (!first_quote_pos)
-		first_quote_pos = ft_strchr(str, '\"');
-	if (!first_quote_pos)
-		return (true);
-	quote = ft_strchr("\'\"", *first_quote_pos);
-	i++;
-	while (first_quote_pos[i] && first_quote_pos[i] != *quote)
+	in_single = false;
+	in_double = false;
+	while (str[i])
+	{
+		if (str[i] == '\'' && !in_double)
+			in_single = !in_single;
+		else if (str[i] == '"' && !in_single)
+			in_double = !in_double;
 		i++;
-	if (!first_quote_pos[i])
-		return (false);
-	if (!check_quote(&first_quote_pos[i + 1]))
-		return (false);
-	return (true);
+	}
+	return (!in_single && !in_double);
 }
 
 void	trait_word(t_token **tokens)

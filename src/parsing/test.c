@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "parsing.h"
+#include <stdio.h>
 
 void	print_tokens(t_token *tokens)
 {
@@ -100,7 +101,11 @@ void	ast_print(t_ast_node *node, size_t depth, const char *prefix, int is_last)
 	if (node->type == G_ARGS && node->args)
 	{
 		for (int i = 0; node->args[i]; i++)
+		{
 			printf("%s [%s]", prefix, node->args[i]);
+			printf("[%s]", node->mask[i]);
+		}
+
 	}
 	printf("\n");
 	snprintf(new_prefix, sizeof(new_prefix), "%s%s", prefix, next_prefix);

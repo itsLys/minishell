@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "parsing.h"
+#include <stddef.h>
+#include <stdio.h>
 
 // WARN: SHOULD EXIT IN CASE OF CALLOC FAILING
 t_ast_node	*simple_command(t_token **tokens)
@@ -18,19 +20,19 @@ t_ast_node	*simple_command(t_token **tokens)
 	t_ast_node	*simple_command;
 	t_ast_node	*arg_list;
 	t_ast_node	*red_list;
-	size_t		i;
 
-	i = 0;
+	int (i) = 0;
 	simple_command = ast_new(G_SIMPLE_COMMAND, NULL);
 	red_list = ast_new(G_REDIRECT_LIST, NULL);
 	arg_list = ast_new(G_ARGS, NULL);
-	arg_list->args = ft_calloc(sizeof(char *), (counter(tokens, WORDS) + 3));
-	if (!arg_list->args)
+	arg_list->args = ft_calloc(sizeof(char *), (counter(tokens, WORDS) + 1));
+	arg_list->mask = ft_calloc(sizeof(char *), (counter(tokens, WORDS) + 1));
+	if (!arg_list->args || !arg_list->mask)
 		return (NULL);
 	while (*tokens && is_word_or_redir((*tokens)->t_type))
 	{
 		if (is_word((*tokens)->t_type))
-			consume_word(tokens, arg_list, &i);
+			consume_word(tokens, arg_list, (size_t *)&i);
 		else if (*tokens && is_redi((*tokens)->t_type))
 			consume_redir(tokens, red_list);
 		else if (!(*tokens) || !is_word_or_redir((*tokens)->t_type))
