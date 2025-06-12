@@ -1,36 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   fetch_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/09 18:56:52 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/12 02:46:47 by ihajji           ###   ########.fr       */
+/*   Created: 2025/06/12 00:05:19 by ihajji            #+#    #+#             */
+/*   Updated: 2025/06/12 00:05:35 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-static char *get_cwd(void)
+char *fetch_env(t_env *env, char *var)
 {
-	char *cwd;
-	t_data *data;
+	// edge cases env==NULL, var=NULL
+	int len;
 
-	data = g_data();
-	cwd = getcwd(NULL, 0);
-	if (cwd == NULL)
-		cwd = ft_strdup(fetch_env(data->env_copy, "PWD"));
-	return cwd;
-}
-
-int	pwd_builtin(char **argv)
-{
-	char *cwd;
-
-	(void) argv;
-	cwd = get_cwd();
-	if (cwd == NULL)
-		return (printf("MAKE ERROR MSG: pwd\n"));
-	return printf("%s\n", cwd), SUCCESS;
+	len = ft_strlen(var);
+	while (env)
+	{
+		if (ft_strncmp(env->name, var, len) == 0)
+			return (env->value);
+		env = env->next;
+	}
+	return NULL;
+	// if want to modify value duplicate it
 }

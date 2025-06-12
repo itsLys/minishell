@@ -6,43 +6,41 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 17:49:52 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/09 18:57:59 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/06/12 02:45:23 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-char *get_path(char **argv, t_data *data)
-{
-
-	if (argv[0] && argv[1])
-		return NULL;
-	// NOTE: ~ should come in the extracted av expanded if not inside "" or ''
-	if (argv[0] && ft_strcmp(argv[0], "-") == 0)
-		return data->lwd;
-	if (argv[0])
-		return argv[0];
-	// return ft_getenv(data->env_copy, "HOME");
-	return NULL;
-}
 
 int	cd(char **argv)
 {
-	char *path;
-	t_data *data;
+	// cd arg arg: throws "too many args"
+	// cd arg: chdir to arg, or throws err
+	// cd: restort to HOME var
+	//
+	// cd -: chdir to last dir
+	// before changing directories, I need to remeber where was I, so to give it to last working directory
+	// and I need to know where I am after changing directories
+	// and if the  
+	char	*dir;
+	t_data	*data;
 
 	data = g_data();
-	path = get_path(argv + 1, data);
-	if (chdir(path))
-		return perror("cd"), FAILIURE;
-	if (path == data->lwd)
+	if (argv[1] && argv[2])
+		return printf("%s: %s\n", argv[0], "too many arguments"), FAILIURE;
+	if (argv[1] == NULL)
 	{
-		printf("%s\n", data->lwd);
-		free(data->lwd);
-		data->lwd = data->cwd;
+		dir = fetch_env(data->env_copy, "HOME");
+		if (dir == NULL)
+			return printf("%s: %s\n", argv[0], "HOME not set"), FAILIURE;
 	}
-	data->cwd = getcwd(NULL, 0);
+	else
+		dir = argv[1];
+	if (chdir(dir) != SUCCESS)
+		return perror(argv[0]), FAILIURE; // check errno and print accordingly, I guess
 	return SUCCESS;
 }
 // TODO: implement error messages close to bash
 // use av[0] instead of the bare name
+// use dprintf instead of pf

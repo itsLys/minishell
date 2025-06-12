@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   get_cwd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/09 18:56:52 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/12 02:46:47 by ihajji           ###   ########.fr       */
+/*   Created: 2025/06/12 00:39:57 by ihajji            #+#    #+#             */
+/*   Updated: 2025/06/12 01:47:09 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-static char *get_cwd(void)
+char *get_cwd(void)
 {
 	char *cwd;
 	t_data *data;
@@ -24,13 +24,3 @@ static char *get_cwd(void)
 	return cwd;
 }
 
-int	pwd_builtin(char **argv)
-{
-	char *cwd;
-
-	(void) argv;
-	cwd = get_cwd();
-	if (cwd == NULL)
-		return (printf("MAKE ERROR MSG: pwd\n"));
-	return printf("%s\n", cwd), SUCCESS;
-}

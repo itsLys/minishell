@@ -24,6 +24,7 @@ SRC			= src/main.c \
 			  src/execution/builtins/env.c \
 			  src/execution/builtins/exit.c \
 			  src/execution/builtins/utils.c \
+			  src/execution/env_utils/fetch_env.c \
 			  src/parsing/main.c \
 			  src/parsing/test.c \
 			  src/parsing/parsing.c \

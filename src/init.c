@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 16:37:26 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/10 16:43:42 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/06/12 00:16:45 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ int init_minishell(char **env)
 
 	data = g_data();
 	data->env_copy = init_env_copy(env);
-	// data->lwd = getcwd(NULL, 0);
-	// data->cwd = getcwd(NULL, 0);
+	data->lwd = getcwd(NULL, 0);
+	data->cwd = getcwd(NULL, 0);
 	if (!data->lwd || !data->cwd || !data->env_copy)
 		return ERROR; // exit cleanly, free everythng but make sure you're passing NULL to free();
 	return SUCCESS;
