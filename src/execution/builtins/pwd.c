@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 18:56:52 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/12 02:46:47 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/06/12 02:47:56 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char *get_cwd(void)
 	return cwd;
 }
 
-int	pwd_builtin(char **argv)
+int	pwd(char **argv)
 {
 	char *cwd;
 

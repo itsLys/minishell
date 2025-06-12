@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 20:21:39 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/12 02:46:23 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/06/12 02:48:10 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	find_builtin(char *cmd);
 // builtins
 int	echo(char **argv);
 int	cd(char **argv);
-int	pwd_builtin(char **argv);
+int	pwd(char **argv);
 int	unset(char **argv);
 int	export(char **argv);
 int	env(char **argv);

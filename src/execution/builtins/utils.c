@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 17:46:39 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/12 00:21:48 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/06/12 02:48:20 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_builtin	*init_builtins(void)
 	static t_builtin builtin[] = {
 		{"echo", &echo},
 		{"cd", &cd},
-		{"pwd", &pwd_builtin},
+		{"pwd", &pwd},
 		{"export", &export},
 		{"unset", &unset},
 		{"env", &env},
