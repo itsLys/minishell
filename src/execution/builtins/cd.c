@@ -22,7 +22,7 @@ int	cd(char **argv)
 	// cd -: chdir to last dir
 	// before changing directories, I need to remeber where was I, so to give it to last working directory
 	// and I need to know where I am after changing directories
-	// and if the  
+	// and if the
 	char	*dir;
 	t_data	*data;
 
@@ -37,6 +37,8 @@ int	cd(char **argv)
 	}
 	else
 		dir = argv[1];
+	if (dir[0] == '\0')
+		return SUCCESS;
 	if (chdir(dir) != SUCCESS)
 		return perror(argv[0]), FAILIURE; // check errno and print accordingly, I guess
 	return SUCCESS;

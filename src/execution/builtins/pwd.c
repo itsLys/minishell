@@ -29,7 +29,7 @@ int	pwd(char **argv)
 	char *cwd;
 
 	(void) argv;
-	cwd = get_cwd();
+	cwd = get_cwd(); // free this guy
 	if (cwd == NULL)
 		return (printf("MAKE ERROR MSG: pwd\n"));
 	return printf("%s\n", cwd), SUCCESS;

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/10 16:37:26 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/12 00:16:45 by ihajji           ###   ########.fr       */
+/*   Created: 2025/06/12 18:39:09 by ihajji            #+#    #+#             */
+/*   Updated: 2025/06/12 18:39:25 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_env *new_env(char *name, char *value, bool is_exported)
 	return new;
 }
 
-static t_env *init_env_copy(char **env)
+t_env *copy_env(char **env)
 {
 	t_env *env_copy;
 	t_env *new;
@@ -62,25 +62,3 @@ void add_env_var(char *name, char *value, int is_exported)
 	new->next = data->env_copy;
 	data->env_copy = new;
 }
-
-void init_default_var(void)
-{
-	t_env *env;
-
-	env = g_data()->env_copy;
-	if (fetch_env(env, "OLDPWD") == NULL)
-		add_env_var(ft_strdup("OLDPWD"), NULL, true);
-	add_env_var(ft_strdup("PWD"), getcwd(NULL, 0), true);
-}
-
-int init_minishell(char **env)
-{
-	t_data *data;
-
-	data = g_data();
-	data->env_copy = init_env_copy(env);
-	init_default_var();
-	return SUCCESS;
-}
-// NOTE: use the library boolean instead of yours
-//

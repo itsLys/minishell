@@ -1,4 +1,4 @@
-GREEN  		= \033[0;32m
+MakeGREEN  		= \033[0;32m
 YELLOW 		= \033[0;33m
 RED    		= \033[0;31m
 RESET  		= \033[0m
@@ -24,7 +24,7 @@ SRC			= src/main.c \
 			  src/execution/builtins/env.c \
 			  src/execution/builtins/exit.c \
 			  src/execution/builtins/utils.c \
-			  src/execution/env_utils/fetch_env.c \
+			  src/execution/env_utils.c \
 			  src/parsing/main.c \
 			  src/parsing/test.c \
 			  src/parsing/parsing.c \

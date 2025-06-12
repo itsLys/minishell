@@ -14,5 +14,7 @@
 
 int ft_exit(char **argv)
 {
-	(void)argv; printf("hello from %s", "ft_exit"); return 0;
+	(void) argv;
+	// free_everything
+	exit(0);
 }
