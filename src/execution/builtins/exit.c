@@ -6,15 +6,16 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 18:56:20 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/09 18:58:17 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/06/13 16:11:36 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-int ft_exit(char **argv)
+int ft_exit(char **argv, t_env **env)
 {
 	(void) argv;
+	(void) env;
 	// free_everything
 	exit(0);
 }

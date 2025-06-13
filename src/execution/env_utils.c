@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:39:09 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/12 18:39:25 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/06/13 16:15:02 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_env *env_find_var(t_env *env, char *name)
 	return NULL;
 }
 
-t_env *new_env_var(char *name, char *value, bool exported)
+t_env *new_env_node(char *name, char *value, bool exported)
 {
 	t_env	*new;
 
@@ -82,7 +82,7 @@ t_env *dup_env(char **env)
 		eq = ft_strchr(env[i], '=');
 		if (!eq && ++i)
 			continue ;
-		node = new_env_var(ft_strndup(env[i], eq - env[i]), ft_strdup(eq + 1), true);
+		node = new_env_node(ft_strndup(env[i], eq - env[i]), ft_strdup(eq + 1), true);
 		if (node == NULL)
 			return free_env_copy(env_dup); // NOTE: exit_clean
 		env_add_last(node, &env_dup);

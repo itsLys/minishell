@@ -6,14 +6,14 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 17:49:52 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/12 02:45:23 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/06/13 16:09:46 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
 
-int	cd(char **argv)
+int	cd(char **argv, t_env **env)
 {
 	// cd arg arg: throws "too many args"
 	// cd arg: chdir to arg, or throws err
@@ -24,14 +24,12 @@ int	cd(char **argv)
 	// and I need to know where I am after changing directories
 	// and if the
 	char	*dir;
-	t_data	*data;
 
-	data = g_data();
 	if (argv[1] && argv[2])
 		return printf("%s: %s\n", argv[0], "too many arguments"), FAILIURE;
 	if (argv[1] == NULL)
 	{
-		dir = fetch_env(data->env_copy, "HOME");
+		dir = env_find_var(*env, "HOME")->value;
 		if (dir == NULL)
 			return printf("%s: %s\n", argv[0], "HOME not set"), FAILIURE;
 	}

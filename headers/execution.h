@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 20:21:39 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/12 02:48:10 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/06/13 16:06:20 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct s_env
 typedef struct t_builtin
 {
 	char	*name;
-	int		(*function)(char **);
+	int		(*function)(char **argv, t_env **env);
 } t_builtin ;
 
 typedef struct s_data
@@ -48,13 +48,13 @@ t_data		*g_data(void);
 void		*free_env_copy(t_env *env_copy);
 
 // builtins
-int			echo(char **argv);
-int			cd(char **argv);
-int			pwd(char **argv);
-int			unset(char **argv);
-int			export(char **argv);
-int			env(char **argv);
-int			ft_exit(char **argv);
+int			echo(char **argv, t_env **env);
+int			cd(char **argv, t_env **env);
+int			pwd(char **argv, t_env **env);
+int			unset(char **argv, t_env **env);
+int			export(char **argv, t_env **env);
+int			env(char **argv, t_env **env);
+int			ft_exit(char **argv, t_env **env);
 
 t_builtin	*init_builtins(void);
 t_builtin	*find_builtin(char *cmd);

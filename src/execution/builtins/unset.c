@@ -6,13 +6,13 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 18:57:22 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/09 18:57:39 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/06/13 16:12:25 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-int	unset(char **argv)
+int	unset(char **argv, t_env **env)
 {
-	(void)argv; printf("hello from %s", "unset"); return 0;
+	(void)env; (void)argv; printf("hello from %s", "unset"); return 0;
 }
