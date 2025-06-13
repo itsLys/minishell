@@ -11,54 +11,82 @@
 /* ************************************************************************** */
 
 #include "execution.h"
-
-t_env *new_env(char *name, char *value, bool is_exported)
+t_env *env_find_var(t_env *env, char *name)
 {
-	t_env *new;
+	if (env == NULL || name == NULL)
+		return NULL;
+	while (env)
+	{
+		if (ft_strcmp(env->name, name) == 0)
+			return (env);
+		env = env->next;
+	}
+	return NULL;
+}
 
+t_env *new_env_var(char *name, char *value, bool exported)
+{
+	t_env	*new;
+
+	if (name == NULL) // I can accept a NULL value, but not a null name
+		return NULL; // NOTE: exit_clean on return address; 
 	new = ft_calloc(sizeof(t_env), 1);
 	if (new == NULL)
-		return NULL; // exit_clean  on return address
+		return NULL; // NOTE: exit_clean on return address
 	new->name = name;
 	new->value = value;
-	if (!new->name)
-		return NULL; // clean exit
-	new->is_exported = is_exported;
+	new->exported = exported;
 	new->next = NULL;
 	return new;
 }
 
-t_env *copy_env(char **env)
-{
-	t_env *env_copy;
-	t_env *new;
-	char *eq_sign;
-	int i;
+// void env_add_node(char *name, char *value, int is_exported)
+// {
+// 	t_data *data;
+// 	t_env *new;
+//
+// 	data = g_data();
+// 	new = new_env_var(name, value, is_exported);
+// 	new->next = data->env_copy;
+// 	data->env_copy = new;
+// }
 
-	i = 0;
-	env_copy = NULL;
-	while (env[i])
+void env_add_last(t_env *node, t_env **env)
+{
+	t_env	*tmp;
+
+	if (env == NULL)
+		return; // silenty fail
+	tmp = *env;
+	if (tmp == NULL)
 	{
-		eq_sign = ft_strchr(env[i], '=');
-		if (!eq_sign && ++i)
-			continue ;
-		new = new_env(ft_strndup(env[i], eq_sign - env[i]), ft_strdup(eq_sign + 1), TRUE);
-		if (new == NULL)
-			return free_env_copy(env_copy); // exit_clean
-		new->next = env_copy;
-		env_copy = new;
-		i++;
+		*env = node;
+		return ;
 	}
-	return env_copy;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = node;
 }
 
-void add_env_var(char *name, char *value, int is_exported)
+t_env *dup_env(char **env)
 {
-	t_data *data;
-	t_env *new;
+	t_env	*env_dup;
+	t_env	*node;
+	char	*eq;
+	int		i;
 
-	data = g_data();
-	new = new_env(name, value, is_exported);
-	new->next = data->env_copy;
-	data->env_copy = new;
+	i = 0;
+	env_dup = NULL;
+	while (env[i])
+	{
+		eq = ft_strchr(env[i], '=');
+		if (!eq && ++i)
+			continue ;
+		node = new_env_var(ft_strndup(env[i], eq - env[i]), ft_strdup(eq + 1), true);
+		if (node == NULL)
+			return free_env_copy(env_dup); // NOTE: exit_clean
+		env_add_last(node, &env_dup);
+		i++;
+	}
+	return env_dup;
 }

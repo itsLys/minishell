@@ -27,14 +27,17 @@ t_builtin	*init_builtins(void)
 	return builtin;
 }
 
-int	find_builtin(char *cmd)
+t_builtin	*find_builtin(char *cmd)
 {
 	int i = 0;
-	while (g_data()->builtins[i].name)
+	t_builtin *table;
+
+	table = init_builtins();
+	while (table[i].name)
 	{
-		if (ft_strcmp(cmd, g_data()->builtins[i].name) == 0)
-			return i;
+		if (ft_strcmp(cmd, table[i].name) == 0)
+			return &table[i];
 		i++;
 	}
-	return ERROR;
+	return NULL;
 }
