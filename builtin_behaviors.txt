@@ -1,0 +1,18 @@
+/* 
+ NOTE: EXPORT
+		 1 - export VAR=value # Sets & exports `VAR` to literal "value" (no expansions)
+		 2 - export existing_var # Exports pre-defined variable `existing_var` with its current value after expansion
+		 3 - export VAR1=val1 VAR2=val2 # Sets & exports multiple variables in single command
+		 4 - export PATH="$PATH:/add" # Exports with parameter expansion (e.g., appends to current PATH)
+		 5 - export USER=$(whoami) # Exports command substitution result (e.g., current username)
+		 6 - export DATE=`date` # Exports legacy command substitution result (timestamp)
+		 7 - export SUM=$((1+2)) # Exports arithmetic expansion result (e.g., SUM=3)
+		 8 - export SPECIAL="a b" # Exports values with spaces/special chars (preserves whitespace)
+		 9 - export EMPTY="" # Exports empty string variable
+		10 - export UNSET_VAR # Exports undefined variable (removes from environment if previously set)
+		11 - export $VAR # ERROR: Treats expanded value as assignment (e.g., if VAR="X=Y", exports X=Y; if unset, causes syntax error)
+		12 - export 9INVALID=val # ERROR: Fails ("not a valid identifier") - names must start with letter/underscore
+		13 - export IN-VALID=val # ERROR: Fails ("not a valid identifier") - names can't contain hyphens
+		14 - export VAR\ Name=test # ERROR: Fails - spaces require quoting, backslash escape fails
+		15 - export [no arguments] # Prints all exported environment variables (not covered by "arguments only" constraint)
+*/
