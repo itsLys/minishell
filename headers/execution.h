@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 20:21:39 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/13 16:06:20 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/06/15 15:08:08 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,14 @@
 
 # include "minishell.h"
 # include "parsing.h"
+
+typedef enum e_mode
+{
+	CONCAT,
+	ASSIGN,
+	EXPORT
+}
+t_mode ;
 
 typedef struct s_env
 {
@@ -64,6 +72,14 @@ t_env		*new_env_node(char *name, char *value, bool is_exported);
 t_env 		*env_find_var(t_env *env, char *var);
 t_env 		*dup_env(char **env);
 void		env_add_last(t_env *node, t_env **env);
+void		sort_env(t_env **env);
+
+// export utils
+bool		is_valid(char *arg, t_mode *mode);
+void		export_var(char *arg, t_env **env);
+void		concat_var(char *arg, t_env **env);
+void		assign_var(char *arg, t_env **env);
+t_env		*dup_env_sorted(t_env *env);
 
 int			init_minishell(char **env, t_data *data);
 int			execute(t_ast_node *node, t_data *data);

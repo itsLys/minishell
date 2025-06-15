@@ -90,3 +90,30 @@ t_env *dup_env(char **env)
 	}
 	return env_dup;
 }
+
+void sort_env(t_env **env)
+{
+	t_env tmp;
+	t_env *j;
+	t_env *i;
+
+	i = *env;
+	while (i)
+	{
+		j = i->next;
+		while (j)
+		{
+			if (ft_strcmp(i->name, j->name) > 0)
+			{
+				tmp.name = i->name;
+				i->name = j->name;
+				j->name = tmp.name;
+				tmp.value = i->value;
+				i->value = j->value;
+				j->value = tmp.value;
+			}
+			j = j->next;
+		}
+		i = i->next;
+	}
+}
