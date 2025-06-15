@@ -13,6 +13,25 @@
 #include "execution.h"
 #define STR "Hello"
 
+// find_var ; strchr(str, '$'); -> 
+
+char	*find_var(char *arg)
+{
+	size_t	i;
+	char *var_start;
+
+	i = 0;
+	var_start = ft_strchr(arg, '$');
+	while (var_start[++i] && ft_isalnum(var_start[i]))
+		;
+	return (ft_strndup(var_start, i));
+}
+
+// char	**extract_args(char **og_args, char **env)
+// {
+// 	
+// }
+
 int	execute_simple_command(t_ast_node *node)
 {
 	char **argv;

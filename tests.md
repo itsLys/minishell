@@ -1,0 +1,55 @@
+-- echo tests ;
+echo test # Prints "test" followed by a newline
+echo -n test # Prints "test" without a newline
+echo -n -n test # Prints "test" without a newline (multiple -n are treated as one)
+echo -n -nnnn test # Prints "test" without a newline (combined -n options)
+echo -n # Prints nothing and no newline
+echo test -n # Prints "test -n" followed by a newline (-n is treated as argument, not option)
+
+-- cd tests ;
+cd / # Changes to the root directory
+pwd # Should print "/"
+cd /tmp # Changes to /tmp
+pwd # Should print "/tmp"
+cd .. # Goes up one directory
+pwd # Should print "/"
+cd ~ # Changes to home directory (equivalent to $HOME)
+pwd # Should print your home path
+cd # Changes to home directory with no argument
+pwd # Should print your home path
+cd ./.././ # Combines relative paths
+pwd # Should print a valid path depending on current location
+cd does_not_exist # Should return an error: directory does not exist
+
+-- export tests ;
+export TEST1=hello # Defines variable TEST1 with value "hello"
+export TEST2="hello world" # Defines variable TEST2 with spaces
+export TEST3= # Defines variable TEST3 with an empty value
+export TEST4 # Declares TEST4 without assigning a value (should not appear in `env`)
+export TEST5=5 # Defines numeric variable
+export 1INVALID=bad # Invalid identifier: starts with a digit (should return error)
+export _VALID=ok # Valid: starts with underscore
+export TEST1=updated # Overwrites existing variable TEST1
+env | grep TEST # Should show all TEST* variables except TEST4
+
+-- unset tests ;
+export TEST_UNSET=bye # Defines a variable to test unset
+env | grep TEST_UNSET # Should print the variable
+unset TEST_UNSET # Unsets the variable
+env | grep TEST_UNSET # Should no longer print anything
+unset DOES_NOT_EXIST # Should do nothing and not throw error (nonexistent variable)
+
+-- env tests ;
+env # Prints all environment variables
+env test=lol # Invalid: minishell should reject any arguments
+env -i # Invalid: minishell should reject any options
+
+-- exit tests ;
+exit # Exits the shell using the last return code
+exit 0 # Exits with code 0
+exit 42 # Exits with code 42
+exit 256 # Exits with code 0 (256 % 256 = 0)
+exit 999999999999999999999999 # Exits with code 255 (very large number mod 256)
+exit -1 # Exits with code 255 (negative values wrap around)
+exit a # Error: non-numeric argument, exits with code 2
+exit 1 2 # Error: too many arguments, should print error and not exit
