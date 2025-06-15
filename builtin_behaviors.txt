@@ -8,30 +8,30 @@
 [v] echo test -n # Prints "test -n" followed by a newline (-n is treated as argument, not option)
 
 -- cd tests ;
-cd / # Changes to the root directory
-pwd # Should print "/"
-cd /tmp # Changes to /tmp
-pwd # Should print "/tmp"
-cd .. # Goes up one directory
-pwd # Should print "/"
-cd ~ # Changes to home directory (equivalent to $HOME)
-pwd # Should print your home path
-cd # Changes to home directory with no argument
-pwd # Should print your home path
-cd ./.././ # Combines relative paths
-pwd # Should print a valid path depending on current location
-cd does_not_exist # Should return an error: directory does not exist
+[v] cd / # Changes to the root directory
+[v] pwd # Should print "/"
+[v] cd /tmp # Changes to /tmp
+[v] pwd # Should print "/tmp"
+[v] cd .. # Goes up one directory
+[v] pwd # Should print "/"
+[v] cd ~ # Changes to home directory (equivalent to $HOME)
+[v] pwd # Should print your home path
+[v] cd # Changes to home directory with no argument
+[v] pwd # Should print your home path
+[v] cd ./.././ # Combines relative paths
+[v] pwd # Should print a valid path depending on current location
+[v] cd does_not_exist # Should return an error: directory does not exist
 
 -- export tests ;
-export TEST1=hello # Defines variable TEST1 with value "hello"
-export TEST2="hello world" # Defines variable TEST2 with spaces
-export TEST3= # Defines variable TEST3 with an empty value
-export TEST4 # Declares TEST4 without assigning a value (should not appear in `env`)
-export TEST5=5 # Defines numeric variable
-export 1INVALID=bad # Invalid identifier: starts with a digit (should return error)
-export _VALID=ok # Valid: starts with underscore
-export TEST1=updated # Overwrites existing variable TEST1
-env | grep TEST # Should show all TEST* variables except TEST4
+[v] export TEST1=hello # Defines variable TEST1 with value "hello"
+[v] export TEST2="hello world" # Defines variable TEST2 with spaces
+[v] export TEST3= # Defines variable TEST3 with an empty value
+[v] export TEST4 # Declares TEST4 without assigning a value (should not appear in `env`)
+[v] export TEST5=5 # Defines numeric variable
+[v] export 1INVALID=bad # Invalid identifier: starts with a digit (should return error)
+[v] export _VALID=ok # Valid: starts with underscore
+[v] export TEST1=updated # Overwrites existing variable TEST1
+[v] env | grep TEST # Should show all TEST* variables except TEST4
 
 -- unset tests ;
 export TEST_UNSET=bye # Defines a variable to test unset
