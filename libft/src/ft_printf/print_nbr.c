@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "ft_printf_utils.h"
 #define BASE 10
 
 static int	handle_nbr_flags(t_flags *f, long num, int len, int sign)
