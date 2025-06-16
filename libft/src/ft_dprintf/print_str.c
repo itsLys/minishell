@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf_utils.h"
+#include "ft_dprintf_utils.h"
 
 static int	printnstr(t_flags *f, char *str, int len)
 {
@@ -22,7 +22,7 @@ static int	printnstr(t_flags *f, char *str, int len)
 	if (!f->left_adjusted)
 		count += print_width(f, len);
 	while (n-- && *str)
-		count += print(*(str++));
+		count += print(f->fd, *(str++));
 	if (f->left_adjusted)
 		count += print_width(f, len);
 	return (count);

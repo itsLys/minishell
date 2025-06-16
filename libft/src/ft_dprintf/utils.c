@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf_utils.h"
+#include "ft_dprintf_utils.h"
 
 int	print_width(t_flags *f, int n)
 {
@@ -20,9 +20,9 @@ int	print_width(t_flags *f, int n)
 	while (f->width - n > 0)
 	{
 		if (f->zero_padded)
-			print('0');
+			print(f->fd, '0');
 		else
-			print(' ');
+			print(f->fd, ' ');
 		f->width--;
 		count++;
 	}
@@ -66,9 +66,9 @@ int	catch_err(int n)
 	return (e);
 }
 
-int	print(char c)
+int	print(int fd, char c)
 {
-	if (catch_err(ft_putchar_fd(c, 1)) == -1)
+	if (catch_err(ft_putchar_fd(c, fd)) == -1)
 		return (-1);
 	return (1);
 }

@@ -1,4 +1,4 @@
-GREEN  		= \033[0;32m
+MakeGREEN  		= \033[0;32m
 YELLOW 		= \033[0;33m
 RED    		= \033[0;31m
 RESET  		= \033[0m
@@ -14,8 +14,8 @@ LIBFT		= $(addprefix $(LIBFT_DIR)/, libft.a)
 SRC			= src/main.c \
 			  src/free.c \
 			  src/init.c \
-			  src/testing/print_env.c \
 			  src/execution/main.c \
+			  src/execution/utils.c \
 			  src/execution/builtins/cd.c \
 			  src/execution/builtins/echo.c \
 			  src/execution/builtins/pwd.c \
@@ -24,6 +24,8 @@ SRC			= src/main.c \
 			  src/execution/builtins/env.c \
 			  src/execution/builtins/exit.c \
 			  src/execution/builtins/utils.c \
+			  src/execution/builtins/export_utils.c \
+			  src/execution/env_utils.c \
 			  src/parsing/main.c \
 			  src/parsing/test.c \
 			  src/parsing/parsing.c \

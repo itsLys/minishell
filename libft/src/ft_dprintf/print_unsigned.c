@@ -1,86 +1,65 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_nbr.c                                        :+:      :+:    :+:   */
+/*   print_unsigned.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 14:21:09 by ihajji            #+#    #+#             */
-/*   Updated: 2024/11/30 09:34:01 by ihajji           ###   ########.fr       */
+/*   Updated: 2024/11/30 09:33:33 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf_utils.h"
+#include "ft_dprintf_utils.h"
 #define BASE 10
 
-static int	handle_nbr_flags(t_flags *f, long num, int len, int sign)
+static int	print_unsigned_digits(unsigned num, t_flags *f, int len)
 {
 	char	*buff;
-	int		i;
 	int		count;
+	int		i;
 
 	count = 0;
 	i = 0;
+	if (!num && f->precision_flag && !f->precision_value)
+		return (0);
 	buff = malloc(len);
 	while (len--)
 	{
 		buff[i++] = "0123456789"[num % BASE];
 		num /= BASE;
 	}
-	if (sign < 0)
-		buff[i - 1] = '-';
-	else if (f->force_sign && sign > 0)
-		buff[i - 1] = '+';
-	else if (f->space_flag && sign > 0)
-		buff[i - 1] = ' ';
 	while (i-- > 0)
-		count += print(buff[i]);
+		count += print(f->fd, buff[i]);
 	free(buff);
 	return (count);
 }
 
-static int	print_nbr(long num, t_flags *f, int len, int sign)
+static int	print_unsigned(unsigned num, t_flags *f, int len)
 {
 	int	count;
 
 	count = 0;
 	if (f->precision_value > len)
 		len = f->precision_value;
+	if (f->precision_flag)
+		f->zero_padded = 0;
 	if (f->precision_flag && !f->precision_value && !num)
 		len = 0;
-	if (sign < 0 || f->force_sign || f->space_flag)
-		len += 1;
 	if (!f->left_adjusted)
-	{
-		if (!f->precision_flag && f->zero_padded && f->width > len)
-			len = f->width;
-		else
-		{
-			f->zero_padded = 0;
-			count = print_width(f, len);
-		}
-	}
-	count += handle_nbr_flags(f, num, len, sign);
+		count = print_width(f, len);
+	count += print_unsigned_digits(num, f, len);
 	if (f->left_adjusted)
 		count += print_width(f, len);
 	return (count);
 }
 
-int	handle_nbr(int n, t_flags *f)
+int	handle_unsigned(unsigned int u, t_flags *f)
 {
-	int		count;
-	int		numlen;
-	long	num;
-	int		sign;
+	int	count;
+	int	numlen;
 
-	sign = 1;
-	num = n;
-	if (n < 0)
-	{
-		num = -num;
-		sign = -sign;
-	}
-	numlen = get_num_len(num, BASE);
-	count = print_nbr(num, f, numlen, sign);
+	numlen = get_num_len(u, BASE);
+	count = print_unsigned(u, f, numlen);
 	return (count);
 }

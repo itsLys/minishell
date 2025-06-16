@@ -1,58 +1,55 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_hex.c                                        :+:      :+:    :+:   */
+/*   print_nbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 14:21:09 by ihajji            #+#    #+#             */
-/*   Updated: 2025/02/17 22:51:15 by ihajji           ###   ########.fr       */
+/*   Updated: 2024/11/30 09:34:01 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf_utils.h"
-#define BASE 16
+#include "ft_dprintf_utils.h"
+#define BASE 10
 
-static int	print_hex_digits(unsigned int x, t_flags *f, int len, char *hexset)
+static int	handle_nbr_flags(t_flags *f, long num, int len, int sign)
 {
 	char	*buff;
-	int		count;
 	int		i;
+	int		count;
 
 	count = 0;
 	i = 0;
-	if (!x && f->precision_flag && !f->precision_value)
-		return (0);
 	buff = malloc(len);
 	while (len--)
 	{
-		buff[i++] = hexset[x % BASE];
-		x /= BASE;
+		buff[i++] = "0123456789"[num % BASE];
+		num /= BASE;
 	}
-	if (f->alt_form)
-	{
-		buff[i - 2] = hexset[BASE];
-		buff[i - 1] = '0';
-	}
+	if (sign < 0)
+		buff[i - 1] = '-';
+	else if (f->force_sign && sign > 0)
+		buff[i - 1] = '+';
+	else if (f->space_flag && sign > 0)
+		buff[i - 1] = ' ';
 	while (i-- > 0)
-		count += print(buff[i]);
+		count += print(f->fd, buff[i]);
 	free(buff);
 	return (count);
 }
 
-static int	print_hexadecimal(unsigned int x, t_flags *f, int len, char *hexset)
+static int	print_nbr(long num, t_flags *f, int len, int sign)
 {
 	int	count;
 
 	count = 0;
 	if (f->precision_value > len)
 		len = f->precision_value;
-	if (f->alt_form && x)
-		len += 2;
-	if (f->precision_flag && !f->precision_value && !x)
+	if (f->precision_flag && !f->precision_value && !num)
 		len = 0;
-	if (x == 0)
-		f->alt_form = 0;
+	if (sign < 0 || f->force_sign || f->space_flag)
+		len += 1;
 	if (!f->left_adjusted)
 	{
 		if (!f->precision_flag && f->zero_padded && f->width > len)
@@ -63,23 +60,27 @@ static int	print_hexadecimal(unsigned int x, t_flags *f, int len, char *hexset)
 			count = print_width(f, len);
 		}
 	}
-	count += print_hex_digits(x, f, len, hexset);
+	count += handle_nbr_flags(f, num, len, sign);
 	if (f->left_adjusted)
 		count += print_width(f, len);
 	return (count);
 }
 
-int	handle_hex(unsigned int x, t_flags *f, char c)
+int	handle_nbr(int n, t_flags *f)
 {
 	int		count;
 	int		numlen;
-	char	*hexset;
+	long	num;
+	int		sign;
 
-	if (c == 'x')
-		hexset = "0123456789abcdefx";
-	else
-		hexset = "0123456789ABCDEFX";
-	numlen = get_num_len(x, 16);
-	count = print_hexadecimal(x, f, numlen, hexset);
+	sign = 1;
+	num = n;
+	if (n < 0)
+	{
+		num = -num;
+		sign = -sign;
+	}
+	numlen = get_num_len(num, BASE);
+	count = print_nbr(num, f, numlen, sign);
 	return (count);
 }

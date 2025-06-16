@@ -1,0 +1,57 @@
+```
+-- echo tests ;
+[v] echo test # Prints "test" followed by a newline
+[v] echo -n test # Prints "test" without a newline
+[v] echo -n -n test # Prints "test" without a newline (multiple -n are treated as one)
+[v] echo -n -nnnn test # Prints "test" without a newline (combined -n options)
+[v] echo -n # Prints nothing and no newline
+[v] echo test -n # Prints "test -n" followed by a newline (-n is treated as argument, not option)
+
+-- cd tests ;
+[v] cd / # Changes to the root directory
+[v] pwd # Should print "/"
+[v] cd /tmp # Changes to /tmp
+[v] pwd # Should print "/tmp"
+[v] cd .. # Goes up one directory
+[v] pwd # Should print "/"
+[v] cd ~ # Changes to home directory (equivalent to $HOME)
+[v] pwd # Should print your home path
+[v] cd # Changes to home directory with no argument
+[v] pwd # Should print your home path
+[v] cd ./.././ # Combines relative paths
+[v] pwd # Should print a valid path depending on current location
+[v] cd does_not_exist # Should return an error: directory does not exist
+
+-- export tests ;
+[v] export TEST1=hello # Defines variable TEST1 with value "hello"
+[v] export TEST2="hello world" # Defines variable TEST2 with spaces
+[v] export TEST3= # Defines variable TEST3 with an empty value
+[v] export TEST4 # Declares TEST4 without assigning a value (should not appear in `env`)
+[v] export TEST5=5 # Defines numeric variable
+[v] export 1INVALID=bad # Invalid identifier: starts with a digit (should return error)
+[v] export _VALID=ok # Valid: starts with underscore
+[v] export TEST1=updated # Overwrites existing variable TEST1
+[v] env | grep TEST # Should show all TEST* variables except TEST4
+
+-- unset tests ;
+[v] export TEST_UNSET=bye # Defines a variable to test unset
+[v] env | grep TEST_UNSET # Should print the variable
+[v] unset TEST_UNSET # Unsets the variable
+[v] env | grep TEST_UNSET # Should no longer print anything
+[v] unset DOES_NOT_EXIST # Should do nothing and not throw error (nonexistent variable)
+
+-- env tests ;
+[v] env # Prints all environment variables
+[v] env test=lol # Invalid: minishell should reject any arguments
+[v] env -i # Invalid: minishell should reject any options
+
+-- exit tests ;
+[v] exit # Exits the shell using the last return code
+[v] exit 0 # Exits with code 0
+[v] exit 42 # Exits with code 42
+[v] exit 256 # Exits with code 0 (256 % 256 = 0)
+[v] exit 999999999999999999999999 # Exits with code 255 (very large number mod 256)
+[v] exit -1 # Exits with code 255 (negative values wrap around)
+[v] exit a # Error: non-numeric argument, exits with code 2
+[v] exit 1 2 # Error: too many arguments, should print error and not exit
+```

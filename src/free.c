@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "parsing.h"
+#include "execution.h"
 
 void	free_resources(char *input, t_token **tokens, t_ast_node **node)
 {
@@ -24,16 +23,16 @@ void	free_resources(char *input, t_token **tokens, t_ast_node **node)
 	free(input);
 }
 
-void *free_env_copy(t_env *env_copy)
+void *free_env_copy(t_env *env)
 {
 	t_env *tmp;
-	while (env_copy)
+	while (env)
 	{
-		tmp = env_copy->next;
-		free(env_copy->name);
-		free(env_copy->value);
-		free(env_copy);
-		env_copy = tmp;
+		tmp = env->next;
+		free(env->name);
+		free(env->value);
+		free(env);
+		env = tmp;
 	}
 	return NULL;
 }

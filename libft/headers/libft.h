@@ -103,6 +103,7 @@ void				ft_lstreverse_rotate(t_list **head);
 void				ft_lstrotate(t_list **head);
 void				ft_lstswap(t_list **head);
 int					ft_printf(const char *fmt, ...);
+int					ft_dprintf(int fd, const char *fmt, ...);
 int					ft_execvpe(char *file, char **av, char **envp);
 char				**ft_tokenize(char const *s);
 char				*ft_getenv(char **envp, char *var);

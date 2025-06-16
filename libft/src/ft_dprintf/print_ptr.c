@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf_utils.h"
+#include "ft_dprintf_utils.h"
 #define BASE 16
 
 static int	print_addr_digits(unsigned long long addr, t_flags *f, int len)
@@ -37,7 +37,7 @@ static int	print_addr_digits(unsigned long long addr, t_flags *f, int len)
 	buff[++i] = 'x';
 	i = 0;
 	while (i < len)
-		count += print(buff[i++]);
+		count += print(f->fd, buff[i++]);
 	free(buff);
 	return (count);
 }
@@ -82,7 +82,7 @@ static int	handle_null_ptr(t_flags *f)
 	if (!f->left_adjusted)
 		count += print_width(f, nil_len);
 	while (*str)
-		print(*(str++));
+		print(f->fd, *(str++));
 	count += nil_len;
 	if (f->left_adjusted)
 		count += print_width(f, nil_len);

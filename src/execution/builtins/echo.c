@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 17:45:18 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/09 17:45:26 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/06/13 16:10:10 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,27 @@
 
 static bool	is_n_flaged(char *arg)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	if (!arg || arg[0] != '-')
-		return false;
+		return (false);
 	if (arg[i] == 'n')
 		i++;
 	while (arg[i] == 'n')
 		i++;
-	return arg[i] == '\0';
+	return (arg[i] == '\0');
 }
 
-int	echo(char **argv)
+int	echo(char **argv, t_env **env, t_data *data)
 {
 	int	n_flaged;
 	int	i;
 
 	i = 1;
 	n_flaged = 0;
+	(void)data;
+	(void)env;
 	while (is_n_flaged(argv[i]))
 	{
 		n_flaged = 1;
@@ -46,5 +48,5 @@ int	echo(char **argv)
 	}
 	if (!n_flaged)
 		printf("\n");
-	return 0;
+	return (0);
 }

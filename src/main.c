@@ -35,16 +35,15 @@ char	*build_prompt(void)
 	return (prompt);
 }
 
-int	get_input(void)
+static int	get_input(t_data *data)
 {
-	g_data()->input = readline(build_prompt());
-	if (!g_data()->input)
+	data->input = readline(build_prompt());
+	if (!data->input)
 	{
-		free(g_data()->input);
+		free(data->input);
 		return printf("exit\n");
 	}
 	return (SUCCESS);
-
 }
 
 int	main(int ac __attribute__((unused)), char **av __attribute__((unused)),
@@ -52,18 +51,20 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)),
 {
 	t_token		*tokens;
 	t_ast_node	*node;
+	t_data *data;
 
-	init_minishell(env);
+	data = g_data(); // change to init data later, allocates to it
+	init_minishell(env, data);
 	tokens = NULL;
 	node = NULL;
 	while (1)
 	{
-		if (get_input())
+		if (get_input(data))
 			return (SUCCESS);
-		parse_input(g_data()->input, &tokens, &node);
+		parse_input(data->input, &tokens, &node);
 		if (node)
-			execute(node);
+			execute(node, data, false);
 		ast_print(node, 0, "", 1);
-		free_resources(g_data()->input, &tokens, &node);
+		free_resources(data->input, &tokens, &node);
 	}
 }

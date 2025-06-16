@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf_utils.h"
+#include "ft_dprintf_utils.h"
 
 void	parse_flags(const char *fmt, t_flags *f)
 {
@@ -71,14 +71,15 @@ void	print_conversion(char c, va_list args, t_flags *f)
 	else if (c == 'x' || c == 'X')
 		f->printed += handle_hex(va_arg(args, unsigned int), f, c);
 	else if (c == '%')
-		f->printed += print('%');
+		f->printed += print(f->fd, '%');
 	else if (c == '\0')
 		f->printed = -1;
 }
 
-void	parse_fmt(const char *fmt, va_list args, t_flags *f)
+void	parse_fmt(int fd, const char *fmt, va_list args, t_flags *f)
 {
 	ft_memset(f, 0, sizeof(*f));
+	f->fd = fd;
 	while (*fmt && ft_strchr(FLAGS, *fmt))
 	{
 		parse_flags(fmt++, f);

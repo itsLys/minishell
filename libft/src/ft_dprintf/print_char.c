@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   print_char.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/09 18:55:51 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/13 16:20:48 by ihajji           ###   ########.fr       */
+/*   Created: 2024/11/25 14:21:09 by ihajji            #+#    #+#             */
+/*   Updated: 2024/11/30 09:31:20 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
+#include "ft_dprintf_utils.h"
 
-int	env(char **argv, t_env **env, t_data *data)
+int	handle_char(t_flags *f, int c)
 {
-	t_env	*tmp;
+	int	count;
 
-	(void)data;
-	(void)argv;
-	tmp = *env;
-	while (tmp)
-	{
-		if (tmp->exported && tmp->value)
-			printf("%s=%s\n", tmp->name, tmp->value);
-		tmp = tmp->next;
-	}
-	return (SUCCESS);
+	count = 0;
+	if (!f->left_adjusted)
+		count += print_width(f, 1);
+	count += print(f->fd, c);
+	if (f->left_adjusted)
+		count += print_width(f, 1);
+	return (count);
 }

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf_utils.h"
+#include "ft_dprintf_utils.h"
 #define BASE 16
 
 static int	print_hex_digits(unsigned int x, t_flags *f, int len, char *hexset)
@@ -35,7 +35,7 @@ static int	print_hex_digits(unsigned int x, t_flags *f, int len, char *hexset)
 		buff[i - 1] = '0';
 	}
 	while (i-- > 0)
-		count += print(buff[i]);
+		count += print(f->fd, buff[i]);
 	free(buff);
 	return (count);
 }
