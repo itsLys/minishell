@@ -63,7 +63,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)),
 			return (SUCCESS);
 		parse_input(data->input, &tokens, &node);
 		if (node)
-			execute(node, data);
+			execute(node, data, false);
 		ast_print(node, 0, "", 1);
 		free_resources(data->input, &tokens, &node);
 	}

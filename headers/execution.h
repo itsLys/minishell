@@ -82,5 +82,5 @@ t_env				*dup_env_sorted(t_env *env);
 int					print_error(char *name, char *msg);
 
 int					init_minishell(char **env, t_data *data);
-int					execute(t_ast_node *node, t_data *data);
+int					execute(t_ast_node *node, t_data *data, bool run_in_shell);
 #endif // !EXECUTION_H

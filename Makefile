@@ -14,7 +14,6 @@ LIBFT		= $(addprefix $(LIBFT_DIR)/, libft.a)
 SRC			= src/main.c \
 			  src/free.c \
 			  src/init.c \
-			  src/testing/print_env.c \
 			  src/execution/main.c \
 			  src/execution/utils.c \
 			  src/execution/builtins/cd.c \
