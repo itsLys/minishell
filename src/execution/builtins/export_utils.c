@@ -6,42 +6,42 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 15:04:38 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/15 15:07:15 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/06/16 12:29:00 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-bool is_valid(char *arg, t_mode *mode)
+bool	is_valid(char *arg, t_mode *mode)
 {
-	int i;
+	int	i;
 
 	i = 1;
-	if (ft_isalpha(arg[0]) == false)
-		return false;
-	while (arg[i] && ft_isalnum(arg[i]))
+	if (arg[0] != '_' && ft_isalpha(arg[0]) == false)
+		return (false);
+	while (arg[i] && (ft_isalnum(arg[i]) || arg[i] == '_'))
 		i++;
 	if (arg[i] == 0)
 	{
 		*mode = EXPORT;
-		return true;
+		return (true);
 	}
 	if (arg[i] == '+' && arg[i + 1] == '=')
 	{
 		*mode = CONCAT;
-		return true;
+		return (true);
 	}
 	if (arg[i] == '=')
 	{
 		*mode = ASSIGN;
-		return true;
+		return (true);
 	}
-	return false;
+	return (false);
 }
 
 void	export_var(char *arg, t_env **env)
 {
-	t_env *node;
+	t_env	*node;
 
 	node = *env;
 	while (node)
@@ -56,44 +56,46 @@ void	export_var(char *arg, t_env **env)
 	env_add_last(new_env_node(ft_strdup(arg), NULL, true), env);
 }
 
-void concat_var(char *arg, t_env **env)
+void	concat_var(char *arg, t_env **env)
 {
-	t_env *node;
-	char *new_val;
-	char *tmp;
-	char *plus;
+	t_env	*node;
+	char	*new_val;
+	char	*tmp;
+	char	*plus;
 
 	plus = ft_strchr(arg, '+');
 	node = *env;
 	new_val = ft_strdup(plus + 2);
 	while (node)
 	{
-		if (ft_strncmp(arg, node->name, ft_strlen(node->name)) == 0
-				&& arg + ft_strlen(node->name) == plus)
+		if (ft_strncmp(arg, node->name, ft_strlen(node->name)) == 0 && arg
+			+ ft_strlen(node->name) == plus)
 		{
 			tmp = node->value;
 			node->value = ft_strjoin(node->value, new_val);
 			node->exported = true;
-			free(tmp), free(new_val);
+			free(tmp);
+			free(new_val);
 			return ;
 		}
 		node = node->next;
 	}
-	env_add_last(new_env_node(ft_strndup(arg, plus - arg), ft_strdup(plus + 2), true), env);
+	env_add_last(new_env_node(ft_strndup(arg, plus - arg), ft_strdup(plus + 2),
+			true), env);
 }
 
-void assign_var(char *arg, t_env **env)
+void	assign_var(char *arg, t_env **env)
 {
-	t_env *node;
-	char *tmp;
-	char *eq;
+	t_env	*node;
+	char	*tmp;
+	char	*eq;
 
 	eq = ft_strchr(arg, '=');
 	node = *env;
 	while (node)
 	{
-		if (ft_strncmp(arg, node->name, ft_strlen(node->name)) == 0
-				&& arg + ft_strlen(node->name) == eq)
+		if (ft_strncmp(arg, node->name, ft_strlen(node->name)) == 0 && arg
+			+ ft_strlen(node->name) == eq)
 		{
 			tmp = node->value;
 			node->value = ft_strndup(arg, eq - arg);
@@ -103,29 +105,28 @@ void assign_var(char *arg, t_env **env)
 		}
 		node = node->next;
 	}
-	env_add_last(new_env_node(ft_strndup(arg, eq - arg), ft_strdup(eq + 1), true), env);
+	env_add_last(new_env_node(ft_strndup(arg, eq - arg), ft_strdup(eq + 1),
+			true), env);
 }
 
-bool is_valid(char *arg, t_mode *mode);
-void	export_var(char *arg, t_env **env);
-void concat_var(char *arg, t_env **env);
-void assign_var(char *arg, t_env **env);
-t_env *dup_env_sorted(t_env *env);
-t_env *dup_env_sorted(t_env *env)
+t_env	*dup_env_sorted(t_env *env)
 {
-	t_env *tmp;
-	t_env *node;
+	t_env	*tmp;
+	t_env	*node;
 
 	tmp = NULL;
 	node = env;
 	while (node)
 	{
 		if (node->value)
-			env_add_last(new_env_node(ft_strdup(node->name), ft_strdup(node->value), true), &tmp);
+			env_add_last(new_env_node(ft_strdup(node->name),
+					ft_strdup(node->value),
+					true),
+				&tmp);
 		else
 			env_add_last(new_env_node(ft_strdup(node->name), NULL, true), &tmp);
 		node = node->next;
 	}
 	sort_env(&tmp);
-	return tmp;
+	return (tmp);
 }

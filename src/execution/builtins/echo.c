@@ -14,26 +14,27 @@
 
 static bool	is_n_flaged(char *arg)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	if (!arg || arg[0] != '-')
-		return false;
+		return (false);
 	if (arg[i] == 'n')
 		i++;
 	while (arg[i] == 'n')
 		i++;
-	return arg[i] == '\0';
+	return (arg[i] == '\0');
 }
 
-int	echo(char **argv, t_env **env)
+int	echo(char **argv, t_env **env, t_data *data)
 {
 	int	n_flaged;
 	int	i;
 
 	i = 1;
 	n_flaged = 0;
-	(void) env;
+	(void)data;
+	(void)env;
 	while (is_n_flaged(argv[i]))
 	{
 		n_flaged = 1;
@@ -47,5 +48,5 @@ int	echo(char **argv, t_env **env)
 	}
 	if (!n_flaged)
 		printf("\n");
-	return 0;
+	return (0);
 }

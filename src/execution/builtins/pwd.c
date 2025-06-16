@@ -12,15 +12,16 @@
 
 #include "execution.h"
 
-int	pwd(char **argv, t_env **env)
+int	pwd(char **argv, t_env **env, t_data *data)
 {
-	char *cwd;
+	char	*cwd;
 
-	(void) argv;
+	(void)argv;
+	(void)data;
 	cwd = getcwd(NULL, 0);
 	if (cwd == NULL)
 		cwd = ft_strdup(env_find_var(*env, "PWD")->value);
 	if (cwd == NULL)
 		return (printf("MAKE ERROR MSG: pwd\n"));
-	return printf("%s\n", cwd), free(cwd), SUCCESS;
+	return (printf("%s\n", cwd), free(cwd), SUCCESS);
 }

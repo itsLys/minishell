@@ -34,24 +34,24 @@
 [v] env | grep TEST # Should show all TEST* variables except TEST4
 
 -- unset tests ;
-export TEST_UNSET=bye # Defines a variable to test unset
-env | grep TEST_UNSET # Should print the variable
-unset TEST_UNSET # Unsets the variable
-env | grep TEST_UNSET # Should no longer print anything
-unset DOES_NOT_EXIST # Should do nothing and not throw error (nonexistent variable)
+[v] export TEST_UNSET=bye # Defines a variable to test unset
+[v] env | grep TEST_UNSET # Should print the variable
+[v] unset TEST_UNSET # Unsets the variable
+[v] env | grep TEST_UNSET # Should no longer print anything
+[v] unset DOES_NOT_EXIST # Should do nothing and not throw error (nonexistent variable)
 
 -- env tests ;
-env # Prints all environment variables
-env test=lol # Invalid: minishell should reject any arguments
-env -i # Invalid: minishell should reject any options
+[v] env # Prints all environment variables
+[v] env test=lol # Invalid: minishell should reject any arguments
+[v] env -i # Invalid: minishell should reject any options
 
 -- exit tests ;
-exit # Exits the shell using the last return code
-exit 0 # Exits with code 0
-exit 42 # Exits with code 42
-exit 256 # Exits with code 0 (256 % 256 = 0)
-exit 999999999999999999999999 # Exits with code 255 (very large number mod 256)
-exit -1 # Exits with code 255 (negative values wrap around)
-exit a # Error: non-numeric argument, exits with code 2
-exit 1 2 # Error: too many arguments, should print error and not exit
+[v] exit # Exits the shell using the last return code
+[v] exit 0 # Exits with code 0
+[v] exit 42 # Exits with code 42
+[v] exit 256 # Exits with code 0 (256 % 256 = 0)
+[v] exit 999999999999999999999999 # Exits with code 255 (very large number mod 256)
+[v] exit -1 # Exits with code 255 (negative values wrap around)
+[v] exit a # Error: non-numeric argument, exits with code 2
+[v] exit 1 2 # Error: too many arguments, should print error and not exit
 ```

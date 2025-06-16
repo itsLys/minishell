@@ -13,21 +13,17 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <libft.h>
+# include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
 # include <stddef.h>
-# include <sys/types.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <unistd.h>
-# include <limits.h>
 # include <string.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <libft.h>
-
-
+# include <sys/types.h>
+# include <unistd.h>
 
 // test
 #endif // !MINISHELL_H

@@ -66,7 +66,7 @@ SRC			= src/ft_isalnum.c \
 			  src/ft_getenv.c \
 			  src/ft_getpath.c \
 			  src/ft_free_vector.c \
-			  src/ft_printf/ft_printf_bonus.c \
+			  src/ft_printf/ft_printf.c \
 			  src/ft_printf/parsing.c \
 			  src/ft_printf/print_char.c \
 			  src/ft_printf/print_hex.c \
@@ -74,7 +74,16 @@ SRC			= src/ft_isalnum.c \
 			  src/ft_printf/print_ptr.c \
 			  src/ft_printf/print_str.c \
 			  src/ft_printf/print_unsigned.c \
-			  src/ft_printf/utils.c
+			  src/ft_printf/utils.c \
+			  src/ft_dprintf/ft_dprintf.c \
+			  src/ft_dprintf/parsing.c \
+			  src/ft_dprintf/print_char.c \
+			  src/ft_dprintf/print_hex.c \
+			  src/ft_dprintf/print_nbr.c \
+			  src/ft_dprintf/print_ptr.c \
+			  src/ft_dprintf/print_str.c \
+			  src/ft_dprintf/print_unsigned.c \
+			  src/ft_dprintf/utils.c
 OBJ			= $(patsubst src/%.c, obj/%.o, $(SRC))
 RM			= rm -rf
 

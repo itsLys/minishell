@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_env.c                                        :+:      :+:    :+:   */
+/*   print_char.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/13 15:13:19 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/13 15:13:36 by ihajji           ###   ########.fr       */
+/*   Created: 2024/11/25 14:21:09 by ihajji            #+#    #+#             */
+/*   Updated: 2024/11/30 09:31:20 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
+#include "ft_dprintf_utils.h"
 
-void	print_env(t_env *env)
+int	handle_char(t_flags *f, int c)
 {
-	printf("\n\n::::::::ENVIRONMENT COPY:::::::\n\n");
-	printf("| NAME		| VALUE		| EXPORTED?\n");
-	while (env)
-	{
-		printf("| %s		| %s	| %d\n", env->name, env->value, env->exported);
-		env = env->next;
-	}
+	int	count;
+
+	count = 0;
+	if (!f->left_adjusted)
+		count += print_width(f, 1);
+	count += print(f->fd, c);
+	if (f->left_adjusted)
+		count += print_width(f, 1);
+	return (count);
 }

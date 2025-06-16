@@ -12,10 +12,18 @@
 
 #include "execution.h"
 
-int ft_exit(char **argv, t_env **env)
+int	ft_exit(char **argv, t_env **env, t_data *data)
 {
-	(void) argv;
-	(void) env;
-	// free_everything
-	exit(0);
+	(void)argv;
+	(void)env;
+	if (argv[1] && argv[2])
+		print_error(argv[0], "too many arguments");
+	free_env_copy(data->env);
+	free(data->input);
+	free(data);
+	if (ft_strisnum(argv[1]) == false)
+		print_error(argv[0], "numeric argument required");
+	else if (argv[1])
+		exit(ft_atol(argv[1]) % 256);
+	exit(2);
 }

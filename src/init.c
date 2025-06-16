@@ -76,7 +76,7 @@ int init_minishell(char **env, t_data *data)
 {
 	data->env = dup_env(env);
 	init_default_var(&(data->env));
-	data->builtins = init_builtins(); // TODO: Move to a sutable place; initialization perhaps
+	// data->builtins = init_builtins(); // TODO: Move to a sutable place; initialization perhaps
 	return SUCCESS;
 }
 // NOTE: use the library boolean instead of yours

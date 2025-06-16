@@ -49,7 +49,6 @@ static int	get_input(t_data *data)
 int	main(int ac __attribute__((unused)), char **av __attribute__((unused)),
 		char **env)
 {
-	
 	t_token		*tokens;
 	t_ast_node	*node;
 	t_data *data;
