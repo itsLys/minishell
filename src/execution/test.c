@@ -31,8 +31,8 @@ bool	is_shell_var(const char *str)
 	size_t i;
 
 	i = 0;
-	if (str[i] == '$' && str[i + 1]
-			&& (ft_isalnum(str[i + 1]) || str[i + 1] == '_'))
+	if (str[i] == '$'
+		&& (str[i + 1] && (ft_isalnum(str[i + 1]) || str[i + 1] == '_')))
 		return (true);
 	return (false);
 }
@@ -53,38 +53,38 @@ size_t	count_vars(const char *str)
 	return (vars_counter);
 }
 
-// char	**find_vars_in_str(char *arg)
-// {
-// 	size_t	i;
-// 	size_t	j;
-// 	size_t	nmb_of_vars;
-// 	char 	*var_start;
-// 	char	**vars;
-// 	char	*copy;
-//
-// 	j = 0;
-// 	nmb_of_vars = count_vars(arg);
-// 	vars = ft_calloc(sizeof(char *), nmb_of_vars + 1);
-// 	if (!vars)
-// 		return (NULL);
-// 	copy = ft_strdup(arg);
-// 	if (!copy)
-// 		return (NULL);
-// 	while (nmb_of_vars)
-// 	{
-// 		i = 0;
-// 		var_start = ft_strchr(copy, '$');
-// 		if (!var_start)
-// 			break ;
-// 		erase(var_start, 0);
-// 		while (var_start[i] && ft_isalnum(var_start[i]))
-// 			i++;
-// 		vars[j] = ft_strndup(var_start, i);
-// 		i++;
-// 		j++;
-// 	}
-// 	return (vars);
-// }
+char	**find_vars_in_str(char *arg)
+{
+	size_t	i;
+	size_t	j;
+	size_t	nmb_of_vars;
+	char 	*var_start;
+	char	**vars;
+	char	*copy;
+
+	j = 0;
+	nmb_of_vars = count_vars(arg);
+	vars = ft_calloc(sizeof(char *), nmb_of_vars + 1);
+	if (!vars)
+		return (NULL);
+	copy = ft_strdup(arg);
+	if (!copy)
+		return (NULL);
+	while (nmb_of_vars)
+	{
+		i = 0;
+		var_start = ft_strchr(copy, '$');
+		if (!var_start)
+			break ;
+		erase(var_start, 0);
+		while (var_start[i] && ft_isalnum(var_start[i]))
+			i++;
+		vars[j] = ft_strndup(var_start, i);
+		i++;
+		j++;
+	}
+	return (vars);
+}
 
 void	append_env(t_env **head, t_env *new_node)
 {
@@ -179,6 +179,14 @@ char	*alloc_varname(char *input)
 	return (varname);
 }
 
+bool	is_expandable(char *mask)
+{
+	size_t	i;
+
+	i = 0;
+	return ((mask[i] == 'D' || mask[i] == 'N'))
+}
+
 char *expand_vars(char *input, t_env *env)
 {
 	char	*result;
@@ -202,7 +210,6 @@ char *expand_vars(char *input, t_env *env)
 			while (value[index[3]])
 				result[index[1]++] = value[index[3]++];
 			free(varname);
-			free(value);
 		}
 		else
 			result[index[1]++] = input[index[0]++];
@@ -210,16 +217,18 @@ char *expand_vars(char *input, t_env *env)
 	return (result);
 }
 
+// TODO : 
 int main(void)
 {
 	t_env *env_list = NULL;
 	append_env(&env_list, new_env_var("VAR", "zakaria", true));
 	append_env(&env_list, new_env_var("VAR1", "bonjour", true));
 	append_env(&env_list, new_env_var("VAR2", "		", true));
-	append_env(&env_list, new_env_var("VAR3", "monde", true));
-	append_env(&env_list, new_env_var("VAR4", "monde", true));
-	append_env(&env_list, new_env_var("VAR5", "monde", true));
-	char *s1 = expand_vars("$VAR$VAR2'est$VAR2'le$VAR2'roi'$VAR2'du$VAR2$VAR3", env_list);
+	append_env(&env_list, new_env_var("VAR3", "pskch", true));
+	append_env(&env_list, new_env_var("VAR4", "wa3r", true));
+	append_env(&env_list, new_env_var("VAR5", "hamid", true));
+	char *s1 = expand_vars("$", env_list);
+						//  DDDDDDDDDDSSSSSSSSSSSNNNNNNNNNNNNNNNNNNNNNNNNNNNN
 	printf("%s\n", s1);
 	free(s1);
 	free_env_list(env_list);
