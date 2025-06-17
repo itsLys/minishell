@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 07:49:18 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/13 16:08:20 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/06/17 12:01:43 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,33 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
+// debuging
+
+void    print_ast_type(t_ast_node *node)
+{
+	switch (node->type) {
+		case G_COMPOUND_COMMAND: printf("G_COMPOUND_COMMAND"); break;
+		case G_PIPELINE: printf("G_PIPELINE"); break;
+		case G_COMMAND: printf("G_COMMAND"); break;
+		case G_SUBSHELL: printf("G_SUBSHELL"); break;
+		case G_SIMPLE_COMMAND: printf("G_SIMPLE_COMMAND"); break;
+		case G_ARGS: printf("G_ARGS"); break;
+		case G_REDI_IN: printf("G_REDI_IN"); break;
+		case G_REDI_TRUNC: printf("G_REDI_TRUNC"); break;
+		case G_REDI_APPEND: printf("G_REDI_APPEND"); break;
+		case G_REDI_HEREDOC: printf("G_REDI_HEREDOC"); break;
+		case G_REDIRECT_LIST: printf("G_REDIRECT_LIST"); break;
+		case G_IO_REDIRECT: printf("G_IO_REDIRECT"); break;
+		case G_AND_NODE: printf("G_AND_NODE"); break;
+		case G_OR_NODE: printf("G_OR_NODE"); break;
+		default: printf("UNKNOWN"); break;
+	}
+	printf("\n");
+}
+// NOTE: remove
+
+#define PIPE_RD 0
+#define PIPE_WR 1
 char *make_name_eq_value(char *name, char *value)
 {
 	// NOTE: CHECK MALLOC
@@ -96,39 +123,97 @@ bool	is_single_pipeline(t_ast_node *node)
 	return node && node->type == G_PIPELINE && (node->sibling == NULL || node->sibling->type != G_PIPELINE);
 }
 
-int	execute_pipeline(t_ast_node *node, t_data *data/* , bool run_in_shell */)
+void execute_first_pipeline(t_ast_node *pipeline, t_data *data, int pipefd[2])
 {
-	pid_t pid1;
-	pid_t pid2;
+	if (fork() == 0)
+	{
+		dup2(pipefd[PIPE_WR], STDOUT_FILENO);
+		close(pipefd[PIPE_WR]);
+		close(pipefd[PIPE_RD]);
+		execute(pipeline->child, data, true);
+	}
+	// else
+	// 	perror("fork"); // maybe exit clean
+}
+
+#include <stdarg.h>
+
+// void *repl(int action, void *data)
+// {
+// 	static t_data *data;
+// 	if (action == 0)
+// 		data = init();
+// 	else if (action == 1)
+// 		return (data);
+// 	else if (action == 3)
+// 		// TODO: Set some var in data..
+// 	return (NULL);
+//
+// }
+
+void execute_middle_pipeline(t_ast_node *pipeline, t_data *data, int pipefd[2])
+{
+	if (fork() == 0)
+	{
+		pipe(pipefd);
+		dup2(pipefd[PIPE_RD], STDIN_FILENO);
+		close(pipefd[PIPE_WR]);
+		close(pipefd[PIPE_RD]);
+		close(pipefd[PIPE_RD]);
+		dup2(pipefd[PIPE_WR], STDOUT_FILENO);
+		close(pipefd[PIPE_WR]);
+		exit(execute(pipeline->child, data, true));
+	}
+	// else
+	// 	perror("fork"); // maybe exit clean
+	va_end(NULL);
+}
+
+pid_t execute_last_pipeline(t_ast_node *pipeline, t_data *data, int pipefd[2])
+{
+	pid_t pid;
+	if ((pid = fork()) == 0)
+	{
+		dup2(pipefd[PIPE_RD], STDIN_FILENO);
+		close(pipefd[PIPE_WR]);
+		close(pipefd[PIPE_RD]);
+		execute(pipeline->child, data, true);
+	}
+	// else
+	// 	perror("fork"); // maybe exit clean
+	return pid;
+}
+
+int	execute_pipeline(t_ast_node *node, t_data *data/* , bool run_in_shell */) // should be generic
+{
+	t_ast_node *pipeline;
 	int pipefd[2];
+	pid_t last;
 
+	pipe(pipefd);
+	pipeline = node;
 	if (is_single_pipeline(node))
-		return (execute(node->child, data, false));
-
-	if (pipe(pipefd))
-		perror("perror"), exit(1);
-	// spawn first pipeline
-	if ((pid1 = fork()) == 0)
+		return (execute(pipeline->child, data, false));
+	// printf("types\n");
+	execute_first_pipeline(pipeline, data, pipefd);
+	pipeline = pipeline->sibling;
+	while (pipeline && pipeline->type == G_PIPELINE
+			&& pipeline->sibling && pipeline->sibling->type == G_PIPELINE)
 	{
-		dup2(pipefd[1], 1);
-		close(pipefd[0]);
-		close(pipefd[1]);
-		exit(execute(node->child, data, true));
+		execute_middle_pipeline(pipeline, data, pipefd);
+		pipeline = pipeline->sibling;
 	}
-	if ((pid2 = fork()) == 0)
-	{
-		dup2(pipefd[0], 0);
-		close(pipefd[0]);
-		close(pipefd[1]);
-		exit(execute(node->sibling->child, data, true));
-	}
-
-	close(pipefd[0]);
-	close(pipefd[1]);
-	waitpid(pid1, NULL, 0);
-	waitpid(pid2, NULL, 0);
+	last = execute_last_pipeline(pipeline, data, pipefd);
+	close(pipefd[PIPE_RD]);
+	close(pipefd[PIPE_WR]);
+	waitpid(last, NULL, 0);
+	while (wait(NULL) != ERROR)
+		;
+	// printf("end types\n");
 	return 0;
 }
+
+// BUG: exit (builtin) cuases double free
 
 int	execute_compound(t_ast_node *node, t_data *data, bool run_in_shell)
 {
