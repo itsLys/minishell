@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 07:49:18 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/21 11:31:09 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/06/17 12:01:43 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,160 @@ void    print_ast_type(t_ast_node *node)
 
 // BUG: cd as a last command in a pipeline returns CMD_NOT_FOUND
 // BUG: exit NON should exit with last exit status
+char **make_envp(t_env *env)
+{
+	int len;
+	int i;
+	char **envp;
+
+	len = env_count_len(env);
+	envp = malloc(sizeof(char *) * (len + 1)); // NOTE: check malloc
+	i = 0;
+	while (env)
+	{
+		if (env->exported)
+			envp[i++] = make_name_eq_value(env->name, env->value);
+		env = env->next;
+	}
+	envp[i] = NULL;
+	return envp;
+}
+
+int	execute_simple_command(t_ast_node *node, t_data *data, bool run_in_shell)
+{
+	char		**argv;
+	t_builtin	*builtin;
+
+	// argv = extract_args(node->child->args);
+	// setup_redir(node->child->sibling);
+	argv = node->child->args;
+	builtin = find_builtin(argv[0]);
+	if (builtin)
+		return (builtin->function(argv, &(data->env), data));
+	else
+	{
+		if (run_in_shell)
+			ft_execvpe(argv[0], argv, make_envp(data->env));
+		else
+		{
+			if (fork() == 0)
+				ft_execvpe(argv[0], argv, make_envp(data->env));
+			else
+				wait(NULL);
+		}
+	}
+	return (127);
+}
+
+int	execute_command(t_ast_node *node, t_data *data, bool run_in_shell)
+{
+	return (execute(node->child, data, run_in_shell));
+}
+
+bool	is_single_pipeline(t_ast_node *node)
+{
+	return node && node->type == G_PIPELINE && (node->sibling == NULL || node->sibling->type != G_PIPELINE);
+}
+
+void execute_first_pipeline(t_ast_node *pipeline, t_data *data, int pipefd[2])
+{
+	if (fork() == 0)
+	{
+		dup2(pipefd[PIPE_WR], STDOUT_FILENO);
+		close(pipefd[PIPE_WR]);
+		close(pipefd[PIPE_RD]);
+		execute(pipeline->child, data, true);
+	}
+	// else
+	// 	perror("fork"); // maybe exit clean
+}
+
+#include <stdarg.h>
+
+// void *repl(int action, void *data)
+// {
+// 	static t_data *data;
+// 	if (action == 0)
+// 		data = init();
+// 	else if (action == 1)
+// 		return (data);
+// 	else if (action == 3)
+// 		// TODO: Set some var in data..
+// 	return (NULL);
+//
+// }
+
+void execute_middle_pipeline(t_ast_node *pipeline, t_data *data, int pipefd[2])
+{
+	if (fork() == 0)
+	{
+		pipe(pipefd);
+		dup2(pipefd[PIPE_RD], STDIN_FILENO);
+		close(pipefd[PIPE_WR]);
+		close(pipefd[PIPE_RD]);
+		close(pipefd[PIPE_RD]);
+		dup2(pipefd[PIPE_WR], STDOUT_FILENO);
+		close(pipefd[PIPE_WR]);
+		exit(execute(pipeline->child, data, true));
+	}
+	// else
+	// 	perror("fork"); // maybe exit clean
+	va_end(NULL);
+}
+
+pid_t execute_last_pipeline(t_ast_node *pipeline, t_data *data, int pipefd[2])
+{
+	pid_t pid;
+	if ((pid = fork()) == 0)
+	{
+		dup2(pipefd[PIPE_RD], STDIN_FILENO);
+		close(pipefd[PIPE_WR]);
+		close(pipefd[PIPE_RD]);
+		execute(pipeline->child, data, true);
+	}
+	// else
+	// 	perror("fork"); // maybe exit clean
+	return pid;
+}
+
+int	execute_pipeline(t_ast_node *node, t_data *data/* , bool run_in_shell */) // should be generic
+{
+	t_ast_node *pipeline;
+	int pipefd[2];
+	pid_t last;
+
+	pipe(pipefd);
+	pipeline = node;
+	if (is_single_pipeline(node))
+		return (execute(pipeline->child, data, false));
+	// printf("types\n");
+	execute_first_pipeline(pipeline, data, pipefd);
+	pipeline = pipeline->sibling;
+	while (pipeline && pipeline->type == G_PIPELINE
+			&& pipeline->sibling && pipeline->sibling->type == G_PIPELINE)
+	{
+		execute_middle_pipeline(pipeline, data, pipefd);
+		pipeline = pipeline->sibling;
+	}
+	last = execute_last_pipeline(pipeline, data, pipefd);
+	close(pipefd[PIPE_RD]);
+	close(pipefd[PIPE_WR]);
+	waitpid(last, NULL, 0);
+	while (wait(NULL) != ERROR)
+		;
+	// printf("end types\n");
+	return 0;
+}
+
+// BUG: exit (builtin) cuases double free
+
+int	execute_compound(t_ast_node *node, t_data *data, bool run_in_shell)
+{
+	int	status;
+
+	status = execute(node->child, data, run_in_shell);
+	return (status);
+}
 
 int	execute(t_ast_node *node, t_data *data, bool run_in_shell)
 {
