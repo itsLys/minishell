@@ -136,43 +136,34 @@ void execute_first_pipeline(t_ast_node *pipeline, t_data *data, int pipefd[2])
 	// 	perror("fork"); // maybe exit clean
 }
 
-#include <stdarg.h>
-
-// void *repl(int action, void *data)
-// {
-// 	static t_data *data;
-// 	if (action == 0)
-// 		data = init();
-// 	else if (action == 1)
-// 		return (data);
-// 	else if (action == 3)
-// 		// TODO: Set some var in data..
-// 	return (NULL);
-//
-// }
-
 void execute_middle_pipeline(t_ast_node *pipeline, t_data *data, int pipefd[2])
 {
+	// read from the read end of the pipe instead of stdout
+	// but only in child?
+	// so
+	// but also, write to the write end of a new pipe
+
+	int saved = dup(STDIN_FILENO);
+	close(pipefd[PIPE_WR]);
+	dup2(pipefd[PIPE_RD], 0);
+	close(pipefd[PIPE_RD]);
+	pipe(pipefd);
 	if (fork() == 0)
 	{
-		pipe(pipefd);
-		dup2(pipefd[PIPE_RD], STDIN_FILENO);
-		close(pipefd[PIPE_WR]);
 		close(pipefd[PIPE_RD]);
-		close(pipefd[PIPE_RD]);
-		dup2(pipefd[PIPE_WR], STDOUT_FILENO);
+		dup2(pipefd[PIPE_WR], 1);
 		close(pipefd[PIPE_WR]);
-		exit(execute(pipeline->child, data, true));
+		execute(pipeline->child, data, true);
 	}
-	// else
-	// 	perror("fork"); // maybe exit clean
-	va_end(NULL);
+	dup2(saved, STDIN_FILENO);
+	close(saved);
 }
 
 pid_t execute_last_pipeline(t_ast_node *pipeline, t_data *data, int pipefd[2])
 {
 	pid_t pid;
-	if ((pid = fork()) == 0)
+	pid = fork();
+	if (pid == 0)
 	{
 		dup2(pipefd[PIPE_RD], STDIN_FILENO);
 		close(pipefd[PIPE_WR]);
