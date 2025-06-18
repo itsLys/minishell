@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 20:21:39 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/16 09:57:00 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/06/18 13:19:27 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,9 @@ t_env				*env_find_var(t_env *env, char *var);
 t_env				*dup_env(char **env);
 void				env_add_last(t_env *node, t_env **env);
 void				sort_env(t_env **env);
+
+// make env
+char				**make_envp(t_env *env);
 
 // export utils
 bool				is_valid(char *arg, t_mode *mode);

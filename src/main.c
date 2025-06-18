@@ -34,6 +34,7 @@ char	*build_prompt(void)
 	ft_strlcat(prompt, " minishell$ ", sizeof(prompt));
 	return (prompt);
 }
+// BUG: prompt and pwd fails if `mkdir -p x/y/z and cd x/y/z, and then rm -rf ../../../x`
 
 static int	get_input(t_data *data)
 {
