@@ -18,9 +18,12 @@ SRC			= src/main.c \
 			  src/execution/utils.c \
 			  src/execution/make_env.c \
 			  src/execution/pipeline.c \
+<<<<<<< HEAD
 			  src/execution/compound_command.c \
 			  src/execution/simple_command.c \
 			  src/execution/subshell.c \
+=======
+>>>>>>> a1245ff (alhamdulilah)
 			  src/execution/builtins/cd.c \
 			  src/execution/builtins/echo.c \
 			  src/execution/builtins/pwd.c \

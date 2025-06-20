@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 07:49:18 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/18 13:20:42 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/06/18 16:41:38 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void    print_ast_type(t_ast_node *node)
 	printf("\n");
 }
 
+<<<<<<< HEAD
 // BUG: cd as a last command in a pipeline returns CMD_NOT_FOUND
 // BUG: exit NON should exit with last exit status
 char **make_envp(t_env *env)
@@ -69,118 +70,61 @@ int	execute_simple_command(t_ast_node *node, t_data *data, bool run_in_shell)
 	if (builtin)
 		return (builtin->function(argv, &(data->env), data));
 	else
-	{
-		if (run_in_shell)
-			ft_execvpe(argv[0], argv, make_envp(data->env));
-		else
-		{
-			if (fork() == 0)
-				ft_execvpe(argv[0], argv, make_envp(data->env));
-			wait(NULL);
-		}
-	}
-	return (127);
+		return WEXITSTATUS(execute_bin(argv, data, run_in_shell));
 }
 
 int	execute_command(t_ast_node *node, t_data *data, bool run_in_shell)
 {
 	return (execute(node->child, data, run_in_shell));
 }
-
-bool	is_single_pipeline(t_ast_node *node)
-{
-	return node && node->type == G_PIPELINE && (node->sibling == NULL || node->sibling->type != G_PIPELINE);
-}
-
-void execute_first_pipeline(t_ast_node *pipeline, t_data *data, int pipefd[2])
-{
-	if (fork() == 0)
-	{
-		dup2(pipefd[PIPE_WR], STDOUT_FILENO);
-		close(pipefd[PIPE_WR]);
-		close(pipefd[PIPE_RD]);
-		exit(execute(pipeline->child, data, true));
-	}
-	else
-		perror("fork"); // maybe exit clean
-}
-
-void execute_middle_pipeline(t_ast_node *pipeline, t_data *data, int pipefd[2])
-{
-	pid_t pid;
-	int saved_stdin;
-
-	saved_stdin = dup(STDIN_FILENO);
-	dup2(pipefd[PIPE_RD], STDIN_FILENO);
-	close(pipefd[PIPE_WR]);
-	close(pipefd[PIPE_RD]);
-	pipe(pipefd);
-	pid = fork();
-	if (pid == 0)
-	{
-		dup2(pipefd[PIPE_WR], STDOUT_FILENO);
-		close(pipefd[PIPE_RD]);
-		close(pipefd[PIPE_WR]);
-		exit(execute(pipeline->child, data, true));
-	}
-	else if (pid == ERROR)
-		perror("fork"); // maybe exit clean
-	dup2(saved_stdin, STDIN_FILENO);
-	close(saved_stdin);
-}
-
-pid_t execute_last_pipeline(t_ast_node *pipeline, t_data *data, int pipefd[2])
-{
-	pid_t pid;
-
-	pid = fork();
-	if (pid == 0)
-	{
-		dup2(pipefd[PIPE_RD], STDIN_FILENO);
-		close(pipefd[PIPE_WR]);
-		close(pipefd[PIPE_RD]);
-		exit(execute(pipeline->child, data, true));
-	}
-	else if (pid == ERROR)
-		perror("fork"); // maybe exit clean
-	return pid;
-}
-
-int	execute_pipeline(t_ast_node *node, t_data *data/* , bool run_in_shell */) // should be generic
-{
-	t_ast_node *pipeline;
-	int pipefd[2];
-	pid_t last;
-
-	pipe(pipefd);
-	pipeline = node;
-	if (is_single_pipeline(node))
-		return (execute(pipeline->child, data, false));
-	execute_first_pipeline(pipeline, data, pipefd);
-	pipeline = pipeline->sibling;
-	while (pipeline && pipeline->type == G_PIPELINE
-			&& pipeline->sibling && pipeline->sibling->type == G_PIPELINE)
-	{
-		execute_middle_pipeline(pipeline, data, pipefd);
-		pipeline = pipeline->sibling;
-	}
-	last = execute_last_pipeline(pipeline, data, pipefd);
-	close(pipefd[PIPE_RD]);
-	close(pipefd[PIPE_WR]);
-	waitpid(last, NULL, 0);
-	while (wait(NULL) != ERROR)
-		;
-	return 0;
-}
-
 // BUG: exit (builtin) cuases double free
+//
+int	execute_logical_and(int status, t_ast_node *node, t_data *data, bool run_in_shell)
+{
+	if (status == SUCCESS)
+		return execute(node, data, run_in_shell);
+	return status;
+}
 
-int	execute_compound(t_ast_node *node, t_data *data, bool run_in_shell)
+int	execute_logical_or(int status, t_ast_node *node, t_data *data, bool run_in_shell)
+{
+
+	if (status == SUCCESS)
+		return status;
+	return execute(node, data, run_in_shell);
+}
+
+int	execute_compound(t_ast_node *node, t_data *data)
 {
 	int	status;
+	bool should_execute;
+	t_ast_node *child;
 
-	status = execute(node->child, data, run_in_shell);
-	return (status);
+	child = node->child;
+	status = 0;
+	should_execute = true;
+	while (child)
+	{
+		if (child->type == G_PIPELINE && should_execute == true)
+			status = execute(child, data, false);
+		while (child && child->type == G_PIPELINE)
+			child = child->sibling;
+		if (child && child->type == G_AND_NODE)
+		{
+			child = child->sibling;
+			if (status == SUCCESS)
+				should_execute = true;
+		}
+		else if (child && child->type == G_OR_NODE)
+		{
+			child = child->sibling;
+			if (status == SUCCESS)
+				should_execute = false;
+		}
+		if (child)
+			print_ast_type(child);
+	}
+	return status;
 }
 
 int	execute(t_ast_node *node, t_data *data, bool run_in_shell)
