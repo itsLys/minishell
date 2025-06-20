@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 20:21:39 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/18 13:19:27 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/06/18 16:03:37 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include "minishell.h"
 # include "parsing.h"
+# define PIPE_RD 0
+# define PIPE_WR 1
 
 typedef enum e_mode
 {
@@ -50,7 +52,11 @@ void				print_env(t_env *env);
 
 t_data				*g_data(void);
 
+// memory
 void				*free_env_copy(t_env *env_copy);
+
+// init
+int					init_minishell(char **env, t_data *data);
 
 // builtins
 int					echo(char **argv, t_env **env, t_data *data);
@@ -61,6 +67,7 @@ int					export(char **argv, t_env **env, t_data *data);
 int					env(char **argv, t_env **env, t_data *data);
 int					ft_exit(char **argv, t_env **env, t_data *data);
 
+// builtins utils
 t_builtin			*init_builtins(void);
 t_builtin			*find_builtin(char *cmd);
 
@@ -84,6 +91,7 @@ t_env				*dup_env_sorted(t_env *env);
 // shell utils
 int					print_error(char *name, char *msg);
 
-int					init_minishell(char **env, t_data *data);
+// execution
 int					execute(t_ast_node *node, t_data *data, bool run_in_shell);
+int					execute_pipeline(t_ast_node *node, t_data *data);
 #endif // !EXECUTION_H
