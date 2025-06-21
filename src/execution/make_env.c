@@ -55,7 +55,7 @@ char **make_envp(t_env *env)
 	i = 0;
 	while (env)
 	{
-		if (env->exported)
+		if (env->exported && env->value)
 		{
 			envp[i] = make_name_eq_value(env->name, env->value);
 			if (envp[i++] == NULL)

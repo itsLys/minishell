@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 09:16:11 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/21 09:20:28 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/06/21 11:32:50 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ static bool resolve_logical(int status, t_ast_node *node)
 	return false;
 }
 
-
-int	execute_compound(t_ast_node *node, t_data *data);
 int	execute_compound(t_ast_node *node, t_data *data)
 {
 	int			status;

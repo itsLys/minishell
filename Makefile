@@ -31,6 +31,7 @@ SRC			= src/main.c \
 			  src/execution/builtins/utils.c \
 			  src/execution/builtins/export_utils.c \
 			  src/execution/env_utils.c \
+			  src/execution/env_actions.c \
 			  src/parsing/main.c \
 			  src/parsing/test.c \
 			  src/parsing/parsing.c \

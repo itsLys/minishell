@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 20:21:39 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/21 11:25:42 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/06/21 16:13:21 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,15 @@ int					ft_exit(char **argv, t_env **env, t_data *data);
 t_builtin			*init_builtins(void);
 t_builtin			*find_builtin(char *cmd);
 
-// env utils
+// env action
 t_env				*new_env_node(char *name, char *value, bool is_exported);
 t_env				*env_find_var(t_env *env, char *var);
-t_env				*dup_env(char **env);
 void				env_add_last(t_env *node, t_env **env);
+void				env_remove_node(t_env *node, t_env **env);
+
+// env_utils
+void				free_env_node(t_env *node);
+t_env				*dup_env(char **env);
 void				sort_env(t_env **env);
 
 // make env
