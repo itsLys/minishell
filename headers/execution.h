@@ -123,4 +123,5 @@ void				expand_wildcard_at(t_str_arr *args,
 int					execute_pipeline(t_ast_node *node, t_data *data);
 int					execute_compound(t_ast_node *node, t_data *data);
 int					execute_simple_command(t_ast_node *node, t_data *data, bool run_in_shell);
+int					execute_subshell(t_ast_node *node, t_data *data);
 #endif // !EXECUTION_H
