@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 07:49:18 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/21 11:26:03 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/06/21 11:31:09 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,20 +78,7 @@ int	execute_command(t_ast_node *node, t_data *data, bool run_in_shell)
 }
 // BUG: exit (builtin) cuases double free
 // BUG: cd as a last command in a pipeline returns CMD_NOT_FOUND
-
-// int execute_subshell(t_ast_node *node, t_data *data)
-// {
-// 	int pid;
-// 	int status;
-//
-// 	pid = fork();
-// 	if (pid == 0)
-// 		exit(execute(node->child, data, true)); // clean exit
-// 	else if (pid == ERROR)
-// 		perror("fork"); // exit clean;
-// 	waitpid(pid, &status, 0);
-// 	return WEXITSTATUS(status);
-// }
+// BUG: exit NON should exit with last exit status
 
 int	execute(t_ast_node *node, t_data *data, bool run_in_shell)
 {
