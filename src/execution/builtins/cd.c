@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 17:49:52 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/16 12:29:28 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/06/21 11:18:53 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	cd(char **argv, t_env **env, t_data *data)
 			return (SUCCESS);
 		if (chdir(dir) != SUCCESS)
 			return (free(dir), perror(argv[0]), FAILIURE);
-		free(dir);
+		return free(dir), SUCCESS;
 	}
 	return (FAILIURE);
 }

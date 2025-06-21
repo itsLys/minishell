@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 20:21:39 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/21 09:21:41 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/06/21 11:25:42 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,4 +96,5 @@ int					execute(t_ast_node *node, t_data *data, bool run_in_shell);
 int					execute_pipeline(t_ast_node *node, t_data *data);
 int					execute_compound(t_ast_node *node, t_data *data);
 int					execute_simple_command(t_ast_node *node, t_data *data, bool run_in_shell);
+int					execute_subshell(t_ast_node *node, t_data *data);
 #endif // !EXECUTION_H
