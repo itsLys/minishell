@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 07:49:18 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/18 16:41:38 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/06/21 09:30:12 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void    print_ast_type(t_ast_node *node)
 	printf("\n");
 }
 
-<<<<<<< HEAD
 // BUG: cd as a last command in a pipeline returns CMD_NOT_FOUND
 // BUG: exit NON should exit with last exit status
 char **make_envp(t_env *env)
@@ -78,53 +77,10 @@ int	execute_command(t_ast_node *node, t_data *data, bool run_in_shell)
 	return (execute(node->child, data, run_in_shell));
 }
 // BUG: exit (builtin) cuases double free
-//
-int	execute_logical_and(int status, t_ast_node *node, t_data *data, bool run_in_shell)
+
+int execute_subshell(t_ast_node *node, t_data *data)
 {
-	if (status == SUCCESS)
-		return execute(node, data, run_in_shell);
-	return status;
-}
-
-int	execute_logical_or(int status, t_ast_node *node, t_data *data, bool run_in_shell)
-{
-
-	if (status == SUCCESS)
-		return status;
-	return execute(node, data, run_in_shell);
-}
-
-int	execute_compound(t_ast_node *node, t_data *data)
-{
-	int	status;
-	bool should_execute;
-	t_ast_node *child;
-
-	child = node->child;
-	status = 0;
-	should_execute = true;
-	while (child)
-	{
-		if (child->type == G_PIPELINE && should_execute == true)
-			status = execute(child, data, false);
-		while (child && child->type == G_PIPELINE)
-			child = child->sibling;
-		if (child && child->type == G_AND_NODE)
-		{
-			child = child->sibling;
-			if (status == SUCCESS)
-				should_execute = true;
-		}
-		else if (child && child->type == G_OR_NODE)
-		{
-			child = child->sibling;
-			if (status == SUCCESS)
-				should_execute = false;
-		}
-		if (child)
-			print_ast_type(child);
-	}
-	return status;
+	// logic
 }
 
 int	execute(t_ast_node *node, t_data *data, bool run_in_shell)

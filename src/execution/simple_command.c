@@ -24,8 +24,13 @@ static int	execute_bin(char **argv, t_data *data, bool run_in_shell)
 		pid = fork();
 		if (pid == 0)
 		{
+<<<<<<< HEAD
 			// ft_execvpe(argv[0], argv, make_envp(data->env));
 			exit(ft_execvpe(argv[0], argv, make_envp(data->env))); // clean exit
+=======
+			ft_execvpe(argv[0], argv, make_envp(data->env));
+			exit(CMD_NOT_FOUND); // clean exit
+>>>>>>> 4af8701 (move simple and compound command to files)
 		}
 		else if (pid == ERROR)
 			perror("fork"); // clean exit
