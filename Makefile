@@ -18,6 +18,8 @@ SRC			= src/main.c \
 			  src/execution/utils.c \
 			  src/execution/make_env.c \
 			  src/execution/pipeline.c \
+			  src/execution/compound_command.c \
+			  src/execution/simple_command.c \
 			  src/execution/builtins/cd.c \
 			  src/execution/builtins/echo.c \
 			  src/execution/builtins/pwd.c \
