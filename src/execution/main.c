@@ -36,7 +36,6 @@ void    print_ast_type(t_ast_node *node)
 	printf("\n");
 }
 
-// BUG: exit (builtin) cuases double free
 // BUG: cd as a last command in a pipeline returns CMD_NOT_FOUND
 // BUG: exit NON should exit with last exit status
 

@@ -44,7 +44,11 @@ int	execute_simple_command(t_ast_node *node, t_data *data, bool run_in_shell)
 	argv = node->child->args;
 	builtin = find_builtin(argv[0]);
 	if (builtin)
-		return (builtin->function(argv, &(data->env), data));
+	{
+		int n = builtin->function(argv, &(data->env), data);
+		printf("%d\n", n);
+		return (n);
+	}
 	else
 		return WEXITSTATUS(execute_bin(argv, data, run_in_shell));
 }

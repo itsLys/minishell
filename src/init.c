@@ -19,9 +19,6 @@ void init_default_var(t_data *data, t_env **env)
 		env_add_last(new_env_node(ft_strdup("OLDPWD"), NULL, true), env);
 	else
 		env_remove_node(env_find_var(*env, "OLDPWD"), env);
-	// if (env_find_var(*env, "SHLVL"))
-	// SHLVL
-	// _ var, when giving a fresh environment to a subprocess
 }
 
 int init_minishell(char **env, t_data *data)
