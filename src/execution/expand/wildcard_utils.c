@@ -13,12 +13,6 @@
 #include <execution.h>
 #include <parsing.h>
 
-static bool	is_dot_or_dotdot(const char *name)
-{
-	return (name[0] == '.'
-		&& (!name[1] || (name[1] == '.' && !name[2])));
-}
-
 static void	collect_wildcard_matches(t_str_arr *matches, const char *pattern)
 {
 	DIR				*dir;
@@ -30,7 +24,7 @@ static void	collect_wildcard_matches(t_str_arr *matches, const char *pattern)
 	entry = readdir(dir);
 	while (entry)
 	{
-		if (is_dot_or_dotdot(entry->d_name))
+		if ((entry->d_name[0] == '.' && pattern[0] != '.'))
 		{
 			entry = readdir(dir);
 			continue ;

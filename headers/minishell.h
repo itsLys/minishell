@@ -6,7 +6,11 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 22:30:19 by zbengued          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/06/18 16:01:02 by ihajji           ###   ########.fr       */
+=======
+/*   Updated: 2025/06/24 05:08:52 by zbengued         ###   ########.fr       */
+>>>>>>> 21ae629 (كتائب الشهيد يحيى السنوار)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +30,7 @@
 # include <unistd.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <dirent.h>
 
 // test
 #endif // !MINISHELL_H

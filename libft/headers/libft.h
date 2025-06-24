@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 11:50:35 by ihajji            #+#    #+#             */
-/*   Updated: 2025/04/24 12:58:20 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/06/23 23:13:58 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 # define FAILIURE 1
 # define FALSE 0
 # define TRUE 1
+# define N_TMP 16
+# define TMP_SIZE 64
 
 typedef struct s_list
 {
@@ -40,6 +42,15 @@ typedef struct s_darr
 	size_t	capacity;
 	size_t	size;
 }	t_darr;
+
+typedef struct s_ternary
+{
+	bool	condition;
+	void	*if_true;
+	void	*if_false;
+	size_t	size;
+	void	*dest;
+}	t_ternary;
 
 void				darr_init(t_darr *arr);
 void				darr_push(t_darr *arr, void *item);
@@ -55,6 +66,7 @@ int					ft_isalpha(int c);
 int					ft_isascii(int c);
 int					ft_isdigit(int c);
 int					ft_isprint(int c);
+int					ft_isblank(int c);
 void				*ft_memchr(const void *s, int c, size_t n);
 int					ft_memcmp(const void *s1, const void *s2, size_t n);
 void				*ft_memcpy(void *dest, const void *src, size_t n);
@@ -110,4 +122,6 @@ char				*ft_getenv(char **envp, char *var);
 char				**ft_getpath(char *path);
 void				**ft_free_vector(char **vector);
 
+void				*tmp(void *value, size_t size);
+void				ternary(t_ternary t);
 #endif // !LIBFT_H

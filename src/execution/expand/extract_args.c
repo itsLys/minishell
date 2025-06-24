@@ -48,7 +48,7 @@ static bool	process_arg(t_str_arr *args, t_env *env,
 	return (true);
 }
 
-t_str_arr	extract_args(t_str_arr *args, t_env *env_list)
+char	**extract_args(t_str_arr *args, t_env *env_list)
 {
 	t_str_arr	new_args;
 	t_str_arr	new_masks;
@@ -62,11 +62,12 @@ t_str_arr	extract_args(t_str_arr *args, t_env *env_list)
 		{
 			str_arr_destroy(&new_args);
 			str_arr_destroy(&new_masks);
-			return (new_args);
+			return (convert_str_arr(&new_args));
 		}
 		str_arr_peek_advance(args);
 	}
 	expand_all_wildcards(&new_args, &new_masks);
 	str_arr_destroy(&new_masks);
-	return (new_args);
+	printf("%zu\n", new_args.size);
+	return (convert_str_arr(&new_args));
 }

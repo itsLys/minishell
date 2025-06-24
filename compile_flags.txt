@@ -5,4 +5,5 @@
 -std=c11 
 -I./headers/
 -I./libft/headers/
+-I./string_lib/string/headers/
 -lreadline
