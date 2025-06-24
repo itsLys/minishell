@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:02:11 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/10 16:43:14 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/06/18 16:10:42 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ char	*build_prompt(void)
 	ft_strlcat(prompt, " minishell$ ", sizeof(prompt));
 	return (prompt);
 }
+// BUG: prompt and pwd fails if `mkdir -p x/y/z and cd x/y/z, and then rm -rf ../../../x`
 
 static int	get_input(t_data *data)
 {
@@ -52,6 +53,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)),
 	t_token		*tokens;
 	t_ast_node	*node;
 	t_data *data;
+	int status;
 
 	data = g_data(); // change to init data later, allocates to it
 	init_minishell(env, data);
@@ -63,7 +65,8 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)),
 			return (SUCCESS);
 		parse_input(data->input, &tokens, &node);
 		if (node)
-			execute(node, data, false);
+			status = execute(node, data, false);
+		printf("status	%d\n", status);
 		ast_print(node, 0, "", 1);
 		free_resources(data->input, &tokens, &node);
 	}

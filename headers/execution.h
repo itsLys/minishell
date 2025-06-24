@@ -15,8 +15,14 @@
 
 # include "minishell.h"
 # include "parsing.h"
+
+# define PIPE_RD 0
+# define PIPE_WR 1
 # include <ft_string.h>
 # include <dirent.h>
+# define PIPE_RD 0
+# define PIPE_WR 1
+
 
 typedef enum e_mode
 {
@@ -52,7 +58,11 @@ void				print_env(t_env *env);
 
 t_data				*g_data(void);
 
+// memory
 void				*free_env_copy(t_env *env_copy);
+
+// init
+int					init_minishell(char **env, t_data *data);
 
 // builtins
 int					echo(char **argv, t_env **env, t_data *data);
@@ -63,15 +73,23 @@ int					export(char **argv, t_env **env, t_data *data);
 int					env(char **argv, t_env **env, t_data *data);
 int					ft_exit(char **argv, t_env **env, t_data *data);
 
+// builtins utils
 t_builtin			*init_builtins(void);
 t_builtin			*find_builtin(char *cmd);
 
-// env utils
+// env action
 t_env				*new_env_node(char *name, char *value, bool is_exported);
 t_env				*env_find_var(t_env *env, char *var);
-t_env				*dup_env(char **env);
 void				env_add_last(t_env *node, t_env **env);
+void				env_remove_node(t_env *node, t_env **env);
+
+// env_utils
+void				free_env_node(t_env *node);
+t_env				*dup_env(char **env);
 void				sort_env(t_env **env);
+
+// make env
+char				**make_envp(t_env *env);
 
 // export utils
 bool				is_valid(char *arg, t_mode *mode);
@@ -83,8 +101,12 @@ t_env				*dup_env_sorted(t_env *env);
 // shell utils
 int					print_error(char *name, char *msg);
 
-int					init_minishell(char **env, t_data *data);
+// execution
 int					execute(t_ast_node *node, t_data *data, bool run_in_shell);
+int					execute_pipeline(t_ast_node *node, t_data *data);
+int					execute_compound(t_ast_node *node, t_data *data);
+int					execute_simple_command(t_ast_node *node, t_data *data, bool run_in_shell);
+int					execute_subshell(t_ast_node *node, t_data *data);
 
 // expantion utils
 void				remove_quote(t_str *input, t_str *mask);
