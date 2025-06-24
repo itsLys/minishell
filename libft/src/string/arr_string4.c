@@ -1,30 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   arr_string4.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/15 22:30:19 by zbengued          #+#    #+#             */
-/*   Updated: 2025/06/24 05:08:52 by zbengued         ###   ########.fr       */
+/*   Created: 2025/06/24 11:41:44 by zbengued          #+#    #+#             */
+/*   Updated: 2025/06/24 11:42:32 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include <ft_string.h>
 
-# include <libft.h>
-# include <limits.h>
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <signal.h>
-# include <stddef.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <string.h>
-# include <sys/types.h>
-# include <unistd.h>
-# include <dirent.h>
+char	*convert_str(t_str *str)
+{
+	return (ft_strdup(str->data));
+}
 
-// test
-#endif // !MINISHELL_H
+char	**convert_str_arr(t_str_arr *arr)
+{
+	size_t	i;
+	char	**vec;
+
+	vec = ft_calloc(arr->size + 1, sizeof(char *));
+	i = 0;
+	while (i < arr->size)
+	{
+		vec[i] = convert_str(arr->items + i);
+		if (vec[i] == NULL)
+			return ((char **) ft_free_vector(vec));
+		i++;
+	}
+	return (vec);
+}

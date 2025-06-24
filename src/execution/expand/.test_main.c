@@ -2,6 +2,39 @@
 #include <execution.h>
 #include <ft_string.h>
 
+void	free_tokens(t_token **head)
+{
+	t_token	*next;
+	t_token	*tmp;
+
+	if (!head || !*head)
+		return ;
+	tmp = *head;
+	while (tmp)
+	{
+		next = tmp->next;
+		free(tmp->val);
+		free(tmp);
+		tmp = next;
+	}
+	*head = NULL;
+}
+
+void	ast_free(t_ast_node *node)
+{
+	t_ast_node	*next;
+
+	while (node)
+	{
+		next = node->sibling;
+		if (node->child)
+			ast_free(node->child);
+		free(node->value);
+		free(node);
+		node = next;
+	}
+}
+
 void	append_env(t_env **head, t_env *new_node)
 {
 	t_env	*tmp;
@@ -45,6 +78,16 @@ void	free_env_list(t_env *env)
 	}
 }
 
+void print_2d_array(char **array, size_t size)
+{
+	size_t i = 0;
+	while (array[i])
+	{
+		printf("[%s], ", array[i]);
+		i++;
+	}
+	printf("\n");
+}
 int main(int ac, char **av)
 {
 	t_env *env_list = NULL;
@@ -57,7 +100,7 @@ int main(int ac, char **av)
 	append_env(&env_list, new_env_var("VAR6", "*", true));
 	append_env(&env_list, new_env_var("b", "$b", true));
 	append_env(&env_list, new_env_var("a", "ls        -la", true));
-	append_env(&env_list, new_env_var("CHI7A", "i", true));
+	append_env(&env_list, new_env_var("CHI7AJA", "i", true));
 	while (1)
 	{
 
@@ -68,8 +111,8 @@ int main(int ac, char **av)
 		expand_var(&line, env_list, &mask);
 		// printf("%s\n%s\n", line.data, mask.data);
 		t_str_arr args = split_input(&line, &mask);
-		t_str_arr arg = extract_args(&args, env_list);
-		print_str_arr(&arg);
+		char **arg = extract_args(&args, env_list);
+		print_2d_array(arg, args.size);
 		if (!strncmp("clear", line.data, 6))
 			system("clear");
 	}

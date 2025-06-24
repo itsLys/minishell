@@ -1,30 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_isblank.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/15 22:30:19 by zbengued          #+#    #+#             */
-/*   Updated: 2025/06/24 05:08:52 by zbengued         ###   ########.fr       */
+/*   Created: 2025/06/18 17:39:36 by zbengued          #+#    #+#             */
+/*   Updated: 2025/06/18 17:42:27 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include <libft.h>
 
-# include <libft.h>
-# include <limits.h>
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <signal.h>
-# include <stddef.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <string.h>
-# include <sys/types.h>
-# include <unistd.h>
-# include <dirent.h>
-
-// test
-#endif // !MINISHELL_H
+int	ft_isblank(int c)
+{
+	return (c == '\t' || c == ' ');
+}

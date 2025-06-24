@@ -61,7 +61,7 @@ void	expand(t_str *input, t_str *mask, t_env *env)
 	name_len = ft_strlen(var_name.data) - 1;
 	valu_len = ft_strlen(var_valu.data) - 1;
 	str_replace(input, var_name.data, var_valu.data, ONE);
-	str_segment_set(mask, mask->peek - name_len , valu_len, mask->peek);
+	str_segment_set(mask, mask->peek - name_len, valu_len, mask->peek);
 	ternary((t_ternary){(name_len >= valu_len), &name_len, &valu_len,
 		sizeof(size_t), &mask->peek});
 	ternary((t_ternary){(name_len >= valu_len), &name_len, &valu_len,
