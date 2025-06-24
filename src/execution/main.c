@@ -36,46 +36,6 @@ void    print_ast_type(t_ast_node *node)
 	printf("\n");
 }
 
-// BUG: cd as a last command in a pipeline returns CMD_NOT_FOUND
-// BUG: exit NON should exit with last exit status
-// char **make_envp(t_env *env)
-// {
-// 	int len;
-// 	int i;
-// 	char **envp;
-//
-// 	len = env_count_len(env);
-// 	envp = malloc(sizeof(char *) * (len + 1)); // NOTE: check malloc
-// 	i = 0;
-// 	while (env)
-// 	{
-// 		if (env->exported)
-// 			envp[i++] = make_name_eq_value(env->name, env->value);
-// 		env = env->next;
-// 	}
-// 	envp[i] = NULL;
-// 	return envp;
-// }
-
-// int	execute_simple_command(t_ast_node *node, t_data *data, bool run_in_shell)
-// {
-// 	char		**argv;
-// 	t_builtin	*builtin;
-//
-// 	// argv = extract_args(node->child->args);
-// 	// setup_redir(node->child->sibling);
-// 	argv = node->child->args;
-// 	builtin = find_builtin(argv[0]);
-// 	if (builtin)
-// 		return (builtin->function(argv, &(data->env), data));
-// 	else
-// 		return WEXITSTATUS(execute_bin(argv, data, run_in_shell));
-// }
-
-// int	execute_command(t_ast_node *node, t_data *data, bool run_in_shell)
-// {
-// 	return (execute(node->child, data, run_in_shell));
-// }
 // BUG: exit (builtin) cuases double free
 // BUG: cd as a last command in a pipeline returns CMD_NOT_FOUND
 // BUG: exit NON should exit with last exit status

@@ -122,4 +122,7 @@ bool				match_wildcard(const char *pattern, const char *str);
 void				expand_all_wildcards(t_str_arr *args, t_str_arr *masks);
 void				expand_wildcard_at(t_str_arr *args,
 						t_str_arr *masks, size_t index);
+
+// debuging
+void    print_ast_type(t_ast_node *node);
 #endif // !EXECUTION_H
