@@ -97,7 +97,6 @@ int	execute_pipeline(t_ast_node *node, t_data *data/* , bool run_in_shell */) //
 	close(pipefd[PIPE_RD]);
 	close(pipefd[PIPE_WR]);
 	waitpid(last, &status, 0);
-	printf("%d\n", status);
 	while (wait(NULL) != ERROR)
 		;
 	return WEXITSTATUS(status);

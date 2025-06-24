@@ -24,13 +24,8 @@ static int	execute_bin(char **argv, t_data *data, bool run_in_shell)
 		pid = fork();
 		if (pid == 0)
 		{
-<<<<<<< HEAD
 			// ft_execvpe(argv[0], argv, make_envp(data->env));
 			exit(ft_execvpe(argv[0], argv, make_envp(data->env))); // clean exit
-=======
-			ft_execvpe(argv[0], argv, make_envp(data->env));
-			exit(CMD_NOT_FOUND); // clean exit
->>>>>>> 4af8701 (move simple and compound command to files)
 		}
 		else if (pid == ERROR)
 			perror("fork"); // clean exit
@@ -49,11 +44,7 @@ int	execute_simple_command(t_ast_node *node, t_data *data, bool run_in_shell)
 	argv = node->child->args;
 	builtin = find_builtin(argv[0]);
 	if (builtin)
-	{
-		int n = builtin->function(argv, &(data->env), data);
-		printf("%d\n", n);
-		return (n);
-	}
+		return (builtin->function(argv, &(data->env), data));
 	else
 		return WEXITSTATUS(execute_bin(argv, data, run_in_shell));
 }
