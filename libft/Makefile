@@ -4,7 +4,7 @@ RED			= \033[0;31m
 RESET		= \033[0m
 CLEAR		= \033[K\r
 NAME		= libft.a
-INCLUDES	= -I./headers
+INCLUDES	= -I./headers/
 CC			= cc -c -Wall -Wextra -Werror
 AR			= ar rcs
 SRC			= src/ft_isalnum.c \
@@ -12,6 +12,7 @@ SRC			= src/ft_isalnum.c \
 			  src/ft_isascii.c \
 			  src/ft_isdigit.c \
 			  src/ft_isprint.c \
+			  src/ft_isblank.c \
 			  src/ft_itoa.c \
 			  src/ft_atof.c \
 			  src/ft_atoi.c \
@@ -83,7 +84,19 @@ SRC			= src/ft_isalnum.c \
 			  src/ft_dprintf/print_ptr.c \
 			  src/ft_dprintf/print_str.c \
 			  src/ft_dprintf/print_unsigned.c \
-			  src/ft_dprintf/utils.c
+			  src/ft_dprintf/utils.c \
+			  src/string/arr_string1.c \
+			  src/string/arr_string2.c \
+			  src/string/arr_string3.c \
+			  src/string/arr_string4.c \
+			  src/string/string1.c \
+			  src/string/string2.c \
+			  src/string/string3.c \
+			  src/string/string4.c \
+			  src/string/string5.c \
+			  src/string/string6.c \
+			  src/string/string7.c \
+			  src/ternary.c
 OBJ			= $(patsubst src/%.c, obj/%.o, $(SRC))
 RM			= rm -rf
 
