@@ -15,12 +15,14 @@
 
 # include "minishell.h"
 # include "parsing.h"
+
 # define PIPE_RD 0
 # define PIPE_WR 1
 # include <ft_string.h>
 # include <dirent.h>
 # define PIPE_RD 0
 # define PIPE_WR 1
+
 
 typedef enum e_mode
 {
@@ -120,8 +122,4 @@ bool				match_wildcard(const char *pattern, const char *str);
 void				expand_all_wildcards(t_str_arr *args, t_str_arr *masks);
 void				expand_wildcard_at(t_str_arr *args,
 						t_str_arr *masks, size_t index);
-int					execute_pipeline(t_ast_node *node, t_data *data);
-int					execute_compound(t_ast_node *node, t_data *data);
-int					execute_simple_command(t_ast_node *node, t_data *data, bool run_in_shell);
-int					execute_subshell(t_ast_node *node, t_data *data);
 #endif // !EXECUTION_H
