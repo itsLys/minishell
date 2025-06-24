@@ -67,8 +67,7 @@ static pid_t execute_last_pipeline(t_ast_node *pipeline, t_data *data, int pipef
 		dup2(pipefd[PIPE_RD], STDIN_FILENO);
 		close(pipefd[PIPE_WR]);
 		close(pipefd[PIPE_RD]);
-		execute(pipeline->child, data, true);
-		exit(CMD_NOT_FOUND);
+		exit(execute(pipeline->child, data, true));
 	}
 	else if (pid == ERROR)
 		perror("fork"); // maybe exit clean
@@ -98,7 +97,6 @@ int	execute_pipeline(t_ast_node *node, t_data *data/* , bool run_in_shell */) //
 	close(pipefd[PIPE_RD]);
 	close(pipefd[PIPE_WR]);
 	waitpid(last, &status, 0);
-	printf("%d\n", status);
 	while (wait(NULL) != ERROR)
 		;
 	return WEXITSTATUS(status);
