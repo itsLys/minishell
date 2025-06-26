@@ -110,14 +110,14 @@ int	execute_simple_command(t_ast_node *node, t_data *data, bool run_in_shell)
 {
 	char		**argv;
 	t_builtin	*builtin;
-	int			std_streams[2];
+	int			std_io[2];
 	int			status;
 
 
 	// argv = extract_args(node->child->args);
 	argv = node->child->args;
-	std_streams[STDOUT_FILENO] = dup(STDOUT_FILENO);
-	std_streams[STDIN_FILENO] = dup(STDIN_FILENO);
+	std_io[STDOUT_FILENO] = dup(STDOUT_FILENO);
+	std_io[STDIN_FILENO] = dup(STDIN_FILENO);
 	if (node->child->sibling && setup_redir(node->child->sibling->child))
 		return FAILIURE;
 	builtin = find_builtin(argv[0]);
@@ -128,9 +128,9 @@ int	execute_simple_command(t_ast_node *node, t_data *data, bool run_in_shell)
 			status = execute_bin(argv, data, run_in_shell);
 		else
 			status = WEXITSTATUS(execute_bin(argv, data, run_in_shell));;
-	dup2(std_streams[STDOUT_FILENO], STDOUT_FILENO);
-	dup2(std_streams[STDIN_FILENO], STDIN_FILENO);
-	close(std_streams[STDOUT_FILENO]);
-	close(std_streams[STDIN_FILENO]);
+	dup2(std_io[STDOUT_FILENO], STDOUT_FILENO);
+	dup2(std_io[STDIN_FILENO], STDIN_FILENO);
+	close(std_io[STDOUT_FILENO]);
+	close(std_io[STDIN_FILENO]);
 	return status;
 }
