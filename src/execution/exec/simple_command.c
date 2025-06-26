@@ -39,7 +39,7 @@ int	execute_simple_command(t_ast_node *node, t_data *data, bool run_in_shell)
 	int			status;
 
 
-	// argv = extract_args(node->child->args, data->env);
+	// argv = extract_args(convert_2d_strarr(node->child->args), data->env);
 	argv = node->child->args;
 	std_io[STDOUT_FILENO] = dup(STDOUT_FILENO);
 	std_io[STDIN_FILENO] = dup(STDIN_FILENO);
