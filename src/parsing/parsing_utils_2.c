@@ -45,12 +45,7 @@ size_t	counter(t_token	**tokens, bool mode)
 
 void	consume_word(t_token **tokens, t_ast_node *args_node, size_t *i)
 {
-	char	*mask;
-
-	mask = quote_mask((*tokens)->val);
-	remove_quotes((*tokens)->val, mask);
 	args_node->args[*i] = ft_strdup((*tokens)->val);
-	args_node->mask[*i] = ft_strdup(mask);
 	(*i)++;
 	*tokens = (*tokens)->next;
 }

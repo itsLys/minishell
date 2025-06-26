@@ -25,8 +25,7 @@ t_ast_node	*simple_command(t_token **tokens)
 	node[I_RED_LIST] = ast_new(G_REDIRECT_LIST, NULL);
 	node[I_ARGLIST] = ast_new(G_ARGS, NULL);
 	node[I_ARGLIST]->args = ft_calloc(sizeof(char *), (counter(tokens, 0) + 1));
-	node[I_ARGLIST]->mask = ft_calloc(sizeof(char *), (counter(tokens, 0) + 1));
-	if (!node[I_ARGLIST]->args || !node[I_ARGLIST]->mask)
+	if (!node[I_ARGLIST]->args)
 		return (NULL);
 	while (*tokens && is_word_or_redir((*tokens)->t_type))
 	{

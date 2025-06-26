@@ -87,7 +87,6 @@ typedef struct s_ast_node
 	t_grammar			type;
 	char				*value;
 	char				**args;
-	char				**mask;
 	struct s_ast_node	*child;
 	struct s_ast_node	*sibling;
 }						t_ast_node;
