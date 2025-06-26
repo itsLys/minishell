@@ -29,6 +29,10 @@
 # include <sys/wait.h>
 # include <dirent.h>
 # include <sys/types.h>
+# include <ft_string.h>
+# include <dirent.h>
+#include <fcntl.h>
+#include <sys/stat.h>
 
 
 // test

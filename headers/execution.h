@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 20:21:39 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/24 05:08:39 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/06/26 13:03:47 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
 
 # define PIPE_RD 0
 # define PIPE_WR 1
-# include <ft_string.h>
-# include <dirent.h>
 # define PIPE_RD 0
 # define PIPE_WR 1
 
@@ -122,6 +120,9 @@ bool				match_wildcard(const char *pattern, const char *str);
 void				expand_all_wildcards(t_str_arr *args, t_str_arr *masks);
 void				expand_wildcard_at(t_str_arr *args,
 						t_str_arr *masks, size_t index);
+
+// redirections
+int					setup_redir(t_ast_node *redir);
 
 // debuging
 void    print_ast_type(t_ast_node *node);

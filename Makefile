@@ -16,11 +16,14 @@ SRC			= src/main.c \
 			  src/init.c \
 			  src/execution/main.c \
 			  src/execution/utils.c \
-			  src/execution/make_env.c \
-			  src/execution/pipeline.c \
-			  src/execution/compound_command.c \
-			  src/execution/simple_command.c \
-			  src/execution/subshell.c \
+			  src/execution/redirections.c \
+			  src/execution/environ/make_env.c \
+			  src/execution/environ/env_utils.c \
+			  src/execution/environ/env_actions.c \
+			  src/execution/exec/pipeline.c \
+			  src/execution/exec/compound_command.c \
+			  src/execution/exec/simple_command.c \
+			  src/execution/exec/subshell.c \
 			  src/execution/builtins/cd.c \
 			  src/execution/builtins/echo.c \
 			  src/execution/builtins/pwd.c \
@@ -30,8 +33,6 @@ SRC			= src/main.c \
 			  src/execution/builtins/exit.c \
 			  src/execution/builtins/utils.c \
 			  src/execution/builtins/export_utils.c \
-			  src/execution/env_utils.c \
-			  src/execution/env_actions.c \
 			  src/execution/expand/build_mask.c \
 			  src/execution/expand/expand_var.c \
 			  src/execution/expand/extract_args.c \
