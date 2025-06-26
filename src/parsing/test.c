@@ -103,7 +103,7 @@ void	ast_print(t_ast_node *node, size_t depth, const char *prefix, int is_last)
 		for (int i = 0; node->args[i]; i++)
 		{
 			printf("%s [%s]", prefix, node->args[i]);
-			printf("[%s]", node->mask[i]);
+			// printf("[%s]", node->mask[i]);
 		}
 
 	}

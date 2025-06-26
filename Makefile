@@ -32,6 +32,13 @@ SRC			= src/main.c \
 			  src/execution/builtins/export_utils.c \
 			  src/execution/env_utils.c \
 			  src/execution/env_actions.c \
+			  src/execution/expand/build_mask.c \
+			  src/execution/expand/expand_var.c \
+			  src/execution/expand/extract_args.c \
+			  src/execution/expand/get_name_value.c \
+			  src/execution/expand/split_input.c \
+			  src/execution/expand/wildcard.c \
+			  src/execution/expand/wildcard_utils.c \
 			  src/parsing/main.c \
 			  src/parsing/test.c \
 			  src/parsing/parsing.c \
