@@ -26,6 +26,7 @@ typedef struct s_string
 	size_t	size;
 	size_t	capacity;
 	size_t	peek;
+	void	(*set)(struct s_string *, const char *);
 }	t_str;
 
 typedef struct s_str_arr
@@ -54,6 +55,7 @@ void		str_destroy(t_str *str);
 void		str_ensure_capacity(t_str *str, size_t needed_capacity);
 void		str_set(t_str *str, char *new_data);
 void		str_create(t_str *str, char *text);
+t_str		str_new(char *src);
 t_str		str_substr(t_str *str, size_t start, size_t len);
 t_str		str_new_fill(size_t size, char c);
 

@@ -33,3 +33,28 @@ char	**convert_str_arr(t_str_arr *arr)
 	}
 	return (vec);
 }
+
+t_str_arr	convert_2d_strarr(char **og)
+{
+	t_str_arr	arr;
+	size_t		i;
+
+	arr.size = 0;
+	while (og[arr.size])
+		arr.size++;
+
+	arr.items = ft_calloc(arr.size, sizeof(t_str));
+	if (!arr.items)
+	{
+		arr.size = 0;
+		return (arr);
+	}
+
+	i = 0;
+	while (i < arr.size)
+	{
+		arr.items[i] = str_new(og[i]);
+		i++;
+	}
+	return (arr);
+}
