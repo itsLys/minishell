@@ -34,7 +34,7 @@ char	**convert_str_arr(t_str_arr *arr)
 	return (vec);
 }
 
-t_str_arr	convert_2d_strarr(char **og)
+t_str_arr	convert_vec_strarr(char **og)
 {
 	t_str_arr	arr;
 	size_t		i;

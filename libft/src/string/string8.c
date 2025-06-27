@@ -34,3 +34,11 @@ t_str	str_new(char *src)
 	}
 	return (new);
 }
+
+t_str	convert_cstr(char *cstr)
+{
+	t_str	str;
+
+	str_create(&str, cstr);
+	return (str);
+}

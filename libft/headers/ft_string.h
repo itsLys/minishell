@@ -94,4 +94,6 @@ void		str_segment_set(t_str *str, size_t start,
 
 char		*convert_str(t_str *str);
 char		**convert_str_arr(t_str_arr *arr);
+t_str		convert_cstr(char *cstr);
+t_str_arr	convert_vec_strarr(char **og);
 #endif
