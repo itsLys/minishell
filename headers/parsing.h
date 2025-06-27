@@ -68,7 +68,7 @@ enum					e_node_i
 
 typedef struct s_token
 {
-	char				*val;
+	t_str				val;
 	char				*type;
 	t_token_type		t_type;
 	struct s_token		*next;
@@ -93,8 +93,7 @@ typedef struct s_ast_node
 
 typedef struct s_lexem
 {
-	char				*lexem;
-	size_t				tok_len;
+	t_str				lexem;
 	char				*value;
 	t_token_type		type;
 }						t_lexem;

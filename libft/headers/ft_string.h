@@ -26,7 +26,6 @@ typedef struct s_string
 	size_t	size;
 	size_t	capacity;
 	size_t	peek;
-	void	(*set)(struct s_string *, const char *);
 }	t_str;
 
 typedef struct s_str_arr
@@ -96,4 +95,7 @@ char		*convert_str(t_str *str);
 char		**convert_str_arr(t_str_arr *arr);
 t_str		convert_cstr(char *cstr);
 t_str_arr	convert_vec_strarr(char **og);
+t_str		str_from_cstr(const char *cstr);
+char		*str_to_cstr(t_str *str);
+
 #endif

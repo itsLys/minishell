@@ -35,10 +35,43 @@ t_str	str_new(char *src)
 	return (new);
 }
 
-t_str	convert_cstr(char *cstr)
+t_str str_from_cstr(const char *cstr)
 {
-	t_str	str;
+	t_str str;
+	size_t len;
 
-	str_create(&str, cstr);
-	return (str);
+	if (!cstr)
+	{
+		str.data = NULL;
+		str.size = 0;
+		str.capacity = 0;
+		return str;
+	}
+	len = ft_strlen(cstr);
+	str.data = malloc(len + 1);
+	if (!str.data)
+	{
+		str.size = 0;
+		str.capacity = 0;
+		return str;
+	}
+	ft_memcpy(str.data, cstr, len);
+	str.data[len] = '\0';
+	str.size = len;
+	str.capacity = len + 1;
+	return str;
+}
+
+char *str_to_cstr(t_str *str)
+{
+	char *copy;
+
+	if (!str || !str->data)
+		return NULL;
+	copy = malloc(str->size + 1);
+	if (!copy)
+		return NULL;
+	ft_memcpy(copy, str->data, str->size);
+	copy[str->size] = '\0';
+	return copy;
 }
