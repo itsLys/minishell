@@ -123,5 +123,6 @@ char				**ft_getpath(char *path);
 void				**ft_free_vector(char **vector);
 
 void				*tmp(void *value, size_t size);
-void				ternary(t_ternary t);
+void				ternary_(t_ternary t);
+void 				*ternary(int condition, void *a, void *b);
 #endif // !LIBFT_H

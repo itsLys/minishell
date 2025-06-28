@@ -68,7 +68,7 @@ enum					e_node_i
 
 typedef struct s_token
 {
-	char				*val;
+	t_str				val;
 	char				*type;
 	t_token_type		t_type;
 	struct s_token		*next;
@@ -85,16 +85,15 @@ typedef struct s_redirect
 typedef struct s_ast_node
 {
 	t_grammar			type;
-	char				*value;
-	char				**args;
+	t_str				value;
+	t_str_arr			args;
 	struct s_ast_node	*child;
 	struct s_ast_node	*sibling;
 }						t_ast_node;
 
 typedef struct s_lexem
 {
-	char				*lexem;
-	size_t				tok_len;
+	t_str				lexem;
 	char				*value;
 	t_token_type		type;
 }						t_lexem;
@@ -122,8 +121,7 @@ bool					valid_pipe(t_token **tokens);
 bool					valid_compound(t_token **tokens);
 bool					is_operator(t_token_type type);
 size_t					counter(t_token **tokens, bool mode);
-void					consume_word(t_token **tokens, t_ast_node *args_node,
-							size_t *i);
+void					consume_word(t_token **tokens, t_ast_node *args_node);
 void					consume_redir(t_token **tokens, t_ast_node *red_list);
 void					ast_add_child(t_ast_node *parent, t_ast_node *child);
 void					trait_redir(t_token **tokens);
@@ -138,6 +136,9 @@ t_ast_node				*pipeline(t_token **tokens);
 t_ast_node				*command(t_token **tokens);
 t_ast_node				*simple_command(t_token **tokens);
 t_ast_node				*subshell(t_token **tokens);
+
+t_str					generate_file_name(void);
+int						run_heredoc(char *delim, char *filename);
 
 void					free_resources(char *input, t_token **tokens,
 							t_ast_node **node);

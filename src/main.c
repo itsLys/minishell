@@ -53,7 +53,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)),
 	t_token		*tokens;
 	t_ast_node	*node;
 	t_data *data;
-	int status;
+	int status = 0;
 
 	data = g_data(); // change to init data later, allocates to it
 	init_minishell(env, data);

@@ -44,7 +44,7 @@ void	trait_word(t_token **tokens)
 			tmp = tmp->next;
 			continue ;
 		}
-		if (!check_quote(tmp->val))
+		if (!check_quote(tmp->val.data))
 		{
 			*tokens = NULL;
 			printf("SYNTAXE ERROR\n");
@@ -88,7 +88,7 @@ void	free_tokens(t_token **head)
 	while (tmp)
 	{
 		next = tmp->next;
-		free(tmp->val);
+		str_destroy(&tmp->val);
 		free(tmp);
 		tmp = next;
 	}

@@ -44,7 +44,7 @@ static bool	process_arg(t_str_arr *args, t_env *env,
 	str_arr_extend(out, &split);
 	str_arr_destroy(&split);
 	str_arr_push(masks, mask.data);
-	str_destroy(str_arr_peek(args));
+	// str_destroy(str_arr_peek(args));
 	return (true);
 }
 

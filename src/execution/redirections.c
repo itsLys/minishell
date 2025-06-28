@@ -70,13 +70,13 @@ int setup_redir(t_ast_node *redir)
 	while (redir)
 	{
 		if (redir->type == G_REDI_TRUNC)
-			status = setup_redir_trunc(redir->value);
+			status = setup_redir_trunc(redir->value.data);
 		else if (redir->type == G_REDI_APPEND)
-			status = setup_redir_append(redir->value);
+			status = setup_redir_append(redir->value.data);
 		else if (redir->type == G_REDI_HEREDOC)
-			status = setup_redir_heredoc(redir->value);
+			status = setup_redir_heredoc(redir->value.data);
 		else if (redir->type == G_REDI_IN)
-			status = setup_redir_in(redir->value);
+			status = setup_redir_in(redir->value.data);
 		if (status == ERROR)
 			return ERROR;
 		redir = redir->sibling;
