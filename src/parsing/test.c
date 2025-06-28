@@ -18,8 +18,8 @@ void	print_tokens(t_token *tokens)
 	while (tokens)
 	{
 		printf("Type: %s", tokens->type);
-		if (tokens->val)
-			printf(" | Value: %s", tokens->val);
+		if (tokens->val.data)
+			printf(" | Value: %s", tokens->val.data);
 		printf("\n");
 		tokens = tokens->next;
 	}
@@ -28,7 +28,7 @@ void	print_tokens(t_token *tokens)
 
 void	print_token(t_token *token)
 {
-	printf("val ; %s\ntype ; %s\n", token->val, token->type);
+	printf("val ; %s\ntype ; %s\n", token->val.data, token->type);
 }
 
 // void	ast_print(t_ast_node *node, size_t depth, const char *prefix, int is_last)
@@ -96,16 +96,17 @@ void	ast_print(t_ast_node *node, size_t depth, const char *prefix, int is_last)
 		case G_OR_NODE: printf("G_OR_NODE"); break;
 		default: printf("UNKNOWN"); break;
 	}
-	if (node->value)
-		printf(" (value: %s)", node->value);
-	if (node->type == G_ARGS && node->args)
+	if (node->value.data)
+		printf(" (value: %s)", node->value.data);
+	if (node->type == G_ARGS)
 	{
-		for (int i = 0; node->args[i]; i++)
-		{
-			printf("%s [%s]", prefix, node->args[i]);
-			// printf("[%s]", node->mask[i]);
-		}
-
+		print_str_arr(&node->args);
+		// for (int i = 0; node->args[i]; i++)
+		// {
+		// 	printf("%s [%s]", prefix, node->args[i]);
+		// 	// printf("[%s]", node->mask[i]);
+		// }
+		//
 	}
 	printf("\n");
 	snprintf(new_prefix, sizeof(new_prefix), "%s%s", prefix, next_prefix);

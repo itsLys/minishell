@@ -18,10 +18,10 @@ t_ast_node	*ast_new(t_grammar type, char *value)
 
 	node = malloc(sizeof(t_ast_node));
 	node->type = type;
-	node->value = value;
+	node->value = str_new(value);
 	node->child = NULL;
 	node->sibling = NULL;
-	node->args = NULL;
+	str_arr_init(&node->args);
 	return (node);
 }
 
@@ -49,7 +49,7 @@ void	ast_free(t_ast_node *node)
 		next = node->sibling;
 		if (node->child)
 			ast_free(node->child);
-		free(node->value);
+		str_destroy(&node->value);
 		free(node);
 		node = next;
 	}

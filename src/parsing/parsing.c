@@ -18,19 +18,14 @@
 t_ast_node	*simple_command(t_token **tokens)
 {
 	t_ast_node	*node[7];
-	size_t		i;
 
-	i = 0;
 	node[I_SIMPLE_COMMAND] = ast_new(G_SIMPLE_COMMAND, NULL);
 	node[I_RED_LIST] = ast_new(G_REDIRECT_LIST, NULL);
 	node[I_ARGLIST] = ast_new(G_ARGS, NULL);
-	node[I_ARGLIST]->args = ft_calloc(sizeof(char *), (counter(tokens, 0) + 1));
-	if (!node[I_ARGLIST]->args)
-		return (NULL);
 	while (*tokens && is_word_or_redir((*tokens)->t_type))
 	{
 		if (is_word((*tokens)->t_type))
-			consume_word(tokens, node[I_ARGLIST], &i);
+			consume_word(tokens, node[I_ARGLIST]);
 		else if (*tokens && is_redi((*tokens)->t_type))
 			consume_redir(tokens, node[I_RED_LIST]);
 		else if (!(*tokens) || !is_word_or_redir((*tokens)->t_type))

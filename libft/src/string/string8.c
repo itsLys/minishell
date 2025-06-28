@@ -75,3 +75,18 @@ char *str_to_cstr(t_str *str)
 	copy[str->size] = '\0';
 	return copy;
 }
+
+char str_char_at(t_str *str, size_t i)
+{
+	if (!str || i >= str->size)
+		return '\0';
+	return (str->data[i]);
+}
+
+void	str_append_char(t_str *str, char c)
+{
+	char tmp[2];
+	tmp[0] = c;
+	tmp[1] = '\0';
+	str_append(str, tmp);
+}

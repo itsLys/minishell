@@ -14,35 +14,8 @@
 #include <stdio.h>
 #include <unistd.h>
 
-// static void	add_token(t_token **head, char *type,
-// 		t_str *value, t_token_type t_type)
-// {
-// 	t_token	*new;
-// 	t_token	*tmp;
-//
-// 	new = malloc(sizeof(t_token));
-// 	if (!new)
-// 		return ;
-// 	new->type = type;
-// 	new->t_type = t_type;
-// 	if (value)
-// 		new->val = ft_strdup(value);
-// 	else
-// 		new->val = NULL;
-// 	new->next = NULL;
-// 	new->prev = NULL;
-// 	if (!*head)
-// 		*head = new;
-// 	else
-// 	{
-// 		tmp = *head;
-// 		while (tmp->next)
-// 			tmp = tmp->next;
-// 		tmp->next = new;
-// 		new->prev = tmp;
-// 	}
-// }
-static void	add_token(t_token **head, char *type, t_str *value, t_token_type t_type)
+static void	add_token(t_token **head, char *type, t_str *value,
+		t_token_type t_type)
 {
 	t_token	*new;
 	t_token	*tmp;
@@ -55,7 +28,7 @@ static void	add_token(t_token **head, char *type, t_str *value, t_token_type t_t
 	if (value)
 		new->val = str_substr(value, 0, value->size);
 	else
-		new->val = str_new("");     // ou une version vide
+		new->val = str_new("");
 	new->next = NULL;
 	new->prev = NULL;
 	if (!*head)
@@ -88,35 +61,6 @@ void	pop_token(t_token **tokens, t_token *token)
 	free(token);
 }
 
-static size_t	handle_word(t_token **tokens, char *line)
-{
-	char	*word;
-	char	*c ;
-	size_t	i;
-
-	i = 0;
-	while (line[i] && !ft_strchr(" \t><|()", line[i]))
-	{
-		if (!ft_strncmp(&line[i], "&&", 2))
-			break ;
-		c = ft_strchr("\'\"", line[i]);
-		if (c)
-		{
-			i++;
-			while (line[i] && *c != line[i])
-				i++;
-			if (*c == line[i])
-				i++;
-			continue ;
-		}
-		i++;
-	}
-	word = ft_strndup(line, i);
-	add_token(tokens, "WORD", word, T_WORD);
-	free(word);
-	return (i);
-}
-
 static t_lexem	*init_lexem(void)
 {
 	static t_lexem	lexem[] = {
@@ -135,34 +79,48 @@ static t_lexem	*init_lexem(void)
 	return (lexem);
 }
 
-// void	lexer_(t_token **tokens, char *line)
-// {
-// 	t_lexem		*lexem;
-// 	size_t		i;
-// 	size_t		j;
-//
-// 	i = 0;
-// 	lexem = init_lexem();
-// 	while (line[i])
-// 	{
-// 		while (line[i] && ft_strchr(" \t", line[i]))
-// 			i++;
-// 		j = 0;
-// 		while (lexem[j].lexem)
-// 		{
-// 			if (!ft_strncmp(&line[i], lexem[j].lexem, lexem[j].tok_len))
-// 			{
-// 				add_token(tokens, lexem[j].value,
-// 					lexem[j].lexem, lexem[j].type);
-// 				i += lexem[j].tok_len;
-// 				break ;
-// 			}
-// 			j++;
-// 		}
-// 		if (!lexem[j].lexem && !ft_strchr(" \t", line[i]))
-// 			i += handle_word(tokens, &line[i]);on to access this resource.
-// 	}
-// }
+static void	append_quoted_segment(t_str *word, t_str *input, size_t *i, char quote)
+{
+	char	current;
+
+	str_append_char(word, quote);
+	(*i)++;
+	while (*i < input->size)
+	{
+		current = str_char_at(input, *i);
+		str_append_char(word, current);
+		(*i)++;
+		if (current == quote)
+			break;
+	}
+}
+
+static size_t	handle_word(t_token **tokens, t_str *input)
+{
+	t_str	word;
+	char	current;
+	size_t	i;
+
+	i = 0;
+	str_init(&word);
+	while (i < input->size)
+	{
+		current = str_char_at(input, i);
+		if (ft_strchr(" \t><|()", current) ||
+			str_match(input, "&&", ft_strncmp, i) ||
+			str_match(input, "||", ft_strncmp, i))
+			break;
+		if (current == '\'' || current == '\"')
+			append_quoted_segment(&word, input, &i, current);
+		else
+		{
+			str_append_char(&word, current);
+			i++;
+		}
+	}
+	add_token(tokens, "WORD", &word, T_WORD);
+	return (str_destroy(&word), i);
+}
 
 void	lexer(t_token **tokens, char *line)
 {
@@ -190,7 +148,7 @@ void	lexer(t_token **tokens, char *line)
 			j++;
 		}
 		if (!lexem[j].lexem.data && !ft_strchr(" \t", str_peek(&input)))
-			str_shift_by(&input, handle_word(tokens, input.data));
+			str_shift_by(&input, handle_word(tokens, &input));
 		str_shift_while(&input, " \t");
 	}
 	str_destroy(&input);

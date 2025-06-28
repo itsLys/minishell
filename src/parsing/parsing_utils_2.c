@@ -43,16 +43,26 @@ size_t	counter(t_token	**tokens, bool mode)
 	return (i);
 }
 
-void	consume_word(t_token **tokens, t_ast_node *args_node, size_t *i)
+void	consume_word(t_token **tokens, t_ast_node *args_node)
 {
-	args_node->args[*i] = ft_strdup((*tokens)->val);
-	(*i)++;
+	str_arr_push(&args_node->args, (*tokens)->val.data);
 	*tokens = (*tokens)->next;
 }
 
 void	consume_redir(t_token **tokens, t_ast_node *red_list)
 {
+	t_str	filename;
+
+	if ((*tokens)->t_type == T_HERDOC)
+	{
+		filename = generate_file_name();
+		run_heredoc((*tokens)->val.data, filename.data);
+		str_destroy(&(*tokens)->val);
+		str_create(&(*tokens)->val, filename.data);
+		str_destroy(&filename);
+		printf("the heredoc is = %s\n", (*tokens)->val.data);
+	}
 	ast_add_child(red_list,
-		ast_new((t_grammar)(*tokens)->t_type, (*tokens)->val));
+		ast_new((t_grammar)(*tokens)->t_type, (*tokens)->val.data));
 	*tokens = (*tokens)->next;
 }

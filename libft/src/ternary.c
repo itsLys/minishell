@@ -34,7 +34,7 @@ void	*tmp(void *value, size_t size)
 //					   .size = 4, 
 //					   .dest = &i});
 	// ternary((t_ternary){(1 > 5), 1, 2, sizeof(int), &i})
-void	ternary(t_ternary t)
+void	ternary_(t_ternary t)
 {
 	if (!t.if_true || !t.if_false || !t.dest || t.size == 0)
 		return ;
@@ -42,4 +42,12 @@ void	ternary(t_ternary t)
 		ft_memcpy(t.dest, t.if_true, t.size);
 	else
 		ft_memcpy(t.dest, t.if_false, t.size);
+}
+
+void	*ternary(int condition, void *a, void *b)
+{
+    if (condition)
+        return (a);
+    else
+        return (b);
 }

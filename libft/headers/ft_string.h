@@ -74,6 +74,7 @@ t_str		*str_split(t_str *s, char delimiter, size_t *count);
 char		str_peek(t_str *str);
 char		str_peek_advance(t_str *str);
 char		str_peek_reset(t_str *str);
+char 		str_char_at(t_str *str, size_t i);
 
 char		str_shift(t_str *str);
 void		str_shift_by(t_str *str, size_t offset);
@@ -97,5 +98,9 @@ t_str		convert_cstr(char *cstr);
 t_str_arr	convert_vec_strarr(char **og);
 t_str		str_from_cstr(const char *cstr);
 char		*str_to_cstr(t_str *str);
+char		*convert_str(t_str *str);
+char		**str_arr_to_cstr_array(t_str_arr *arr);
+t_str_arr	str_arr_from_cstr_array(char **cstr);
+void		str_append_char(t_str *str, char c);
 
 #endif
