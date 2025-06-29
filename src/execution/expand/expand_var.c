@@ -15,10 +15,10 @@
 static bool	is_expandable(t_str mask, t_str input)
 {
 	if (str_peek(&input) == '$' && str_peek(&mask) == 'N'
-		&& str_peek_advance(&mask) != str_peek(&mask))
+			&& str_peek_advance(&mask) != str_peek(&mask))
 		return (true);
 	else if (str_peek(&input) == '$' && str_peek(&mask) != 'N'
-		&& str_peek_advance(&mask) != str_peek(&mask))
+			&& str_peek_advance(&mask) != str_peek(&mask))
 		return (false);
 	return (str_peek(&mask) == 'D' || str_peek(&mask) == 'N');
 }
@@ -50,22 +50,25 @@ static bool	can_expand(t_str input, t_str mask)
 void	expand(t_str *input, t_str *mask, t_env *env)
 {
 	t_str	var_name;
-	t_str	var_valu;
-	size_t	valu_len;
+	t_str	var_value;
+	size_t	value_len;
 	size_t	name_len;
 
 	str_peek_advance(input);
 	var_name = get_var_name(input, mask, str_peek(mask));
-	var_valu = get_env_value(env, var_name.data);
+	var_value = get_env_value(env, var_name.data);
 	str_prepend(&var_name, "$");
 	name_len = ft_strlen(var_name.data) - 1;
-	valu_len = ft_strlen(var_valu.data) - 1;
-	str_replace(input, var_name.data, var_valu.data, ONE);
-	str_segment_set(mask, mask->peek - name_len, valu_len, mask->peek);
-	ternary_((t_ternary){(name_len >= valu_len), &name_len, &valu_len,
-		sizeof(size_t), &mask->peek});
-	ternary_((t_ternary){(name_len >= valu_len), &name_len, &valu_len,
-		sizeof(size_t), &mask->peek});
+	if (ft_strlen(var_value.data) == 0)
+		value_len = 0;
+	else
+		value_len = ft_strlen(var_value.data) - 1;
+	str_replace(input, var_name.data, var_value.data, ONE);
+	str_segment_set(mask, mask->peek - name_len, value_len, mask->peek);
+	ternary_((t_ternary){(name_len >= value_len), &name_len, &value_len,
+			sizeof(size_t), &mask->peek});
+	ternary_((t_ternary){(name_len >= value_len), &name_len, &value_len,
+			sizeof(size_t), &mask->peek});
 }
 
 void	expand_var(t_str *input, t_env *env, t_str *mask)

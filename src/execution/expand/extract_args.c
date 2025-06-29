@@ -68,6 +68,6 @@ char	**extract_args(t_str_arr *args, t_env *env_list)
 	}
 	expand_all_wildcards(&new_args, &new_masks);
 	str_arr_destroy(&new_masks);
-	printf("%zu\n", new_args.size);
+	// printf("%zu\n", new_args.size);
 	return (convert_str_arr(&new_args));
 }

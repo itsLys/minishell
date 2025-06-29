@@ -40,6 +40,8 @@ int	execute_simple_command(t_ast_node *node, t_data *data, bool run_in_shell)
 
 
 	argv = extract_args(&node->child->args, data->env);
+	if (argv && *argv == NULL)
+		return 0;
 	// argv = str_arr_to_cstr_array(&node->child->args);
 	std_io[STDOUT_FILENO] = dup(STDOUT_FILENO);
 	std_io[STDIN_FILENO] = dup(STDIN_FILENO);
