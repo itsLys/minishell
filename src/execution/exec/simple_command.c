@@ -22,7 +22,6 @@ static int	execute_bin(char **argv, t_data *data)
 	ft_free_vector(argv);
 	ft_free_vector(envp);
 	clean_exit(status, data);
-	printf("sdadsakkjdsakljdsa\n");
 	return status;
 }
 
@@ -85,5 +84,6 @@ int	execute_simple_command(t_ast_node *node, t_data *data, bool run_in_shell)
 		else
 			status = execute_subprocess(argv, data);
 	restore_stdio(stdio);
+	ft_free_vector(argv);
 	return (status);
 }
