@@ -44,6 +44,8 @@ typedef struct s_data
 	int				status;
 	char			*oldpwd;
 	char			*pwd;
+	t_ast_node		*ast;
+	t_token			*tokens;
 }					t_data;
 
 typedef struct t_builtin
@@ -57,7 +59,7 @@ void				print_env(t_env *env);
 t_data				*g_data(void);
 
 // memory
-void				*free_env_copy(t_env *env_copy);
+void				*free_env(t_env *env_copy);
 
 // init
 int					init_minishell(char **env, t_data *data);
@@ -123,6 +125,9 @@ void				expand_wildcard_at(t_str_arr *args,
 
 // redirections
 int					setup_redir(t_ast_node *redir);
+
+// free and exit
+void				clean_exit(unsigned int status, t_data *data);
 
 // debuging
 void    print_ast_type(t_ast_node *node);

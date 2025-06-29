@@ -29,7 +29,7 @@ t_env	*dup_env(char **env)
 		node = new_env_node(ft_strndup(env[i], eq - env[i]), ft_strdup(eq + 1),
 				true);
 		if (node == NULL)
-			return (free_env_copy(env_dup)); // NOTE: exit_clean
+			return (free_env(env_dup)); // NOTE: exit_clean
 		env_add_last(node, &env_dup);
 		i++;
 	}

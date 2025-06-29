@@ -23,15 +23,16 @@ void	free_resources(char *input, t_token **tokens, t_ast_node **node)
 	free(input);
 }
 
-void *free_env_copy(t_env *env)
+void *free_env(t_env *env)
 {
 	t_env *tmp;
 	while (env)
 	{
+		// free(env->name);
+		// free(env->value);
+		// free(env);
 		tmp = env->next;
-		free(env->name);
-		free(env->value);
-		free(env);
+		free_env_node(env);
 		env = tmp;
 	}
 	return NULL;

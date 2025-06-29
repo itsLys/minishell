@@ -43,7 +43,7 @@ int	export_print(t_env *env)
 		printf("\n");
 		sorted = sorted->next;
 	}
-	free_env_copy(tmp);
+	free_env(tmp);
 	return (SUCCESS);
 }
 

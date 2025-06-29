@@ -12,52 +12,78 @@
 
 #include "execution.h"
 
-static int	execute_bin(char **argv, t_data *data, bool run_in_shell)
+static int	execute_bin(char **argv, t_data *data)
 {
-	pid_t		pid;
 	int			status;
+	char		**envp;
 
-	if (run_in_shell)
-		return ft_execvpe(argv[0], argv, make_envp(data->env));
-	else
-	{
-		pid = fork();
-		if (pid == 0)
-			exit(ft_execvpe(argv[0], argv, make_envp(data->env))); // clean exit
-		else if (pid == ERROR)
-			perror("fork"); // clean exit
-	}
-	waitpid(pid, &status, 0);
+	envp = make_envp(data->env);
+	status = ft_execvpe(argv[0], argv, envp);
+	ft_free_vector(argv);
+	ft_free_vector(envp);
+	clean_exit(status, data);
+	printf("sdadsakkjdsakljdsa\n");
 	return status;
+}
+
+static int	execute_subprocess(char **argv, t_data *data)
+{
+	pid_t	pid;
+	int		status;
+
+	pid = fork();
+	if (pid == 0)
+		execute_bin(argv, data);
+	else if (pid == ERROR)
+		return (perror("fork"), clean_exit(FAILIURE, data), FAILIURE);
+	waitpid(pid, &status, 0);
+	return (WEXITSTATUS(status));
+}
+
+static int save_stdio(int stdio[2], t_data *data)
+{
+	int	stdin;
+	int	stdout;
+
+	stdout = dup(STDOUT_FILENO);
+	stdin = dup(STDIN_FILENO);
+	if (stdout == ERROR || stdin == ERROR)
+		return perror("dup"), clean_exit(FAILIURE, data), FAILIURE;
+	stdio[STDOUT_FILENO] =  stdout;
+	stdio[STDIN_FILENO] = stdin;
+	return SUCCESS;
+}
+
+static void restore_stdio(int stdio[2])
+{
+	dup2(stdio[STDOUT_FILENO], STDOUT_FILENO);
+	dup2(stdio[STDIN_FILENO], STDIN_FILENO);
+	close(stdio[STDOUT_FILENO]);
+	close(stdio[STDIN_FILENO]);
 }
 
 int	execute_simple_command(t_ast_node *node, t_data *data, bool run_in_shell)
 {
 	char		**argv;
 	t_builtin	*builtin;
-	int			std_io[2];
+	int			stdio[2];
 	int			status;
 
-
+	status = 0;
 	argv = extract_args(&node->child->args, data->env);
 	if (argv && *argv == NULL)
-		return 0;
-	// argv = str_arr_to_cstr_array(&node->child->args);
-	std_io[STDOUT_FILENO] = dup(STDOUT_FILENO);
-	std_io[STDIN_FILENO] = dup(STDIN_FILENO);
+		return SUCCESS;
+	save_stdio(stdio, data);
 	if (node->child->sibling && setup_redir(node->child->sibling->child))
-		return FAILIURE;
+		return (restore_stdio(stdio), FAILIURE);
 	builtin = find_builtin(argv[0]);
 	if (builtin)
 		status = builtin->function(argv, &(data->env), data);
 	else
 		if (run_in_shell)
-			status = execute_bin(argv, data, run_in_shell);
+			execute_bin(argv, data);
 		else
-			status = WEXITSTATUS(execute_bin(argv, data, run_in_shell));;
-	dup2(std_io[STDOUT_FILENO], STDOUT_FILENO);
-	dup2(std_io[STDIN_FILENO], STDIN_FILENO);
-	close(std_io[STDOUT_FILENO]);
-	close(std_io[STDIN_FILENO]);
-	return status;
+			status = execute_subprocess(argv, data);
+	restore_stdio(stdio);
+	return (status);
 }

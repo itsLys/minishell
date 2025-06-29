@@ -14,18 +14,21 @@
 
 int	ft_exit(char **argv, t_env **env, t_data *data)
 {
+	int	status;
+
 	(void)argv;
 	(void)env;
 	if (argv[1] && argv[2])
 		print_error(argv[0], "too many arguments");
-	free_env_copy(data->env);
-	free(data->input);
-	// free(data);
 	if (argv[1] && ft_strisnum(argv[1]) == false)
+	{
 		print_error(argv[0], "numeric argument required");
+		status = 2;
+	}
 	else if (argv[1])
-		exit(ft_atol(argv[1]) % 256);
+		status = ft_atol(argv[1]) % 256;
 	else
-		exit(0); // exit with last exit status that is cached
-	exit(2);
+		status = 0; // exit with last exit status that is cached
+	clean_exit(status, data);
+	return SUCCESS;
 }

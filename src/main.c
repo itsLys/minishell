@@ -14,11 +14,11 @@
 #include "parsing.h"
 #include "execution.h"
 
-t_data *g_data(void)
-{
-	static t_data data;
-	return &data;
-}
+// t_data *g_data(void)
+// {
+// 	static t_data data;
+// 	return &data;
+// }
 
 char	*build_prompt(void)
 {
@@ -47,27 +47,46 @@ static int	get_input(t_data *data)
 	return (SUCCESS);
 }
 
+
+void free_data(t_data *data)
+{
+	free_env(data->env);
+	free(data->input);
+	free(data->oldpwd);
+	free(data->pwd);
+}
+
+void	clean_exit(unsigned int status, t_data *data)
+{
+	ast_free(data->ast);
+	free_tokens(&(data->tokens));
+	free_data(data);
+	exit(status);
+}
+
 int	main(int ac __attribute__((unused)), char **av __attribute__((unused)),
 		char **env)
 {
-	t_token		*tokens;
-	t_ast_node	*node;
-	t_data *data;
-	int status = 0;
+	// t_token			*tokens;
+	// t_ast_node		*node;
+	// t_data			*data;
+	int				status;
+	static t_data	data;
 
-	data = g_data(); // change to init data later, allocates to it
-	init_minishell(env, data);
-	tokens = NULL;
-	node = NULL;
+	status = 0;
+	// data = g_data(); // change to init data later, allocates to it
+	init_minishell(env, &data);
+	data.tokens = NULL;
+	data.ast = NULL;
 	while (1)
 	{
-		if (get_input(data))
+		if (get_input(&data))
 			return (SUCCESS);
-		parse_input(data->input, &tokens, &node);
-		if (node)
-			status = execute(node, data, false);
+		parse_input(data.input, &data.tokens, &data.ast);
+		if (data.ast)
+			status = execute(data.ast, &data, false);
 		printf("status	%d\n", status);
-		ast_print(node, 0, "", 1);
-		free_resources(data->input, &tokens, &node);
+		ast_print(data.ast, 0, "", 1);
+		free_resources(data.input, &data.tokens, &data.ast);
 	}
 }
