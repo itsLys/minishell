@@ -6,11 +6,12 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 20:54:02 by zbengued          #+#    #+#             */
-/*   Updated: 2025/06/25 21:18:28 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/06/29 12:44:14 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft_string.h>
+#include <execution.h>
 #include <parsing.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -34,17 +35,20 @@ static void	sigint_handler(int sig)
 t_str	generate_file_name(void)
 {
 	t_str	prefix;
-	char	suffix[16];
+	t_str	suffix;
+	char 	buff[10];
 	t_str	filename;
 	int		fd_random;
 
 	str_create(&filename, "/tmp/");
 	fd_random = open("/dev/random", O_RDONLY);
 	str_create(&prefix, "heredoc_");
-	read(fd_random, suffix, 15);
+	read(fd_random, buff, 9);
+	buff[9] = '\0';
 	close(fd_random);
-	suffix[15] = '\0';
-	str_append(&prefix, suffix);
+	str_create(&suffix, buff);
+	str_replace(&suffix, "\\", "6", ALL);
+	str_append(&prefix, suffix.data);
 	str_append(&filename, prefix.data);
 	return (filename);
 }
@@ -53,7 +57,7 @@ static int my_rl_event_hook(void)
 {
     if (g_interrupted)
         rl_done = 1;
-    return 0;
+    return (0);
 }
 static void	read_until_sigint_or_delim(int fd_hered, char *delim)
 {	
@@ -82,64 +86,29 @@ static void	read_until_sigint_or_delim(int fd_hered, char *delim)
 	exit(0);
 }
 
-int	run_heredoc(char *delim, char *filename)
+int	run_heredoc(char *delim, t_str *filename)
 {
 	int		fd_hered;
 	pid_t	pid;
 	int		status;
+	t_str	str_delim;
+	t_str	mask;
 
-	fd_hered = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0600);
+	str_create(&str_delim, delim);
+	mask = build_mask(&str_delim);
+	if (!ft_strchr(delim, '\'') && !ft_strchr(delim, '"'))
+		str_append(filename, "EXPAND");
+	remove_quote(&str_delim, &mask);
+	fd_hered = open(filename->data, O_CREAT | O_WRONLY | O_TRUNC, 0600);
 	if (fd_hered == -1)
 		return -1;
 	pid = fork();
 	if (pid == -1)
 		return -1;
 	if (pid == 0)
-		read_until_sigint_or_delim(fd_hered, delim);
+		read_until_sigint_or_delim(fd_hered, str_delim.data);
 	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
 	close(fd_hered);
 	return (*(int *)ternary(WIFSIGNALED(status), &(int){-1}, &(int){0}));
 }
-//
-// int	main(void)
-// {
-// 	int		fd;
-// 	char	buffer[1024];
-// 	ssize_t	bytes;
-//
-// 	t_str	tmp_file = generate_file_name();
-// 	printf("filename = %s\n", tmp_file.data);
-// 	if (run_heredoc("EOF", tmp_file.data) == -1)
-// 	{
-// 		write(STDOUT_FILENO, "heredoc aborted\n", 16);
-// 		return 1;
-// 	}
-// 	// Lecture du contenu du fichier temporaire
-// 	fd = open(tmp_file.data, O_RDONLY);
-// 	if (fd == -1)
-// 		return perror("open"), 1;
-//
-// 	write(STDOUT_FILENO, "Contenu du heredoc:\n", 21);
-// 	while ((bytes = read(fd, buffer, sizeof(buffer))) > 0)
-// 		write(STDOUT_FILENO, buffer, bytes);
-// 	close(fd);
-// 	unlink(tmp_file.data); // Supprime le fichier temporaire
-// 	return 0;
-// }
-//
-// int main(void)
-// {
-// 	char *line;
-//
-// 	rl_catch_signals = 0;
-// 	while (1)
-// 	{
-// 		line = readline("> ");
-// 		if (!line || g_interrupted)
-// 			break;
-// 		printf("input: %s\n", line);
-// 		free(line);
-// 	}
-// 	printf("Exited\n");
-// }

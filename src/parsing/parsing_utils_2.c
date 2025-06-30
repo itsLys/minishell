@@ -6,7 +6,7 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 17:29:35 by zbengued          #+#    #+#             */
-/*   Updated: 2025/05/18 18:02:24 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/06/29 12:19:00 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	consume_redir(t_token **tokens, t_ast_node *red_list)
 	if ((*tokens)->t_type == T_HERDOC)
 	{
 		filename = generate_file_name();
-		run_heredoc((*tokens)->val.data, filename.data);
+		run_heredoc((*tokens)->val.data, &filename);
 		str_destroy(&(*tokens)->val);
 		str_create(&(*tokens)->val, filename.data);
 		str_destroy(&filename);

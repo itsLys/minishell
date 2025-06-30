@@ -85,6 +85,10 @@ SRC			= src/ft_isalnum.c \
 			  src/ft_dprintf/print_str.c \
 			  src/ft_dprintf/print_unsigned.c \
 			  src/ft_dprintf/utils.c \
+			  src/get_next_line/get_next_line.c \
+			  src/get_next_line/get_next_line_bonus.c \
+			  src/get_next_line/get_next_line_utils.c \
+			  src/get_next_line/get_next_line_utils_bonus.c \
 			  src/string/arr_string1.c \
 			  src/string/arr_string2.c \
 			  src/string/arr_string3.c \

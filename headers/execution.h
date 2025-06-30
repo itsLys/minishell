@@ -122,6 +122,7 @@ bool				match_wildcard(const char *pattern, const char *str);
 void				expand_all_wildcards(t_str_arr *args, t_str_arr *masks);
 void				expand_wildcard_at(t_str_arr *args,
 						t_str_arr *masks, size_t index);
+void				expand_heredoc(t_str *filename, t_env *env);
 
 // redirections
 int					setup_redir(t_ast_node *redir);

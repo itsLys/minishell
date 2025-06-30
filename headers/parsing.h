@@ -138,7 +138,7 @@ t_ast_node				*simple_command(t_token **tokens);
 t_ast_node				*subshell(t_token **tokens);
 
 t_str					generate_file_name(void);
-int						run_heredoc(char *delim, char *filename);
+int						run_heredoc(char *delim, t_str *filename);
 
 void					free_resources(char *input, t_token **tokens,
 							t_ast_node **node);

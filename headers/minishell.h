@@ -16,6 +16,7 @@
 # define MINISHELL_H
 
 # include <libft.h>
+# include <get_next_line.h>
 # include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
