@@ -11,9 +11,11 @@
 /* ************************************************************************** */
 
 #include "parsing.h"
+#include <execution.h>
 
 void	parse_input(char *input, t_token **tokens, t_ast_node **node)
 {
+	g_interrupted = 0;
 	lexer(tokens, input);
 	trait_redir(tokens);
 	trait_word(tokens);

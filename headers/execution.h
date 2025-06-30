@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 20:21:39 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/26 13:03:47 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/06/30 18:36:47 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 # define PIPE_RD 0
 # define PIPE_WR 1
 
+#ifndef G_INT
+extern	int g_interrupted;
+#endif // !G_INT
 
 typedef enum e_mode
 {

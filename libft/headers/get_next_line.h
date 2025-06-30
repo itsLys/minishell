@@ -15,7 +15,7 @@
 
 # define MAX_FD 1024
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 100000
+#  define BUFFER_SIZE 100
 # endif // !BUFFER_SIZE
 
 # define NL '\n'
