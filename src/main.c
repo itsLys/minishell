@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:02:11 by ihajji            #+#    #+#             */
-/*   Updated: 2025/07/01 16:28:29 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/07/02 20:03:29 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,10 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)),
 	// t_token			*tokens;
 	// t_ast_node		*node;
 	// t_data			*data;
-	int				status;
+	// int				status;
 	static t_data	data;
 
-	status = 0;
+	// status = 0;
 	// data = g_data(); // change to init data later, allocates to it
 	init_minishell(env, &data);
 	data.tokens = NULL;
@@ -86,9 +86,9 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)),
 			return (SUCCESS);
 		parse_input(data.input, &data.tokens, &data.ast);
 		if (data.ast)
-			status = execute(data.ast, &data, false);
-		printf("status	%d\n", status);
+			g_interrupted[2] = execute(data.ast, &data, false);
 		ast_print(data.ast, 0, "", 1);
+		printf("status	%d\n", g_interrupted[2]);
 		free_resources(data.input, &data.tokens, &data.ast);
 	}
 }
