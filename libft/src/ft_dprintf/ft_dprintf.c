@@ -21,7 +21,7 @@ static int	handle_fmt(int fd, const char *fmt, va_list args)
 	while (*fmt)
 	{
 		if (*fmt != '%')
-			count += print(f.fd, *(fmt++));
+			count += print(fd, *(fmt++));
 		else if (check_valid(++fmt))
 		{
 			parse_fmt(fd, fmt, args, &f);

@@ -15,7 +15,7 @@
 
 # include <minishell.h>
 
-extern int	g_interrupted[2];
+extern int	g_interrupted[3];
 
 void	setup_signals(void);
 

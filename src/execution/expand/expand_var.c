@@ -44,6 +44,7 @@ static bool	can_expand(t_str input, t_str mask)
 
 void	expand_mask(t_str *mask, t_str *name, t_str *val)
 {
+	(void ) name;
 	t_str	new;
 	str_create(&new, "");
 	str_append_char(&new, str_peek(mask));

@@ -12,7 +12,7 @@
 
 #include <signals.h>
 
-int	g_interrupted[2] = {0};
+int	g_interrupted[3] = {0};
 
 static void	sigint_handler_prompt(int sig)
 {
@@ -20,9 +20,10 @@ static void	sigint_handler_prompt(int sig)
 	if (!g_interrupted[1])
 	{
 		g_interrupted[1] = 1;
-		ft_dprintf(STDOUT_FILENO, "\n");
+		g_interrupted[2] = 130;
 	}
 }
+
 static int	my_rl_event_hook()
 {
 	if (g_interrupted[1])
