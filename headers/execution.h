@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 20:21:39 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/30 18:36:47 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/07/02 18:39:56 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,8 @@ void				expand_heredoc(t_str *filename, t_env *env);
 
 // redirections
 int					setup_redir(t_ast_node *redir);
+int					save_stdio(int stdio[2], t_data *data);
+void				restore_stdio(int stdio[2]);
 
 // free and exit
 void				clean_exit(unsigned int status, t_data *data);

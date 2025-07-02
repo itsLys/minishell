@@ -18,6 +18,7 @@ SRC			= src/main.c \
 			  src/execution/main.c \
 			  src/execution/utils.c \
 			  src/execution/redirections.c \
+			  src/execution/redirections_utils.c \
 			  src/execution/environ/make_env.c \
 			  src/execution/environ/env_utils.c \
 			  src/execution/environ/env_actions.c \

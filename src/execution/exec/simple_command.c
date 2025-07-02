@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 09:15:21 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/26 13:05:21 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/07/02 18:39:20 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,27 +39,27 @@ static int	execute_subprocess(char **argv, t_data *data)
 	return (WEXITSTATUS(status));
 }
 
-static int save_stdio(int stdio[2], t_data *data)
-{
-	int	stdin;
-	int	stdout;
-
-	stdout = dup(STDOUT_FILENO);
-	stdin = dup(STDIN_FILENO);
-	if (stdout == ERROR || stdin == ERROR)
-		return perror("dup"), clean_exit(FAILIURE, data), FAILIURE;
-	stdio[STDOUT_FILENO] =  stdout;
-	stdio[STDIN_FILENO] = stdin;
-	return SUCCESS;
-}
-
-static void restore_stdio(int stdio[2])
-{
-	dup2(stdio[STDOUT_FILENO], STDOUT_FILENO);
-	dup2(stdio[STDIN_FILENO], STDIN_FILENO);
-	close(stdio[STDOUT_FILENO]);
-	close(stdio[STDIN_FILENO]);
-}
+// int save_stdio(int stdio[2], t_data *data)
+// {
+// 	int	stdin;
+// 	int	stdout;
+//
+// 	stdout = dup(STDOUT_FILENO);
+// 	stdin = dup(STDIN_FILENO);
+// 	if (stdout == ERROR || stdin == ERROR)
+// 		return perror("dup"), clean_exit(FAILIURE, data), FAILIURE;
+// 	stdio[STDOUT_FILENO] =  stdout;
+// 	stdio[STDIN_FILENO] = stdin;
+// 	return SUCCESS;
+// }
+//
+// void restore_stdio(int stdio[2])
+// {
+// 	dup2(stdio[STDOUT_FILENO], STDOUT_FILENO);
+// 	dup2(stdio[STDIN_FILENO], STDIN_FILENO);
+// 	close(stdio[STDOUT_FILENO]);
+// 	close(stdio[STDIN_FILENO]);
+// }
 
 int	execute_simple_command(t_ast_node *node, t_data *data, bool run_in_shell)
 {
