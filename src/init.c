@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "execution.h"
+#include <signals.h>
 
 void init_default_var(t_data *data, t_env **env)
 {
@@ -23,6 +24,7 @@ void init_default_var(t_data *data, t_env **env)
 
 int init_minishell(char **env, t_data *data)
 {
+	setup_signals();
 	data->env = dup_env(env);
 	data->pwd = getcwd(NULL, 0);
 	if (data->pwd == NULL)

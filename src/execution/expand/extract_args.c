@@ -12,20 +12,32 @@
 
 #include <execution.h>
 
-void	remove_quote(t_str *input, t_str *mask)
+void	remove_quote(t_str *str)
 {
-	str_peek_reset(input);
-	str_peek_reset(mask);
-	while (str_peek(input))
+	char	current_quote;
+	char	c;
+
+	current_quote = 0;
+	str_peek_reset(str);
+	while (str->peek < str->size)
 	{
-		if (str_peek(mask) == 'Q')
+		c = str_peek(str);
+		if ((c == '\'' || c == '"'))
 		{
-			str_erase(mask, mask->peek, 1);
-			str_erase(input, mask->peek, 1);
-			continue ;
+			if (current_quote == 0)
+			{
+				current_quote = c;
+				str_erase(str, str->peek, 1);
+				continue;
+			}
+			else if (current_quote == c)
+			{
+				current_quote = 0;
+				str_erase(str, str->peek, 1);
+				continue;
+			}
 		}
-		str_peek_advance(input);
-		str_peek_advance(mask);
+		str_peek_advance(str);
 	}
 }
 
@@ -39,7 +51,7 @@ static bool	process_arg(t_str_arr *args, t_env *env,
 	if (!mask.data)
 		return (false);
 	expand_var(str_arr_peek(args), env, &mask);
-	remove_quote(str_arr_peek(args), &mask);
+	remove_quote(str_arr_peek(args));
 	split = split_input(str_arr_peek(args), &mask);
 	str_arr_extend(out, &split);
 	str_arr_destroy(&split);
@@ -68,6 +80,5 @@ char	**extract_args(t_str_arr *args, t_env *env_list)
 	}
 	expand_all_wildcards(&new_args, &new_masks);
 	str_arr_destroy(&new_masks);
-	// printf("%zu\n", new_args.size);
 	return (convert_str_arr(&new_args));
 }

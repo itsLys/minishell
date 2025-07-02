@@ -21,7 +21,7 @@ static void	extract_heredoc_content(t_str *filename, t_str *content)
 
 	fd_heredoc = open(filename->data, O_RDONLY);
 	if (fd_heredoc == -1)
-		return;
+		return ;
 	line = get_next_line(fd_heredoc);
 	while (line)
 	{
@@ -52,13 +52,13 @@ void	expand_heredoc(t_str *filename, t_env *env)
 	t_str		content;
 
 	if (str_find(filename, "EXPAND") == -1)
-		return;
+		return ;
 	str_init(&content);
 	extract_heredoc_content(filename, &content);
 	expand_heredoc_content(&content, env);
 	fd_heredoc = open(filename->data, O_WRONLY | O_TRUNC);
 	if (fd_heredoc == -1)
-		return;
+		return ;
 	ft_dprintf(fd_heredoc, "%s", content.data);
 	close(fd_heredoc);
 }

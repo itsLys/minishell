@@ -1,80 +1,49 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   reading_stdin.c                                    :+:      :+:    :+:   */
+/*   run_heredoc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 20:54:02 by zbengued          #+#    #+#             */
-/*   Updated: 2025/06/30 19:32:01 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/07/01 12:27:13 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft_string.h>
 #include <execution.h>
 #include <parsing.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <fcntl.h>
-#include <signal.h>
+#include <signals.h>
 
-int	g_interrupted = 0;
-
-static void	sigint_handler(int sig)
+static void	sigint_handler_heredoc(int sig)
 {
 	(void)sig;
-	g_interrupted = 1;
+	g_interrupted[0] = 1;
 	ft_dprintf(STDOUT_FILENO, "\n");
 }
 
-// NOTE : heredoc876yuhjgtr0p9uj
-t_str	generate_file_name(void)
+static int	my_rl_event_hook(void)
 {
-	t_str	prefix;
-	t_str	suffix;
-	char 	buff[10];
-	t_str	filename;
-	int		fd_random;
-
-	str_create(&filename, "/tmp/");
-	fd_random = open("/dev/random", O_RDONLY);
-	str_create(&prefix, "heredoc_");
-	read(fd_random, buff, 9);
-	buff[9] = '\0';
-	close(fd_random);
-	str_create(&suffix, buff);
-	str_replace_char(&suffix, '\\', '6');
-	str_append(&prefix, suffix.data);
-	str_append(&filename, prefix.data);
-	return (filename);
-}
-
-static int my_rl_event_hook(void)
-{
-    if (g_interrupted)
-        rl_done = 1;
-    return (0);
+	if (g_interrupted[0])
+		rl_done = 1;
+	return (0);
 }
 
 static void	read_until_sigint_or_delim(int fd_hered, char *delim)
-{	
+{
 	char	*line;
 
 	rl_event_hook = my_rl_event_hook;
-	signal(SIGINT, sigint_handler);
+	signal(SIGINT, sigint_handler_heredoc);
 	while (true)
 	{
 		line = readline("> ");
-		if (!line || g_interrupted)
-			break;
+		if (!line || g_interrupted[0])
+			break ;
 		if (!ft_strcmp(line, delim))
 		{
 			free(line);
-			break;
+			break ;
 		}
 		ft_dprintf(fd_hered, "%s\n", line);
 		free(line);
@@ -83,34 +52,44 @@ static void	read_until_sigint_or_delim(int fd_hered, char *delim)
 	exit(0);
 }
 
+static int	init_heredoc(t_str *filename, t_str *str_delim, char *delim)
+{
+	t_str	mask;
+	int		fd_hered;
+
+	str_create(str_delim, delim);
+	mask = build_mask(str_delim);
+	if (!ft_strchr(delim, '\'') && !ft_strchr(delim, '"'))
+		str_append(filename, "EXPAND");
+	remove_quote(str_delim);
+	str_destroy(&mask);
+	fd_hered = open(filename->data, O_CREAT | O_WRONLY | O_TRUNC, 0600);
+	if (fd_hered == -1)
+		return (-1);
+	return (fd_hered);
+}
+
 int	run_heredoc(char *delim, t_str *filename)
 {
 	int		fd_hered;
 	pid_t	pid;
 	int		status;
 	t_str	str_delim;
-	t_str	mask;
-		
-	if (g_interrupted == 1)
-		return -1;
-	str_create(&str_delim, delim);
-	mask = build_mask(&str_delim);
-	if (!ft_strchr(delim, '\'') && !ft_strchr(delim, '"'))
-		str_append(filename, "EXPAND");
-	remove_quote(&str_delim, &mask);
-	fd_hered = open(filename->data, O_CREAT | O_WRONLY | O_TRUNC, 0600);
+
+	if (g_interrupted[0] == 1)
+		return (-1);
+	fd_hered = init_heredoc(filename, &str_delim, delim);
 	if (fd_hered == -1)
-		return -1;
-	signal(SIGINT, sigint_handler);
+		return (-1);
+	signal(SIGINT, sigint_handler_heredoc);
 	pid = fork();
 	if (pid == -1)
-		return -1;
+		return (-1);
 	if (pid == 0)
 		read_until_sigint_or_delim(fd_hered, str_delim.data);
 	waitpid(pid, &status, 0);
 	signal(SIGINT, SIG_DFL);
 	close(fd_hered);
 	str_destroy(&str_delim);
-	str_destroy(&mask);
 	return (*(int *)ternary(WIFSIGNALED(status), &(int){0}, &(int){-1}));
 }

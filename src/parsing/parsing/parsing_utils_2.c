@@ -49,6 +49,7 @@ void	consume_word(t_token **tokens, t_ast_node *args_node)
 	*tokens = (*tokens)->next;
 }
 
+// NOTE : if heredoc exit with signal should clean_exit
 void	consume_redir(t_token **tokens, t_ast_node *red_list)
 {
 	t_str	filename;
@@ -56,11 +57,14 @@ void	consume_redir(t_token **tokens, t_ast_node *red_list)
 	if ((*tokens)->t_type == T_HERDOC)
 	{
 		filename = generate_file_name();
-		run_heredoc((*tokens)->val.data, &filename);
+		if (run_heredoc((*tokens)->val.data, &filename) == -1)
+		{
+			*tokens = NULL;
+			return ;
+		}
 		str_destroy(&(*tokens)->val);
 		str_create(&(*tokens)->val, filename.data);
 		str_destroy(&filename);
-		printf("the heredoc is = %s\n", (*tokens)->val.data);
 	}
 	ast_add_child(red_list,
 		ast_new((t_grammar)(*tokens)->t_type, (*tokens)->val.data));

@@ -6,13 +6,14 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:02:11 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/18 16:10:42 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/07/01 16:28:29 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parsing.h"
 #include "execution.h"
+#include <signals.h>
 
 // t_data *g_data(void)
 // {
@@ -80,6 +81,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)),
 	data.ast = NULL;
 	while (1)
 	{
+		setup_signals();
 		if (get_input(&data))
 			return (SUCCESS);
 		parse_input(data.input, &data.tokens, &data.ast);

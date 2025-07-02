@@ -25,16 +25,28 @@ t_str	get_env_value(t_env *env, char *name)
 	return (value);
 }
 
-t_str	get_var_name(t_str *input, t_str *mask, char save_flag)
+t_str	get_varname(t_str *input)
 {
-	size_t	start;
+	t_str	var;
+	char	c;
 
-	start = input->peek;
-	while ((ft_isalnum(str_peek(input)) && str_peek(input))
-		&& str_peek(mask) == save_flag)
+	str_create(&var, "");
+	if (str_peek(input) != '$')
+		return var;
+	str_peek_advance(input);
+	c = str_peek(input);
+	if (c == '\0' || c == '\'' || c == '\"')
+		return var;
+	if (!is_valid_first_char(c))
+		return var;
+	str_append_char(&var, c);
+	str_peek_advance(input);
+	while (str_peek(input))
 	{
+		if (!is_valid_var_char(str_peek(input)))
+			break;
+		str_append_char(&var, str_peek(input));
 		str_peek_advance(input);
-		str_peek_advance(mask);
 	}
-	return (str_substr(input, start, input->peek - start));
+	return var;
 }

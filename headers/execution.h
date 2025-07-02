@@ -21,10 +21,6 @@
 # define PIPE_RD 0
 # define PIPE_WR 1
 
-#ifndef G_INT
-extern	int g_interrupted;
-#endif // !G_INT
-
 typedef enum e_mode
 {
 	CONCAT,
@@ -112,12 +108,17 @@ int					execute_simple_command(t_ast_node *node, t_data *data, bool run_in_shell
 int					execute_subshell(t_ast_node *node, t_data *data);
 
 // expantion utils
-void				remove_quote(t_str *input, t_str *mask);
+void				remove_quote(t_str *input);
 void				expand(t_str *input, t_str *mask, t_env *env);
 void				expand_var(t_str *input, t_env *env, t_str *mask);
 t_str				build_mask(t_str *input);
 t_str				get_env_value(t_env *env, char *name);
 t_str				get_var_name(t_str *input, t_str *mask, char save_flag);
+t_str				get_varname(t_str *input);
+bool				is_shell_variable(t_str str);
+bool				is_valid_first_char(char c);
+bool				is_valid_var_char(char c);
+bool				is_shell_variable(t_str str);
 t_str_arr			split_input(t_str *input, t_str *mask);
 char				**extract_args(t_str_arr *args, t_env *env_list);
 bool				contains_wildcard(const char *str);

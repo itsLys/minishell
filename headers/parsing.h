@@ -106,6 +106,8 @@ void					print_tokens(t_token *tokens);
 void					print_token(t_token *token);
 void					free_tokens(t_token **head);
 void					pop_token(t_token **tokens, t_token *token);
+void					add_token(t_token **head, char *type, t_str *value,
+						t_token_type t_type);
 void					lexer(t_token **tokens, char *line);
 void					ast_print_(t_ast_node *node, size_t depth);
 void					ast_print(t_ast_node *node, size_t depth,
