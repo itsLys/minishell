@@ -55,12 +55,9 @@ void	str_repeat(t_str *str, size_t n)
 		return ;
 	og_len = str->size;
 	i = 0;
-	str_ensure_capacity(str, og_len * str->size);
+	str_ensure_capacity(str, n * str->size);
 	while (i < n)
-	{
-		ft_memcpy(str->data + og_len, str->data, og_len);
-		i++;
-	}
+		ft_memcpy(str->data + og_len * ++i, str->data, og_len);
 	str->size = og_len * n;
 	str->data[str->size] = '\0';
 }
