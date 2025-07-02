@@ -11,6 +11,36 @@
 /* ************************************************************************** */
 
 #include "parsing.h"
+#include <execution.h>
+
+void	add_token(t_token **head, char *type, t_str *value,
+		t_token_type t_type)
+{
+	t_token	*new;
+	t_token	*tmp;
+
+	new = malloc(sizeof(t_token));
+	if (!new)
+		return ;
+	new->type = type;
+	new->t_type = t_type;
+	if (value)
+		new->val = str_substr(value, 0, value->size);
+	else
+		new->val = str_new("");
+	new->next = NULL;
+	new->prev = NULL;
+	if (!*head)
+		*head = new;
+	else
+	{
+		tmp = *head;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new;
+		new->prev = tmp;
+	}
+}
 
 void	parse_input(char *input, t_token **tokens, t_ast_node **node)
 {

@@ -12,39 +12,43 @@
 
 #include <execution.h>
 
-static bool	is_expandable(t_str mask, t_str input)
+bool	is_valid_first_char(char c)
 {
-	if (str_peek(&input) == '$' && str_peek(&mask) == 'N'
-			&& str_peek_advance(&mask) != str_peek(&mask))
-		return (true);
-	else if (str_peek(&input) == '$' && str_peek(&mask) != 'N'
-			&& str_peek_advance(&mask) != str_peek(&mask))
-		return (false);
-	return (str_peek(&mask) == 'D' || str_peek(&mask) == 'N');
+	return (ft_isalpha((unsigned char)c) || c == '_');
 }
 
-static bool	check_if_is_variable(t_str str)
+bool	is_valid_var_char(char c)
 {
-	if (!str.data || !str_peek(&str))
-		return (false);
-	if (str_peek(&str) != '$')
-		return (false);
-	str_peek_advance(&str);
-	if (!ft_isalpha(str_peek(&str)))
-		return (false);
-	str_peek_advance(&str);
-	while (str_peek(&str))
-	{
-		if (!ft_isalnum(str_peek(&str)) && str_peek(&str) != '_')
-			break ;
-		str_peek_advance(&str);
-	}
-	return (true);
+	return (ft_isalnum((unsigned char)c) || c == '_');
+}
+
+bool	is_shell_variable(t_str str)
+{
+	if (str_peek_advance(&str) != '$')
+		return false;
+	else if (str_peek(&str))
+		return true;
+	return false;
+}
+
+static bool	is_expandable(t_str mask, t_str input)
+{
+	return (str_peek(&input) == '$'
+		&& (str_peek(&mask) == 'N' || str_peek(&mask) == 'D'));
 }
 
 static bool	can_expand(t_str input, t_str mask)
 {
-	return (check_if_is_variable(input) && is_expandable(mask, input));
+	return (is_shell_variable(input) && is_expandable(mask, input));
+}
+
+void	expand_mask(t_str *mask, t_str *name, t_str *val)
+{
+	(void ) name;
+	t_str	new;
+	str_create(&new, "");
+	str_append_char(&new, str_peek(mask));
+	str_repeat(&new, val->size);
 }
 
 void	expand(t_str *input, t_str *mask, t_env *env)
@@ -54,8 +58,7 @@ void	expand(t_str *input, t_str *mask, t_env *env)
 	size_t	value_len;
 	size_t	name_len;
 
-	str_peek_advance(input);
-	var_name = get_var_name(input, mask, str_peek(mask));
+	var_name = get_varname(input);
 	var_value = get_env_value(env, var_name.data);
 	str_prepend(&var_name, "$");
 	name_len = ft_strlen(var_name.data) - 1;
@@ -63,20 +66,25 @@ void	expand(t_str *input, t_str *mask, t_env *env)
 		value_len = 0;
 	else
 		value_len = ft_strlen(var_value.data) - 1;
+	// printf(" varname : [%s], value : [%s], mask : [%s]\n the peek = %zu\n", var_name.data, var_value.data, mask->data,input->peek);
 	str_replace(input, var_name.data, var_value.data, ONE);
 	str_segment_set(mask, mask->peek - name_len, value_len, mask->peek);
-	ternary_((t_ternary){(name_len >= value_len), &name_len, &value_len,
-			sizeof(size_t), &mask->peek});
-	ternary_((t_ternary){(name_len >= value_len), &name_len, &value_len,
-			sizeof(size_t), &mask->peek});
+	// printf("----------\n");
+	// printf(" varname : [%s], value : [%s], mask : [%s]\n the peek = %zu\n", var_name.data, var_value.data, mask->data,input->peek);
+	ternary_((t_ternary){(name_len > value_len), &name_len, &value_len,
+		sizeof(size_t), &mask->peek});
+	ternary_((t_ternary){(name_len > value_len), &name_len, &value_len,
+		sizeof(size_t), &mask->peek});
 }
 
 void	expand_var(t_str *input, t_env *env, t_str *mask)
 {
 	str_peek_reset(mask);
 	str_peek_reset(input);
+	printf("the input : %s\n", input->data);
 	while (str_peek(input))
 	{
+		printf("the peek = %c\n", str_peek(input));
 		if (can_expand(*input, *mask))
 			expand(input, mask, env);
 		else

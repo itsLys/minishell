@@ -85,6 +85,10 @@ SRC			= src/ft_isalnum.c \
 			  src/ft_dprintf/print_str.c \
 			  src/ft_dprintf/print_unsigned.c \
 			  src/ft_dprintf/utils.c \
+			  src/get_next_line/get_next_line.c \
+			  src/get_next_line/get_next_line_bonus.c \
+			  src/get_next_line/get_next_line_utils.c \
+			  src/get_next_line/get_next_line_utils_bonus.c \
 			  src/string/arr_string1.c \
 			  src/string/arr_string2.c \
 			  src/string/arr_string3.c \
@@ -97,6 +101,7 @@ SRC			= src/ft_isalnum.c \
 			  src/string/string6.c \
 			  src/string/string7.c \
 			  src/string/string8.c \
+			  src/string/string9.c \
 			  src/ternary.c
 OBJ			= $(patsubst src/%.c, obj/%.o, $(SRC))
 RM			= rm -rf

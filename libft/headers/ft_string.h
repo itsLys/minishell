@@ -6,7 +6,7 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 18:25:41 by zbengued          #+#    #+#             */
-/*   Updated: 2025/06/24 04:57:25 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/06/30 17:36:48 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void		str_erase(t_str *str, size_t pos, size_t len);
 void		str_append(t_str *str, char *to_add);
 void		str_prepend(t_str *str, char *to_add);
 void		str_replace(t_str *str, char *old_str, char *new_str, short mode);
+void		str_replace_char(t_str *str, char old_char, char new_char);
 void		str_repeat(t_str *str, size_t n);
 
 ssize_t		str_find(t_str *str, char *to_find);

@@ -6,7 +6,7 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 17:53:35 by zbengued          #+#    #+#             */
-/*   Updated: 2025/05/19 19:14:00 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/07/01 12:31:48 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,4 +93,22 @@ void	free_tokens(t_token **head)
 		tmp = next;
 	}
 	*head = NULL;
+}
+
+void	pop_token(t_token **tokens, t_token *token)
+{
+	t_token	*prev;
+	t_token	*next;
+
+	if (!token)
+		return ;
+	prev = token->prev;
+	next = token->next;
+	if (prev)
+		prev->next = next;
+	else
+		*tokens = next;
+	if (next)
+		next->prev = prev;
+	free(token);
 }

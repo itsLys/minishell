@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 20:21:39 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/26 13:03:47 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/06/30 18:36:47 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # define PIPE_WR 1
 # define PIPE_RD 0
 # define PIPE_WR 1
-
 
 typedef enum e_mode
 {
@@ -109,12 +108,17 @@ int					execute_simple_command(t_ast_node *node, t_data *data, bool run_in_shell
 int					execute_subshell(t_ast_node *node, t_data *data);
 
 // expantion utils
-void				remove_quote(t_str *input, t_str *mask);
+void				remove_quote(t_str *input);
 void				expand(t_str *input, t_str *mask, t_env *env);
 void				expand_var(t_str *input, t_env *env, t_str *mask);
 t_str				build_mask(t_str *input);
 t_str				get_env_value(t_env *env, char *name);
 t_str				get_var_name(t_str *input, t_str *mask, char save_flag);
+t_str				get_varname(t_str *input);
+bool				is_shell_variable(t_str str);
+bool				is_valid_first_char(char c);
+bool				is_valid_var_char(char c);
+bool				is_shell_variable(t_str str);
 t_str_arr			split_input(t_str *input, t_str *mask);
 char				**extract_args(t_str_arr *args, t_env *env_list);
 bool				contains_wildcard(const char *str);
@@ -122,6 +126,7 @@ bool				match_wildcard(const char *pattern, const char *str);
 void				expand_all_wildcards(t_str_arr *args, t_str_arr *masks);
 void				expand_wildcard_at(t_str_arr *args,
 						t_str_arr *masks, size_t index);
+void				expand_heredoc(t_str *filename, t_env *env);
 
 // redirections
 int					setup_redir(t_ast_node *redir);

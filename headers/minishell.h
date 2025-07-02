@@ -16,6 +16,7 @@
 # define MINISHELL_H
 
 # include <libft.h>
+# include <get_next_line.h>
 # include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -31,8 +32,8 @@
 # include <sys/types.h>
 # include <ft_string.h>
 # include <dirent.h>
-#include <fcntl.h>
-#include <sys/stat.h>
+# include <fcntl.h>
+# include <sys/stat.h>
 
 
 // test

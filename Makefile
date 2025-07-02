@@ -14,6 +14,7 @@ LIBFT		= $(addprefix $(LIBFT_DIR)/, libft.a)
 SRC			= src/main.c \
 			  src/free.c \
 			  src/init.c \
+			  src/signals/signals.c \
 			  src/execution/main.c \
 			  src/execution/utils.c \
 			  src/execution/redirections.c \
@@ -40,17 +41,18 @@ SRC			= src/main.c \
 			  src/execution/expand/split_input.c \
 			  src/execution/expand/wildcard.c \
 			  src/execution/expand/wildcard_utils.c \
+			  src/execution/expand/expand_heredoc.c \
 			  src/parsing/main.c \
 			  src/parsing/test.c \
-			  src/parsing/parsing.c \
 			  src/parsing/ast_functions.c \
-			  src/parsing/tokenizing.c \
-			  src/parsing/parsing_utils_1.c \
-			  src/parsing/parsing_utils_2.c \
+			  src/parsing/tokenizing/tokenizing_utils.c \
+			  src/parsing/tokenizing/tokenizing.c \
+			  src/parsing/parsing/parsing.c \
+			  src/parsing/parsing/parsing_utils_1.c \
+			  src/parsing/parsing/parsing_utils_2.c \
 			  src/parsing/expand.c \
-			  src/parsing/tokenizing_utils.c \
-			  src/parsing/heredoc/reading_stdin.c
-			
+			  src/parsing/heredoc/run_heredoc.c \
+			  src/parsing/heredoc/generate_file_name.c 
 OBJ			= $(patsubst src/%.c, obj/%.o, $(SRC))
 all: $(NAME)
 	@echo "$(GREEN)$(BOLD)$(NAME) done!$(RESET)"

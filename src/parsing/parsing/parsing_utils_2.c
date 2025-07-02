@@ -6,7 +6,7 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 17:29:35 by zbengued          #+#    #+#             */
-/*   Updated: 2025/05/18 18:02:24 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/06/30 18:05:13 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	consume_word(t_token **tokens, t_ast_node *args_node)
 	*tokens = (*tokens)->next;
 }
 
+// NOTE : if heredoc exit with signal should clean_exit
 void	consume_redir(t_token **tokens, t_ast_node *red_list)
 {
 	t_str	filename;
@@ -56,11 +57,14 @@ void	consume_redir(t_token **tokens, t_ast_node *red_list)
 	if ((*tokens)->t_type == T_HERDOC)
 	{
 		filename = generate_file_name();
-		run_heredoc((*tokens)->val.data, filename.data);
+		if (run_heredoc((*tokens)->val.data, &filename) == -1)
+		{
+			*tokens = NULL;
+			return ;
+		}
 		str_destroy(&(*tokens)->val);
 		str_create(&(*tokens)->val, filename.data);
 		str_destroy(&filename);
-		printf("the heredoc is = %s\n", (*tokens)->val.data);
 	}
 	ast_add_child(red_list,
 		ast_new((t_grammar)(*tokens)->t_type, (*tokens)->val.data));

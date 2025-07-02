@@ -6,7 +6,7 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 16:27:18 by zbengued          #+#    #+#             */
-/*   Updated: 2025/06/11 17:19:40 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/06/30 18:17:05 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ t_ast_node	*subshell(t_token **tokens)
 	node[I_RED_LIST] = ast_new(G_REDIRECT_LIST, NULL);
 	node[I_SUBSHELL] = ast_new(G_SUBSHELL, NULL);
 	*tokens = (*tokens)->next;
-	if (!(*tokens) || (*tokens && (!is_word((*tokens)->t_type)
-				&& !is_redi((*tokens)->t_type))))
+	if ((!(*tokens) || is_and_or((*tokens)->t_type)))
 		return (NULL);
 	node[I_COMPOUND_COMMAND] = compound_command(tokens, true);
 	if (!node[I_COMPOUND_COMMAND])
