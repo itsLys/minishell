@@ -43,6 +43,7 @@ SRC			= src/main.c \
 			  src/execution/expand/wildcard.c \
 			  src/execution/expand/wildcard_utils.c \
 			  src/execution/expand/expand_heredoc.c \
+			  src/execution/expand/expand_filename.c \
 			  src/parsing/main.c \
 			  src/parsing/test.c \
 			  src/parsing/ast_functions.c \
