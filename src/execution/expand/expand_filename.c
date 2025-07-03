@@ -25,9 +25,12 @@ char	*expand_filename(t_str *filename, t_env *env)
 		return (filename->data);
 	while (i < filename->size)
 	{
-
+		if ((str_char_at(filename, i) == '\t'
+			|| str_char_at(filename, i) == '\n'
+			|| str_char_at(filename, i) == ' ')
+			&& (str_char_at(&mask, i) == 'N'))
+			return (str_destroy(&mask), NULL);
+		i++;
 	}
-
-	return (NULL);
-
+	return (filename->data);
 }
