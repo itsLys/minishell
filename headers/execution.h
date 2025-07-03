@@ -130,7 +130,7 @@ void				expand_heredoc(t_str *filename, t_env *env);
 char				*expand_filename(t_str *filename, t_env *env);
 
 // redirections
-int					setup_redir(t_ast_node *redir);
+int					setup_redir(t_ast_node *redir, t_data *data);
 int					save_stdio(int stdio[2], t_data *data);
 void				restore_stdio(int stdio[2]);
 

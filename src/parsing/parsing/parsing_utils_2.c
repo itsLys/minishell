@@ -57,7 +57,7 @@ void	consume_redir(t_token **tokens, t_ast_node *red_list)
 	if ((*tokens)->t_type == T_HERDOC)
 	{
 		filename = generate_file_name();
-		if (run_heredoc((*tokens)->val.data, &filename) == -1)
+		if (run_heredoc((*tokens)->val.data, &filename) == 0)
 		{
 			*tokens = NULL;
 			return ;

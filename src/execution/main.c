@@ -16,6 +16,11 @@
 
 void    print_ast_type(t_ast_node *node)
 {
+	if (node == NULL)
+	{
+		printf("NODE DOES NOT EXIST\n");
+		return;
+	}
 	switch (node->type) {
 		case G_COMPOUND_COMMAND: printf("G_COMPOUND_COMMAND"); break;
 		case G_PIPELINE: printf("G_PIPELINE"); break;
