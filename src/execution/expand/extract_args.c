@@ -65,6 +65,7 @@ char	**extract_args(t_str_arr *args, t_env *env_list)
 {
 	t_str_arr	new_args;
 	t_str_arr	new_masks;
+	char		**argv;
 
 	str_arr_init(&new_args);
 	str_arr_init(&new_masks);
@@ -81,5 +82,7 @@ char	**extract_args(t_str_arr *args, t_env *env_list)
 	}
 	expand_all_wildcards(&new_args, &new_masks);
 	str_arr_destroy(&new_masks);
-	return (convert_str_arr(&new_args));
+	argv = convert_str_arr(&new_args);
+	str_arr_destroy(&new_args);
+	return (argv);
 }
