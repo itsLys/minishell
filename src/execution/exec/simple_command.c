@@ -52,7 +52,7 @@ int	execute_simple_command(t_ast_node *node, t_data *data, bool run_in_shell)
 	if (argv && *argv == NULL)
 		return SUCCESS;
 	save_stdio(stdio, data);
-	print_ast_type(node->child->sibling->child);
+	// print_ast_type(node->child->sibling->child);
 	if (node->child->sibling->child && setup_redir(node->child->sibling->child, data))
 		return (restore_stdio(stdio), FAILIURE);
 	builtin = find_builtin(argv[0]);

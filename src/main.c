@@ -49,21 +49,21 @@ static int	get_input(t_data *data)
 }
 
 
-void free_data(t_data *data)
-{
-	free_env(data->env);
-	free(data->input);
-	free(data->oldpwd);
-	free(data->pwd);
-}
-
-void	clean_exit(unsigned int status, t_data *data)
-{
-	ast_free(data->ast);
-	free_tokens(&(data->tokens));
-	free_data(data);
-	exit(status);
-}
+// void free_data(t_data *data)
+// {
+// 	free_env(data->env);
+// 	free(data->input);
+// 	free(data->oldpwd);
+// 	free(data->pwd);
+// }
+//
+// void	clean_exit(unsigned int status, t_data *data)
+// {
+// 	ast_free(data->ast);
+// 	free_tokens(&(data->tokens));
+// 	free_data(data);
+// 	exit(status);
+// }
 
 int	main(int ac __attribute__((unused)), char **av __attribute__((unused)),
 		char **env)
@@ -85,6 +85,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)),
 		if (get_input(&data))
 			return (SUCCESS);
 		parse_input(data.input, &data.tokens, &data.ast);
+		// exit(321);
 		if (data.ast)
 			g_interrupted[2] = execute(data.ast, &data, false);
 		ast_print(data.ast, 0, "", 1);

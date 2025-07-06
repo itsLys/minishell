@@ -38,3 +38,19 @@ void *free_env(t_env *env)
 	}
 	return NULL;
 }
+
+void free_data(t_data *data)
+{
+	free_env(data->env);
+	free(data->input);
+	free(data->oldpwd);
+	free(data->pwd);
+}
+
+void	clean_exit(unsigned int status, t_data *data)
+{
+	free_all_ast(data->ast);
+	free_tokens(&(data->tokens));
+	free_data(data);
+	exit(status);
+}

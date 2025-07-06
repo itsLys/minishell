@@ -77,24 +77,6 @@ void	trait_redir(t_token **tokens)
 	}
 }
 
-void	free_tokens(t_token **head)
-{
-	t_token	*next;
-	t_token	*tmp;
-
-	if (!head || !*head)
-		return ;
-	tmp = *head;
-	while (tmp)
-	{
-		next = tmp->next;
-		str_destroy(&tmp->val);
-		free(tmp);
-		tmp = next;
-	}
-	*head = NULL;
-}
-
 void	pop_token(t_token **tokens, t_token *token)
 {
 	t_token	*prev;

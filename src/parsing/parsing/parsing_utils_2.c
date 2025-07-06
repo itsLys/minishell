@@ -45,8 +45,13 @@ size_t	counter(t_token	**tokens, bool mode)
 
 void	consume_word(t_token **tokens, t_ast_node *args_node)
 {
+	t_token	*tmp;
+
 	str_arr_push(&args_node->args, (*tokens)->val.data);
-	*tokens = (*tokens)->next;
+	tmp = (*tokens)->next;
+	str_destroy(&((*tokens)->val));
+	free(*tokens);
+	*tokens = tmp;
 }
 
 // NOTE : if heredoc exit with signal should clean_exit
@@ -67,6 +72,6 @@ void	consume_redir(t_token **tokens, t_ast_node *red_list)
 		str_destroy(&filename);
 	}
 	ast_add_child(red_list,
-		ast_new((t_grammar)(*tokens)->t_type, (*tokens)->val.data));
+			ast_new((t_grammar)(*tokens)->t_type, (*tokens)->val.data));
 	*tokens = (*tokens)->next;
 }

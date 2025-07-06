@@ -71,7 +71,7 @@ int setup_redir(t_ast_node *redir, t_data *data)
 
 	status = 0;
 	file = NULL;
-	print_ast_type(redir);
+	// print_ast_type(redir);
 	if (redir)
 	{
 		file = expand_filename(&redir->value, data->env);

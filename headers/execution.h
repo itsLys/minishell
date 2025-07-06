@@ -136,6 +136,8 @@ void				restore_stdio(int stdio[2]);
 
 // free and exit
 void				clean_exit(unsigned int status, t_data *data);
+void				free_data(t_data *data);
+void				clean_exit(unsigned int status, t_data *data);
 
 // debuging
 void    print_ast_type(t_ast_node *node);
