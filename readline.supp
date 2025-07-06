@@ -1,0 +1,103 @@
+{
+   readline_leak_1
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:alloc_history_entry
+   fun:add_history
+   fun:parse_input
+   fun:main
+}
+{
+   readline_leak_2
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:add_history
+   fun:parse_input
+   fun:main
+}
+{
+   readline_leak_3
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:rl_initialize
+   fun:readline
+   fun:get_input
+   fun:main
+}
+{
+   readline_leak_4
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_set_prompt
+   fun:readline
+   fun:get_input
+   fun:main
+}
+{
+   readline_leak_5
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:ft_strdup
+   fun:init_default_var
+   fun:init_minishell
+   fun:main
+}
+{
+   readline_leak_6
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:ft_calloc
+   fun:new_env_node
+   fun:init_default_var
+   fun:init_minishell
+   fun:main
+}
+{
+   readline_leak_7
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   fun:getcwd
+   fun:init_minishell
+   fun:main
+}
+{
+   readline_leak_8
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:ft_strndup
+   fun:dup_env
+   fun:init_minishell
+   fun:main
+}
+{
+   readline_leak_9
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:ft_strdup
+   fun:dup_env
+   fun:init_minishell
+   fun:main
+}
+{
+   readline_leak_10
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:ft_calloc
+   fun:new_env_node
+   fun:dup_env
+   fun:init_minishell
+   fun:main
+}

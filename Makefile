@@ -52,9 +52,9 @@ SRC			= src/main.c \
 			  src/parsing/parsing/parsing.c \
 			  src/parsing/parsing/parsing_utils_1.c \
 			  src/parsing/parsing/parsing_utils_2.c \
-			  src/parsing/expand.c \
 			  src/parsing/heredoc/run_heredoc.c \
-			  src/parsing/heredoc/generate_file_name.c 
+			  src/parsing/heredoc/generate_file_name.c \
+			  src/freeing/free_all_ast.c
 OBJ			= $(patsubst src/%.c, obj/%.o, $(SRC))
 all: $(NAME)
 	@echo "$(GREEN)$(BOLD)$(NAME) done!$(RESET)"

@@ -6,7 +6,7 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 22:25:21 by zbengued          #+#    #+#             */
-/*   Updated: 2025/06/23 23:51:23 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/07/03 19:00:36 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,6 @@ typedef struct s_token
 	struct s_token		*prev;
 }						t_token;
 
-typedef struct s_redirect
-{
-	t_token_type		type;
-	char				*dilimeter;
-	char				*filename;
-}						t_redirect;
-
 typedef struct s_ast_node
 {
 	t_grammar			type;
@@ -113,6 +106,7 @@ void					ast_print_(t_ast_node *node, size_t depth);
 void					ast_print(t_ast_node *node, size_t depth,
 							const char *prefix, int is_last);
 void					ast_free(t_ast_node *node);
+void					free_all_ast(t_ast_node *node);
 void					ast_add_child(t_ast_node *parent, t_ast_node *child);
 
 bool					is_word_or_redir(t_token_type type);

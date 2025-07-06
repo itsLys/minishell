@@ -6,7 +6,7 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 23:46:26 by zbengued          #+#    #+#             */
-/*   Updated: 2025/06/24 05:41:06 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/07/03 20:26:38 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ static bool	process_arg(t_str_arr *args, t_env *env,
 	split = split_input(str_arr_peek(args), &mask);
 	str_arr_extend(out, &split);
 	str_arr_destroy(&split);
+	str_destroy(&mask);
 	str_arr_push(masks, mask.data);
 	// str_destroy(str_arr_peek(args));
 	return (true);
