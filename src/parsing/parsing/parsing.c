@@ -52,7 +52,7 @@ t_ast_node	*subshell(t_token **tokens)
 		return (NULL);
 	if (!(*tokens))
 		return (NULL);
-	*tokens = (*tokens)->next;
+	delete_token(tokens);
 	if (*tokens && is_word((*tokens)->t_type))
 		return (NULL);
 	while (*tokens && is_redi((*tokens)->t_type))
@@ -100,7 +100,7 @@ t_ast_node	*pipeline(t_token **tokens)
 	ast_add_child(node[I_PIPELINE], node[I_COMMAND]);
 	if (*tokens && (*tokens)->t_type == T_PIPE)
 	{
-		*tokens = (*tokens)->next;
+		delete_token(tokens);
 		if ((*tokens && !valid_pipe(tokens)) || !(*tokens))
 			return (NULL);
 	}
@@ -126,7 +126,7 @@ t_ast_node	*compound_command(t_token **tokens, bool in_subshell)
 		{
 			ast_add_child(node[I_COMPOUND_COMMAND],
 				ast_new((t_grammar)(*tokens)->t_type, NULL));
-			*tokens = (*tokens)->next;
+			delete_token(tokens);
 			if ((*tokens && !valid_compound(tokens)) || !(*tokens))
 				return (NULL);
 		}

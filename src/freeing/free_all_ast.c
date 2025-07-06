@@ -6,47 +6,47 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 18:49:56 by zbengued          #+#    #+#             */
-/*   Updated: 2025/07/03 19:11:05 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/07/06 16:40:14 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <parsing.h>
 #include <execution.h>
 
+void	delete_token(t_token **head)
+{
+	t_token	*tmp;
+	
+	tmp = (*head)->next;
+	str_destroy(&(*head)->val);
+	free(*head);
+	*head = tmp;
+}
+
 void	free_tokens(t_token **head)
 {
-	t_token	*next;
 	t_token	*tmp;
 
 	if (!head || !*head)
 		return ;
 	tmp = *head;
 	while (tmp)
-	{
-		next = tmp->next;
-		str_destroy(&tmp->val);
-		free(tmp);
-		tmp = next;
-	}
+		delete_token(&tmp);
 	*head = NULL;
 }
 
 void	free_all_ast(t_ast_node *node)
 {
 	t_ast_node	*sibling;
-	t_ast_node	*next;
+	t_ast_node	*child;
 
 	if (!node)
 		return ;
-	free_all_ast(node->child);
-	sibling  = node->sibling;
-	while (sibling)
-	{
-		next = sibling->sibling;
-		free_all_ast(sibling);
-		sibling = next;
-	}
+	child = node->child;
+	sibling = node->sibling;
 	str_destroy(&node->value);
 	str_arr_destroy(&node->args);
 	free(node);
+	free_all_ast(child);
+	free_all_ast(sibling);
 }

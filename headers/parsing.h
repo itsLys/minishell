@@ -6,7 +6,7 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 22:25:21 by zbengued          #+#    #+#             */
-/*   Updated: 2025/07/03 19:00:36 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/07/06 16:23:26 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ void					parse_input(char *input, t_token **tokens,
 void					print_tokens(t_token *tokens);
 void					print_token(t_token *token);
 void					free_tokens(t_token **head);
+void					delete_token(t_token **head);
 void					pop_token(t_token **tokens, t_token *token);
 void					add_token(t_token **head, char *type, t_str *value,
 						t_token_type t_type);

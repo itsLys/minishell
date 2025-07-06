@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:02:11 by ihajji            #+#    #+#             */
-/*   Updated: 2025/07/02 20:03:29 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/07/06 16:44:47 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	get_input(t_data *data)
 	data->input = readline(build_prompt());
 	if (!data->input)
 	{
-		free(data->input);
+		free_resources(data->input, &data->tokens, &data->ast);
 		return printf("exit\n");
 	}
 	return (SUCCESS);
@@ -85,7 +85,6 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)),
 		if (get_input(&data))
 			return (SUCCESS);
 		parse_input(data.input, &data.tokens, &data.ast);
-		// exit(321);
 		if (data.ast)
 			g_interrupted[2] = execute(data.ast, &data, false);
 		ast_print(data.ast, 0, "", 1);

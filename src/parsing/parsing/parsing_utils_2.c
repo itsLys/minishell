@@ -45,13 +45,8 @@ size_t	counter(t_token	**tokens, bool mode)
 
 void	consume_word(t_token **tokens, t_ast_node *args_node)
 {
-	t_token	*tmp;
-
 	str_arr_push(&args_node->args, (*tokens)->val.data);
-	tmp = (*tokens)->next;
-	str_destroy(&((*tokens)->val));
-	free(*tokens);
-	*tokens = tmp;
+	delete_token(tokens);
 }
 
 // NOTE : if heredoc exit with signal should clean_exit
