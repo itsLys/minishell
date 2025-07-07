@@ -15,10 +15,14 @@
 #include <parsing.h>
 #include <signals.h>
 
+#define EXIT_STATUS 2
+#define SIGNAL_INTERRUPT 1
+#define HEREDOC_INTERRUPT 0
 static void	sigint_handler_heredoc(int sig)
 {
 	(void)sig;
-	g_interrupted[0] = 1;
+	g_interrupted[EXIT_STATUS] = 130;
+	g_interrupted[HEREDOC_INTERRUPT] = 1;
 }
 
 static int	my_rl_event_hook(void)
@@ -37,7 +41,7 @@ static void	read_until_sigint_or_delim(int fd_hered, char *delim)
 	while (true)
 	{
 		line = readline("> ");
-		if (!line || g_interrupted[0])
+		if (!line || g_interrupted[HEREDOC_INTERRUPT])
 			break ;
 		if (!ft_strcmp(line, delim))
 		{
@@ -48,7 +52,7 @@ static void	read_until_sigint_or_delim(int fd_hered, char *delim)
 		free(line);
 	}
 	close(fd_hered);
-	exit(*(int *)ternary((g_interrupted[0]), &(int){-1}, &(int){0}));
+	exit(*(int *)ternary((g_interrupted[HEREDOC_INTERRUPT]), &(int){-1}, &(int){0}));
 }
 
 static int	init_heredoc(t_str *filename, t_str *str_delim, char *delim)
@@ -75,7 +79,7 @@ int	run_heredoc(char *delim, t_str *filename)
 	int		status;
 	t_str	str_delim;
 
-	if (g_interrupted[0] == 1)
+	if (g_interrupted[HEREDOC_INTERRUPT] == 1)
 		return (-1);
 	fd_hered = init_heredoc(filename, &str_delim, delim);
 	if (fd_hered == -1)

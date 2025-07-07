@@ -104,9 +104,6 @@ void	expand_var(t_str *input, t_env *env, t_str *mask)
 			str_peek_advance(mask);
 			str_peek_advance(input);
 		}
-		printf("[%s][%s]\n", input->data, mask->data);
 	}
 	remove_quotes(input, mask);
-	// remove_quote(input);
-	// remove_contextual_quotes(input, mask);
 }

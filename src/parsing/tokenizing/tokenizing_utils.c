@@ -47,6 +47,7 @@ void	trait_word(t_token **tokens)
 		if (!check_quote(tmp->val.data))
 		{
 			*tokens = NULL;
+			g_interrupted[2] = 2;
 			printf("SYNTAXE ERROR\n");
 			return ;
 		}
@@ -70,6 +71,7 @@ void	trait_redir(t_token **tokens)
 			&& ((tmp->next && !is_word(tmp->next->t_type)) || !tmp->next))
 		{
 			printf("SYNTAXE ERROR\n");
+			g_interrupted[2] = 2;
 			*tokens = NULL;
 			return ;
 		}
