@@ -12,6 +12,23 @@
 
 #include <execution.h>
 
+void    remove_quotes(t_str *str, t_str *mask)
+{
+	str_peek_reset(str);
+	str_peek_reset(mask);
+    while (str_peek(str))
+    {
+        if (str_peek(mask) == 'Q')
+        {
+            str_erase(str, str->peek, 1);
+            str_erase(mask, str->peek, 1);
+            continue ;
+        }
+		str_peek_advance(str);
+		str_peek_advance(mask);
+    }
+}
+
 void	remove_quote(t_str *str)
 {
 	char	current_quote;
@@ -51,7 +68,6 @@ static bool	process_arg(t_str_arr *args, t_env *env,
 	if (!mask.data)
 		return (false);
 	expand_var(str_arr_peek(args), env, &mask);
-	remove_quote(str_arr_peek(args));
 	split = split_input(str_arr_peek(args), &mask);
 	str_arr_extend(out, &split);
 	str_arr_destroy(&split);

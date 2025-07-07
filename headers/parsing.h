@@ -127,7 +127,7 @@ void					trait_redir(t_token **tokens);
 void					trait_word(t_token **tokens);
 void					erase(char *str, size_t index);
 char					*quote_mask(const char *str);
-void					remove_quotes(char *str, char *mask);
+void					remove_quotes(t_str *str, t_str *mask);
 
 t_ast_node				*ast_new(t_grammar type, char *value);
 t_ast_node				*compound_command(t_token **tokens, bool is_subshell);
