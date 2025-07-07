@@ -95,7 +95,7 @@ void	expand_var(t_str *input, t_env *env, t_str *mask)
 	str_peek_reset(input);
 	while (str_peek(input))
 	{
-		printf("[%c][%c]\n", str_peek(input), str_peek(mask));
+		// printf("[%c][%c]\n", str_peek(input), str_peek(mask));
 		if (can_expand(input, mask)
 			&& is_valid_first_char(input->data[input->peek + 1]))
 			expand(input, mask, env);

@@ -1,7 +1,8 @@
-MakeGREEN  		= \033[0;32m
+GREEN  		= \033[0;32m
 YELLOW 		= \033[0;33m
 RED    		= \033[0;31m
 RESET  		= \033[0m
+BOLD		= \033[1m
 CLEAR		= \033[K\r
 NAME		= minishell
 CC			= cc
@@ -65,7 +66,7 @@ $(NAME): $(LIBFT) $(OBJ)
 
 obj/%.o: src/%.c
 	@mkdir -p $(dir $@)
-	@echo -n "$(YELLOW)complining $@...$(RESET)$(CLEAR)"
+	@echo "$(GREEN)$(BOLD)[ OK ]$(RESET) compiling $(BOLD)$@...$(RESET)$(CLEAR)"
 	@$(CC) -c $(CFLAGS) $< $(INCLUDES) -o $@
 
 $(LIBFT):

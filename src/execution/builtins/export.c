@@ -49,6 +49,8 @@ int	export_print(t_env *env)
 
 int	export(char **argv, t_env **env, t_data *data)
 {
+	// printf("arg:	|%s|\n", argv[0]);
+	// printf("arg:	|%s|\n", argv[1]);
 	int	i;
 	int	err;
 

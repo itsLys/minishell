@@ -86,6 +86,7 @@ void	concat_var(char *arg, t_env **env)
 
 void	assign_var(char *arg, t_env **env)
 {
+	// printf("arg:	|%s|\n", arg);
 	t_env	*node;
 	char	*tmp;
 	char	*eq;
@@ -98,13 +99,15 @@ void	assign_var(char *arg, t_env **env)
 			+ ft_strlen(node->name) == eq)
 		{
 			tmp = node->value;
-			node->value = ft_strndup(arg, eq - arg);
+			node->value = ft_strdup(eq + 1);
 			node->exported = true;
 			free(tmp);
 			return ;
 		}
 		node = node->next;
 	}
+	// printf("name: %s\n", ft_strndup(arg, eq - arg));
+	// printf("value: %s\n", ft_strdup(eq + 1));
 	env_add_last(new_env_node(ft_strndup(arg, eq - arg), ft_strdup(eq + 1),
 			true), env);
 }
