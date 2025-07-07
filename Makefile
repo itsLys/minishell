@@ -66,7 +66,7 @@ $(NAME): $(LIBFT) $(OBJ)
 
 obj/%.o: src/%.c
 	@mkdir -p $(dir $@)
-	@echo "$(GREEN)$(BOLD)[ OK ]$(RESET) compiling $(BOLD)$@...$(RESET)$(CLEAR)"
+	@echo "[$(GREEN)$(BOLD) OK $(RESET)$(BOLD)]$(RESET) compiling $(BOLD)$@...$(RESET)$(CLEAR)"
 	@$(CC) -c $(CFLAGS) $< $(INCLUDES) -o $@
 
 $(LIBFT):

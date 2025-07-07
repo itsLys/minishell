@@ -116,7 +116,7 @@ $(NAME): $(OBJ)
 obj/%.o: src/%.c
 	@mkdir -p $(dir $@)
 	@$(CC) $< $(INCLUDES) -o $@
-	@echo "$(GREEN)$(BOLD)[ OK ]$(RESET) inserting $(BOLD)$@...$(RESET)$(CLEAR)"
+	@echo "[$(GREEN)$(BOLD) OK $(RESET)$(BOLD)]$(RESET) inserting $(BOLD)$@...$(RESET)$(CLEAR)"
 	@$(AR) $(NAME) $@
 
 clean :
