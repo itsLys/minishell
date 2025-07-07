@@ -67,6 +67,7 @@ void	expand_mask(t_str *mask, t_str *name, t_str *val)
 	str_create(&new, "");
 	str_append_char(&new, str_peek(mask));
 	str_repeat(&new, val->size);
+	str_erase(mask, mask->peek, name->size + 1);
 	str_insert(mask, mask->peek, new.data);
 	str_destroy(&new);
 }
@@ -95,7 +96,6 @@ void	expand_var(t_str *input, t_env *env, t_str *mask)
 	str_peek_reset(input);
 	while (str_peek(input))
 	{
-		// printf("[%c][%c]\n", str_peek(input), str_peek(mask));
 		if (can_expand(input, mask)
 			&& is_valid_first_char(input->data[input->peek + 1]))
 			expand(input, mask, env);
@@ -104,6 +104,7 @@ void	expand_var(t_str *input, t_env *env, t_str *mask)
 			str_peek_advance(mask);
 			str_peek_advance(input);
 		}
+		printf("[%s][%s]\n", input->data, mask->data);
 	}
-	// remove_quote_expand(input, mask);
+// remove_quote_expand(input, mask);
 }
