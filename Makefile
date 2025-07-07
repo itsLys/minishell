@@ -9,13 +9,14 @@ CC			= cc
 CFLAGS		= -Wall -Wextra -Werror -g3
 LFLAGS		= -lreadline
 AR			= ar rcs
-INCLUDES	= -I./headers/ -I./libft/headers/ -I./string_lib/headers/
+INCLUDES	= -I./headers/ -I./libft/headers/
 LIBFT_DIR	= libft
 LIBFT		= $(addprefix $(LIBFT_DIR)/, libft.a)
 SRC			= src/main.c \
 			  src/free.c \
 			  src/init.c \
 			  src/signals/signals.c \
+			  src/prompt/get_time_rtc.c \
 			  src/execution/main.c \
 			  src/execution/utils.c \
 			  src/execution/redirections.c \

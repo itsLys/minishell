@@ -36,6 +36,7 @@
 # include <sys/stat.h>
 # include <signals.h>
 
+int	get_rtc_time(char *out, int max_len);
 
 // test
 #endif // !MINISHELL_H

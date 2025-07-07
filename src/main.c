@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:02:11 by ihajji            #+#    #+#             */
-/*   Updated: 2025/07/06 16:44:47 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/07/08 00:53:48 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,25 +21,27 @@
 // 	return &data;
 // }
 
-char	*build_prompt(void)
+char	*build_prompt(t_data *data)
 {
 	static char	prompt[PATH_MAX];
-	char		cwd[PATH_MAX];
+	char		*user;
+	char		*pwd;
+	char		time[16];
 
-	prompt[0] = '\0';
-	if (getcwd(cwd, sizeof(cwd)) == NULL)
-		return (NULL);
-	ft_strlcat(prompt, COLOR_BLUE, sizeof(prompt));
-	ft_strlcat(prompt, cwd, sizeof(prompt));
-	ft_strlcat(prompt, COLOR_RESET, sizeof(prompt));
-	ft_strlcat(prompt, " minishell$ ", sizeof(prompt));
+	user = get_env_value(data->env, "USER").data;
+	pwd = get_env_value(data->env, "PWD").data;
+	get_rtc_time(time, 16);
+    ft_snprintf(prompt, sizeof(prompt),
+        "┏[%s : %d]-(%s)-(%s)-(%s)\n"
+        "┗━━━(%s)-> ",
+        "ζ", g_interrupted[2], user, "minishell", time, pwd);
 	return (prompt);
 }
 // BUG: prompt and pwd fails if `mkdir -p x/y/z and cd x/y/z, and then rm -rf ../../../x`
 
 static int	get_input(t_data *data)
 {
-	data->input = readline(build_prompt());
+	data->input = readline(build_prompt(data));
 	if (!data->input)
 	{
 		free_resources(data->input, &data->tokens, &data->ast);

@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 11:50:35 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/23 23:13:58 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/07/08 00:38:10 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ char				*ft_strdup(const char *s);
 size_t				ft_strlcat(char *dst, const char *src, size_t dsize);
 size_t				ft_strlcpy(char *dst, const char *src, size_t size);
 size_t				ft_strlen(const char *s);
+size_t				ft_strlen_until(const char *str, char c);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 int					ft_strcmp(const char *s1, const char *s2);
 char				*ft_strnstr(const char *haystack, const char *needle,
@@ -116,6 +117,7 @@ void				ft_lstrotate(t_list **head);
 void				ft_lstswap(t_list **head);
 int					ft_printf(const char *fmt, ...);
 int					ft_dprintf(int fd, const char *fmt, ...);
+int					ft_snprintf(char *str, size_t size, const char *fmt, ...);
 int					ft_execvpe(char *file, char **av, char **envp);
 char				**ft_tokenize(char const *s);
 char				*ft_getenv(char **envp, char *var);

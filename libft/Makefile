@@ -41,6 +41,7 @@ SRC			= src/ft_isalnum.c \
 			  src/ft_strlcat.c \
 			  src/ft_strlcpy.c \
 			  src/ft_strlen.c \
+			  src/ft_strlen_until.c \
 			  src/ft_strmapi.c \
 			  src/ft_strncmp.c \
 			  src/ft_strnstr.c \
@@ -77,6 +78,15 @@ SRC			= src/ft_isalnum.c \
 			  src/ft_printf/print_str.c \
 			  src/ft_printf/print_unsigned.c \
 			  src/ft_printf/utils.c \
+			  src/ft_snprintf/ft_snprintf.c \
+			  src/ft_snprintf/parsing.c \
+			  src/ft_snprintf/print_char.c \
+			  src/ft_snprintf/print_hex.c \
+			  src/ft_snprintf/print_nbr.c \
+			  src/ft_snprintf/print_ptr.c \
+			  src/ft_snprintf/print_str.c \
+			  src/ft_snprintf/print_unsigned.c \
+			  src/ft_snprintf/utils.c \
 			  src/ft_dprintf/ft_dprintf.c \
 			  src/ft_dprintf/parsing.c \
 			  src/ft_dprintf/print_char.c \
@@ -111,6 +121,7 @@ all: $(NAME)
 
 
 $(NAME): $(OBJ)
+	@$(AR) $(NAME) $(OBJ)
 	@echo "$(GREEN)$(BOLD)Libft.a done!$(RESET)"
 
 obj/%.o: src/%.c
