@@ -59,7 +59,7 @@ void	consume_redir(t_token **tokens, t_ast_node *red_list)
 		filename = generate_file_name();
 		if (run_heredoc((*tokens)->val.data, &filename) == 0)
 		{
-			*tokens = NULL;
+			free_tokens(tokens);
 			return ;
 		}
 		str_destroy(&(*tokens)->val);

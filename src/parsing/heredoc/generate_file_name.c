@@ -13,23 +13,41 @@
 #include <parsing.h>
 #include <execution.h>
 
+static void	generate_safe_random_string(char *buffer)
+{
+	int				fd;
+	unsigned char	random_bytes[10];
+	size_t			i;
+
+	fd = open("/dev/urandom", O_RDONLY);
+	i = 0;
+	if (fd < 0 || read(fd, random_bytes, 10) != (ssize_t)10)
+	{
+		close(fd);
+		while (i < 10)
+			buffer[i++] = 'X';
+		buffer[10] = '\0';
+		return ;
+	}
+	close(fd);
+	while (i < 10)
+	{
+		buffer[i] = SCH[random_bytes[i] % SAFE_CHARS_LEN];
+		i++;
+	}
+	buffer[10] = '\0';
+}
+
 t_str	generate_file_name(void)
 {
 	t_str	prefix;
-	t_str	suffix;
-	char	buff[10];
 	t_str	filename;
-	int		fd_random;
+	char	suffix[11];
 
 	str_create(&filename, "/tmp/");
-	fd_random = open("/dev/random", O_RDONLY);
 	str_create(&prefix, "heredoc_");
-	read(fd_random, buff, 9);
-	buff[9] = '\0';
-	close(fd_random);
-	str_create(&suffix, buff);
-	str_replace_char(&suffix, '\\', '6');
-	str_append(&prefix, suffix.data);
+	generate_safe_random_string(suffix);
+	str_append(&prefix, suffix);
 	str_append(&filename, prefix.data);
 	return (filename);
 }

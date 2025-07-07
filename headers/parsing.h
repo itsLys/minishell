@@ -21,6 +21,8 @@
 # define DOUBQ 'D'
 # define SINNQ 'S'
 # define NONEQ 'N'
+# define SCH "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-"
+# define SAFE_CHARS_LEN 64
 
 typedef enum e_token_type
 {

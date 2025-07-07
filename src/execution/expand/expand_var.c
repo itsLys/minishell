@@ -14,12 +14,13 @@
 
 bool	is_valid_first_char(char c)
 {
-	return (ft_isalpha((unsigned char)c) || c == '_' || c == '"' || c == '\'');
+	return (ft_isalpha((unsigned char)c) || c == '_' || c == '"' || c == '\''
+			|| c == '?');
 }
 
 bool	is_valid_var_char(char c)
 {
-	return (ft_isalnum((unsigned char)c) || c == '_');
+	return (ft_isalnum((unsigned char)c) || c == '_' || c == '?');
 }
 
 bool	is_shell_variable(t_str str)
@@ -57,15 +58,17 @@ t_str	extreact_variable(t_str *input)
 void	expand_mask(t_str *mask, t_str *name, t_str *val)
 {
 	t_str	new;
-	str_create(&new, "");
+
 	if (val->size == 0)
 	{
 		str_erase(mask, mask->peek, name->size + 1);
 		return ;
 	}
+	str_create(&new, "");
 	str_append_char(&new, str_peek(mask));
 	str_repeat(&new, val->size);
 	str_insert(mask, mask->peek, new.data);
+	str_destroy(&new);
 }
 
 void	expand(t_str *input, t_str *mask, t_env *env)
@@ -92,6 +95,7 @@ void	expand_var(t_str *input, t_env *env, t_str *mask)
 	str_peek_reset(input);
 	while (str_peek(input))
 	{
+		printf("[%c][%c]\n", str_peek(input), str_peek(mask));
 		if (can_expand(input, mask)
 			&& is_valid_first_char(input->data[input->peek + 1]))
 			expand(input, mask, env);
@@ -101,4 +105,5 @@ void	expand_var(t_str *input, t_env *env, t_str *mask)
 			str_peek_advance(input);
 		}
 	}
+	// remove_quote_expand(input, mask);
 }

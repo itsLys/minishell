@@ -16,12 +16,20 @@ t_str	get_env_value(t_env *env, char *name)
 {
 	t_env	*node;
 	t_str	value;
+	char	*tmp;
 
+	if (!ft_strcmp(name, "?"))
+	{
+		tmp = ft_itoa(g_interrupted[2]);
+		str_create(&value, tmp);
+		free(tmp);
+		return (value);
+	}
 	node = env_find_var(env, name);
 	if (!node || !node->value)
-		str_create(&value, ft_strdup(""));
+		str_create(&value, "");
 	else
-		str_create(&value, ft_strdup(node->value));
+		str_create(&value, node->value);
 	return (value);
 }
 

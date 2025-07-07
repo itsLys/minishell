@@ -19,7 +19,6 @@ static void	sigint_handler_heredoc(int sig)
 {
 	(void)sig;
 	g_interrupted[0] = 1;
-	ft_dprintf(STDOUT_FILENO, "\n");
 }
 
 static int	my_rl_event_hook(void)
@@ -91,5 +90,5 @@ int	run_heredoc(char *delim, t_str *filename)
 	signal(SIGINT, SIG_DFL);
 	close(fd_hered);
 	str_destroy(&str_delim);
-	return (*(int *)ternary((!status), &(int){0}, &(int){-1}));
+	return (*(int *)ternary((!status), &(int){-1}, &(int){0}));
 }

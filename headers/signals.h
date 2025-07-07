@@ -13,8 +13,6 @@
 #ifndef SIGNALS_H
 # define SIGNALS_H
 
-# include <minishell.h>
-
 extern int	g_interrupted[3];
 
 void	setup_signals(void);
