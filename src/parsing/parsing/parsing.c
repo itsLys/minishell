@@ -44,8 +44,8 @@ t_ast_node	*subshell(t_token **tokens)
 
 	node[I_RED_LIST] = ast_new(G_REDIRECT_LIST, NULL);
 	node[I_SUBSHELL] = ast_new(G_SUBSHELL, NULL);
-	*tokens = (*tokens)->next;
-	if ((!(*tokens) || is_and_or((*tokens)->t_type)))
+	delete_token(tokens);
+	if ((!(*tokens) || is_and_or((*tokens)->t_type)) || (*tokens)->t_type == T_RPAR)
 		return (NULL);
 	node[I_COMPOUND_COMMAND] = compound_command(tokens, true);
 	if (!node[I_COMPOUND_COMMAND])
@@ -102,7 +102,14 @@ t_ast_node	*pipeline(t_token **tokens)
 	{
 		delete_token(tokens);
 		if ((*tokens && !valid_pipe(tokens)) || !(*tokens))
+		{
+			g_interrupted[2] = 2;
+			printf("SYNTAX ERROR\n");
+			free_all_ast(node[I_PIPELINE]);
+			free_tokens(tokens);
+			*tokens = NULL;
 			return (NULL);
+		}
 	}
 	return (node[I_PIPELINE]);
 }
@@ -128,7 +135,13 @@ t_ast_node	*compound_command(t_token **tokens, bool in_subshell)
 				ast_new((t_grammar)(*tokens)->t_type, NULL));
 			delete_token(tokens);
 			if ((*tokens && !valid_compound(tokens)) || !(*tokens))
-				return (NULL);
+			{
+				g_interrupted[2] = 2;
+				printf("SYNTAX ERROR\n");
+				free_tokens(tokens);
+				*tokens = NULL;
+				return (free_all_ast(node[I_COMPOUND_COMMAND]), NULL);
+			}
 		}
 		else if (*tokens && !in_subshell && (*tokens)->t_type == T_RPAR)
 			return (NULL);

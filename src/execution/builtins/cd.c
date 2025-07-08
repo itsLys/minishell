@@ -44,7 +44,7 @@ static void update_pwd(char *cwd, t_data *data, t_env *env)
 		old->value = data->pwd; 
 		data->oldpwd = ft_strdup(old->value);
 	}
-	if (pwd)
+	if (pwd && cwd)
 	{
 		pwd->value = cwd;
 		data->pwd = ft_strdup(cwd);

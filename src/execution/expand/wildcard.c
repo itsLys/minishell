@@ -6,7 +6,7 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 05:02:49 by zbengued          #+#    #+#             */
-/*   Updated: 2025/06/24 05:28:07 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/06/24 05:27:53 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,16 @@ bool	match_wildcard(const char *pattern, const char *str)
 	return (!(*str));
 }
 
+
+// NOTE : * adf adfa adsf asdf adsf adsf 
 void	expand_all_wildcards(t_str_arr *args, t_str_arr *masks)
 {
 	size_t	i;
+	size_t	limit;
 
 	i = 0;
-	while (i < args->size)
+	limit = args->size;
+	while (i < limit)
 	{
 		if (contains_wildcard_masked(&args->items[i], &masks->items[i]))
 			expand_wildcard_at(args, masks, i++);

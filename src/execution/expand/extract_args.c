@@ -71,8 +71,8 @@ static bool	process_arg(t_str_arr *args, t_env *env,
 	split = split_input(str_arr_peek(args), &mask);
 	str_arr_extend(out, &split);
 	str_arr_destroy(&split);
-	str_destroy(&mask);
 	str_arr_push(masks, mask.data);
+	str_destroy(&mask);
 	// str_destroy(str_arr_peek(args));
 	return (true);
 }

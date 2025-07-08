@@ -20,6 +20,9 @@ char	*expand_filename(t_str *filename, t_env *env)
 	i = 0;
 	mask = build_mask(filename);
 	expand_var(filename, env, &mask);
+	str_peek_reset(filename);
+	if (!str_peek(filename))
+		return (NULL);
 	if (str_find(filename, " ") == -1 && str_find(filename, "\n") == -1
 		&& str_find(filename, "\t") == -1 )
 		return (filename->data);

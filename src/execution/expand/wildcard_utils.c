@@ -72,7 +72,9 @@ void	expand_wildcard_at(t_str_arr *args, t_str_arr *masks, size_t index)
 	t_str_arr	matches;
 
 	str_arr_init(&matches);
+	printf("before ! \n");
 	collect_wildcard_matches(&matches, args->items[index].data);
+	printf("after  ! \n");
 	if (matches.size == 0)
 	{
 		str_arr_destroy(&matches);
