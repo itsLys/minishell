@@ -18,13 +18,13 @@ int	ft_exit(char **argv, t_env **env, t_data *data)
 
 	(void)argv;
 	(void)env;
-	if (argv[1] && argv[2])
-		print_error(argv[0], "too many arguments");
 	if (argv[1] && ft_strisnum(argv[1]) == false)
 	{
 		print_error(argv[0], "numeric argument required");
-		status = 2;
+		clean_exit(2, data);
 	}
+	if (argv[1] && argv[2])
+		return (print_error(argv[0], "too many arguments"), FAILIURE);
 	else if (argv[1])
 		status = ft_atol(argv[1]) % 256;
 	else

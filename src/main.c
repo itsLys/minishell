@@ -29,8 +29,8 @@ char	*build_prompt(t_data *data)
 
 	user = get_env_value(data->env, "USER").data;
 	pwd = get_env_value(data->env, "PWD").data;
-	if (ft_strlen(pwd) == get_env_value(data->env, "HOME").size)
-		pwd = "~";
+	// if (ft_strlen(pwd) == get_env_value(data->env, "HOME").size) // WARN: FLAWED
+	// 	pwd = "~";
 	get_rtc_time(time, 16);
 	if (g_interrupted[2] == 0)
 		ft_snprintf(prompt, sizeof(prompt),
@@ -48,6 +48,8 @@ char	*build_prompt(t_data *data)
 			"-(" COLOR_RED "%s" COLOR_RESET ")\n"
 			"┗━━━(" COLOR_CYAN "%s" COLOR_RESET ")-> ",
 			g_interrupted[2], user, "minishell", time, pwd);
+	free(user);
+	free(pwd);
 	return (prompt);
 }
 // BUG: prompt and pwd fails if `mkdir -p x/y/z and cd x/y/z, and then rm -rf ../../../x` + SEGV
@@ -57,7 +59,8 @@ static int	get_input(t_data *data)
 	data->input = readline(build_prompt(data));
 	if (!data->input)
 	{
-		free_resources(data->input, &data->tokens, &data->ast);
+		printf("before exiting\n");
+		clean_exit(g_interrupted[2], data);
 		return printf("exit\n");
 	}
 	return (SUCCESS);

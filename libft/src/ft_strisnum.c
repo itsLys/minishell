@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 #include "libft.h"
 
+#include <stdio.h>
 int	ft_strisnum(char *str)
 {
 	int	i;
@@ -33,6 +34,6 @@ int	ft_strisnum(char *str)
 		i++;
 	}
 	if (i == 0 || str[i] || digit == 0)
-		return (-1);
-	return (0);
+		return (0);
+	return (1);
 }

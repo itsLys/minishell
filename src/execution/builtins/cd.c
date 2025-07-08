@@ -18,7 +18,7 @@ static char	*get_dir(char **argv, char *home)
 	{
 		if (home == NULL)
 			return (print_error(argv[0], "HOME not set"), NULL);
-		return (home);
+		return (ft_strdup(home));
 	}
 	else if (ft_strncmp(argv[1], "~/", 2) == 0)
 	{
@@ -41,14 +41,19 @@ static void update_pwd(char *cwd, t_data *data, t_env *env)
 	pwd = env_find_var(env, "PWD");
 	if (old && pwd)
 	{
+		free(old->value);
 		old->value = data->pwd; 
+		free(data->oldpwd);
 		data->oldpwd = ft_strdup(old->value);
 	}
 	if (pwd && cwd)
 	{
+		free(pwd->value);
 		pwd->value = cwd;
+		free(data->pwd);
 		data->pwd = ft_strdup(cwd);
 	}
+
 }
 
 int	cd(char **argv, t_env **env, t_data *data)
@@ -57,6 +62,7 @@ int	cd(char **argv, t_env **env, t_data *data)
 	char	*home;
 	t_env	*home_var;
 
+	dir = NULL;
 	if (argv[1] && argv[2])
 		return (print_error(argv[0], "too many arguments"), FAILIURE);
 	home_var = env_find_var(*env, "HOME");
@@ -65,10 +71,11 @@ int	cd(char **argv, t_env **env, t_data *data)
 	else
 		home = NULL;
 	dir = get_dir(argv, home);
+	free(home);
 	if (dir)
 	{
 		if (dir[0] == '\0')
-			return (SUCCESS);
+			return (free(dir), SUCCESS);
 		if (chdir(dir) != SUCCESS)
 			return (free(dir), perror(argv[0]), FAILIURE);
 		update_pwd(getcwd(NULL, 0), data, *env);

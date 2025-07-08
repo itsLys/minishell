@@ -65,6 +65,7 @@ void	sort_env(t_env **env)
 
 void	free_env_node(t_env *node)
 {
+	// printf("free env node\n");
 	free(node->name);
 	free(node->value);
 	free(node);

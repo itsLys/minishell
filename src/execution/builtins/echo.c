@@ -21,6 +21,8 @@ static bool	is_n_flaged(char *arg)
 		return (false);
 	if (arg[i] == 'n')
 		i++;
+	else
+		return (false);
 	while (arg[i] == 'n')
 		i++;
 	return (arg[i] == '\0');
