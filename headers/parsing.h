@@ -6,7 +6,7 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 22:25:21 by zbengued          #+#    #+#             */
-/*   Updated: 2025/07/06 16:23:26 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/07/08 01:28:28 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,14 @@
 # define PARSING_H
 
 # include "minishell.h"
-# define COLOR_BLUE "\001\033[1;34m\002"
-# define COLOR_RESET "\001\033[0m\002"
+# define COLOR_RESET   "\001\033[0m\002"
+# define COLOR_BLUE    "\001\033[1;34m\002"
+# define COLOR_RED     "\001\033[31m\002"
+# define COLOR_GREEN   "\001\033[32m\002"
+# define COLOR_YELLOW  "\001\033[33m\002"
+# define COLOR_MAGENTA "\001\033[35m\002"
+# define COLOR_CYAN    "\001\033[36m\002"
+# define COLOR_WHITE   "\001\033[37m\002"
 # define WORDS 0
 # define REDIR 1
 # define DOUBQ 'D'

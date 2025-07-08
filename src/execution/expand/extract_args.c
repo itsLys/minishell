@@ -6,7 +6,7 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 23:46:26 by zbengued          #+#    #+#             */
-/*   Updated: 2025/07/03 20:26:38 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/07/08 01:54:11 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ static bool	process_arg(t_str_arr *args, t_env *env,
 	return (true);
 }
 
+// BUG: wildcard should be fixed
 char	**extract_args(t_str_arr *args, t_env *env_list)
 {
 	t_str_arr	new_args;
