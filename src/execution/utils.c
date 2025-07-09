@@ -14,6 +14,6 @@
 
 int	print_error(char *name, char *msg)
 {
-	ft_dprintf(STDOUT, "%s: %s\n", name, msg);
+	ft_dprintf(STDERR, "%s: %s\n", name, msg);
 	return (FAILIURE);
 }

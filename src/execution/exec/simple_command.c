@@ -20,6 +20,7 @@ static int	execute_bin(char **argv, t_data *data)
 
 	envp = make_envp(data->env);
 	status = ft_execvpe(argv[0], argv, envp);
+	ft_dprintf(STDERR, "%s: command not found\n", argv[0]);
 	ft_free_vector(argv);
 	ft_free_vector(envp);
 	clean_exit(status, data);
@@ -48,12 +49,12 @@ int	execute_simple_command(t_ast_node *node, t_data *data, bool run_in_shell)
 	int			status;
 
 	status = 0;
+	// save_stdio(stdio, data);
+	if (node->child->sibling->child && setup_redir(node->child->sibling->child, data))
+		return (/* restore_stdio(stdio), */ FAILIURE);
 	argv = extract_args(&node->child->args, data->env);
 	if (argv && *argv == NULL)
-		return SUCCESS;
-	save_stdio(stdio, data);
-	if (node->child->sibling->child && setup_redir(node->child->sibling->child, data))
-		return (restore_stdio(stdio), FAILIURE);
+		return restore_stdio(stdio), SUCCESS;
 	builtin = find_builtin(argv[0]);
 	if (builtin)
 		status = builtin->function(argv, &(data->env), data);
