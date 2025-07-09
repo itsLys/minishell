@@ -34,20 +34,20 @@ char	*build_prompt(t_data *data)
 	get_rtc_time(time, 16);
 	if (g_interrupted[2] == 0)
 		ft_snprintf(prompt, sizeof(prompt),
-			"┏[" COLOR_GREEN "%d" COLOR_RESET "]"
-			"-(" COLOR_BLUE "%s" COLOR_RESET ")"
-			"-(" COLOR_MAGENTA "%s" COLOR_RESET ")"
-			"-(" COLOR_RED "%s" COLOR_RESET ")\n"
-			"┗━━━(" COLOR_CYAN "%s" COLOR_RESET ")-> ",
-			g_interrupted[2], user, "minishell", time, pwd);
-	else 
+				"┏[" COLOR_GREEN "%d" COLOR_RESET "]"
+				"-(" COLOR_BLUE "%s" COLOR_RESET ")"
+				"-(" COLOR_MAGENTA "%s" COLOR_RESET ")"
+				"-(" COLOR_RED "%s" COLOR_RESET ")\n"
+				"┗━━━(" COLOR_CYAN "%s" COLOR_RESET ")-> ",
+				g_interrupted[2], user, "minishell", time, pwd);
+	else
 		ft_snprintf(prompt, sizeof(prompt),
-			"┏[" COLOR_RED "%d" COLOR_RESET "]"
-			"-(" COLOR_BLUE "%s" COLOR_RESET ")"
-			"-(" COLOR_MAGENTA "%s" COLOR_RESET ")"
-			"-(" COLOR_RED "%s" COLOR_RESET ")\n"
-			"┗━━━(" COLOR_CYAN "%s" COLOR_RESET ")-> ",
-			g_interrupted[2], user, "minishell", time, pwd);
+				"┏[" COLOR_RED "%d" COLOR_RESET "]"
+				"-(" COLOR_BLUE "%s" COLOR_RESET ")"
+				"-(" COLOR_MAGENTA "%s" COLOR_RESET ")"
+				"-(" COLOR_RED "%s" COLOR_RESET ")\n"
+				"┗━━━(" COLOR_CYAN "%s" COLOR_RESET ")-> ",
+				g_interrupted[2], user, "minishell", time, pwd);
 	free(user);
 	free(pwd);
 	return (prompt);
@@ -55,15 +55,53 @@ char	*build_prompt(t_data *data)
 
 static int	get_input(t_data *data)
 {
-	data->input = readline(build_prompt(data));
+	if (isatty(fileno(stdin)))
+		data->input = readline(build_prompt(data));
+	else
+	{
+		char *line;
+		line = get_next_line(fileno(stdin));
+		data->input = ft_strtrim(line, "\n");
+		free(line);
+	} // NOTE: FOR TESTER, REMOVE LATER
+
+	// data->input = readline(build_prompt(data));
 	if (!data->input)
 	{
-		printf("before exiting\n");
+		// printf("before exiting\n");
 		clean_exit(g_interrupted[2], data);
-		return printf("exit\n");
+		return 1;
+		// return printf("exit\n");
 	}
 	return (SUCCESS);
 }
+
+
+// BUG: /bin/echo $"42$"
+//			ms:	42 |	bash:	42$
+// BUG: /bin/echo $USER'$USER'text oui oui     oui  oui $USER oui      $USER ''
+//			bash:	|ihajji$USERtext oui oui oui oui ihajji oui ihajji $
+//			ms		|ihajji$USERtext oui oui oui oui ihajji oui ihajji$
+// BUG: /bin/echo '' ""
+// 			bash:	| $
+// 			ms:		|$		#ghaytfixa fach tfixi li fo9o
+// BUG:	/bin/echo $USER$TESTNOTFOUND$HOME$ | cat -e
+//			ms:		|ihajji$HOME$$
+//			bahs:	|ihajji/home/ihajji$$
+// BUG:	echo "" "" "" -n -n -n -n
+// 			argv makiwslnich fih strings li khawying
+// 			expecting:
+// 				0:      |echo|
+// 				1:      |   -n|
+// 				2:      |-n|
+// 				3:      |-n|
+// 				4:      |-n|
+// 			recieving:
+// 				0:      |echo|
+// 				1:      |-n|
+// 				2:      |-n|
+// 				3:      |-n|
+// 				4:      |-n|
 
 
 // void free_data(t_data *data)
@@ -98,6 +136,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)),
 	data.ast = NULL;
 	while (1)
 	{
+
 		setup_signals();
 		if (get_input(&data))
 			return (SUCCESS);

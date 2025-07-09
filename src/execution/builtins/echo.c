@@ -12,6 +12,16 @@
 
 #include "execution.h"
 
+static void print_vec(char **vec) // NOTE: tester function
+{
+	int i = 0;
+	while (vec[i])
+	{
+		printf("%d:	|%s|\n", i, vec[i]);
+		i++;
+	}
+
+}
 static bool	is_n_flaged(char *arg)
 {
 	int	i;
@@ -33,10 +43,11 @@ int	echo(char **argv, t_env **env, t_data *data)
 	int	n_flaged;
 	int	i;
 
-	i = 1;
-	n_flaged = 0;
 	(void)data;
 	(void)env;
+	i = 1;
+	n_flaged = 0;
+	print_vec(argv);
 	while (is_n_flaged(argv[i]))
 	{
 		n_flaged = 1;

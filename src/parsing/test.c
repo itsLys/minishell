@@ -13,23 +13,23 @@
 #include "parsing.h"
 #include <stdio.h>
 
-void	print_tokens(t_token *tokens)
-{
-	while (tokens)
-	{
-		printf("Type: %s", tokens->type);
-		if (tokens->val.data)
-			printf(" | Value: %s", tokens->val.data);
-		printf("\n");
-		tokens = tokens->next;
-	}
-}
-
-
-void	print_token(t_token *token)
-{
-	printf("val ; %s\ntype ; %s\n", token->val.data, token->type);
-}
+// void	print_tokens(t_token *tokens)
+// {
+// 	while (tokens)
+// 	{
+// 		printf("Type: %s", tokens->type);
+// 		if (tokens->val.data)
+// 			printf(" | Value: %s", tokens->val.data);
+// 		printf("\n");
+// 		tokens = tokens->next;
+// 	}
+// }
+//
+//
+// void	print_token(t_token *token)
+// {
+// 	printf("val ; %s\ntype ; %s\n", token->val.data, token->type);
+// }
 
 // void	ast_print(t_ast_node *node, size_t depth, const char *prefix, int is_last)
 // {
