@@ -44,7 +44,7 @@ static int setup_redir_heredoc(t_str *file, t_data *data)
 
 	expand_heredoc(file, data->env);
 	fd = open(file->data, O_RDONLY);
-	printf("fd:	%d\n", fd);
+	// printf("fd:	%d\n", fd);
 	if (fd == ERROR)
 		return perror(file->data), ERROR;
 	dup2(fd, STDIN_FILENO);

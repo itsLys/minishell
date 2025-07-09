@@ -56,15 +56,40 @@ char	*build_prompt(t_data *data)
 
 static int	get_input(t_data *data)
 {
-	data->input = readline(build_prompt(data));
+	if (isatty(fileno(stdin)))
+		data->input = readline(build_prompt(data));
+	else
+	{
+		char *line;
+		line = get_next_line(fileno(stdin));
+		data->input = ft_strtrim(line, "\n");
+		free(line);
+	} // NOTE: FOR TESTER, REMOVE LATER
+	
+	// data->input = readline(build_prompt(data));
 	if (!data->input)
 	{
-		printf("before exiting\n");
+		// printf("before exiting\n");
 		clean_exit(g_interrupted[2], data);
-		return printf("exit\n");
+		return 1;
+		// return printf("exit\n");
 	}
 	return (SUCCESS);
 }
+
+
+// BUG: /bin/echo $"42$" 
+//			ms:	42 |	bash:	42$
+// BUG: /bin/echo $USER'$USER'text oui oui     oui  oui $USER oui      $USER ''
+//			bash:	|ihajji$USERtext oui oui oui oui ihajji oui ihajji $
+//			ms		|ihajji$USERtext oui oui oui oui ihajji oui ihajji$
+// BUG: /bin/echo '' ""
+// 			bash:	| $
+// 			ms:		|$		#ghaytfixa fach tfixi li fo9o
+// BUG:	/bin/echo $USER$TESTNOTFOUND$HOME$ | cat -e
+//			ms:		|ihajji$HOME$$
+//			bahs:	|ihajji/home/ihajji$$
+//
 
 
 // void free_data(t_data *data)
@@ -99,6 +124,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)),
 	data.ast = NULL;
 	while (1)
 	{
+
 		setup_signals();
 		if (get_input(&data))
 			return (SUCCESS);
