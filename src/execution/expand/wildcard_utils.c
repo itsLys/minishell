@@ -13,7 +13,7 @@
 #include <execution.h>
 #include <parsing.h>
 
-static void	collect_wildcard_matches(t_str_arr *matches, const char *pattern)
+static void	collect_wildcard_matches(t_str_arr *matches, t_str *pattern, t_str *mask)
 {
 	DIR				*dir;
 	struct dirent	*entry;
@@ -24,12 +24,12 @@ static void	collect_wildcard_matches(t_str_arr *matches, const char *pattern)
 	entry = readdir(dir);
 	while (entry)
 	{
-		if ((entry->d_name[0] == '.' && pattern[0] != '.'))
+		if ((entry->d_name[0] == '.' && pattern->data[0] != '.'))
 		{
 			entry = readdir(dir);
 			continue ;
 		}
-		if (match_wildcard(pattern, entry->d_name))
+		if (match_wildcard(pattern, mask, entry->d_name))
 			str_arr_push(matches, entry->d_name);
 		entry = readdir(dir);
 	}
@@ -72,9 +72,8 @@ void	expand_wildcard_at(t_str_arr *args, t_str_arr *masks, size_t index)
 	t_str_arr	matches;
 
 	str_arr_init(&matches);
-	printf("before ! \n");
-	collect_wildcard_matches(&matches, args->items[index].data);
-	printf("after  ! \n");
+	collect_wildcard_matches(&matches, &args->items[index],
+		&masks->items[index]);
 	if (matches.size == 0)
 	{
 		str_arr_destroy(&matches);

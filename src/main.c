@@ -52,7 +52,6 @@ char	*build_prompt(t_data *data)
 	free(pwd);
 	return (prompt);
 }
-// BUG: prompt and pwd fails if `mkdir -p x/y/z and cd x/y/z, and then rm -rf ../../../x` + SEGV
 
 static int	get_input(t_data *data)
 {
