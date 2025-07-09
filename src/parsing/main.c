@@ -52,6 +52,7 @@ void	parse_input(char *input, t_token **tokens, t_ast_node **node)
 	trait_word(tokens);
 	if (*tokens)
 		*node = compound_command(tokens, false);
+	ast_print(*node, 0, "", 1);
 	if (g_interrupted[0] == 1)
 	{
 		free_all_ast(*node);
