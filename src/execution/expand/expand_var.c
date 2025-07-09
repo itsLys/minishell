@@ -105,5 +105,4 @@ void	expand_var(t_str *input, t_env *env, t_str *mask)
 			str_peek_advance(input);
 		}
 	}
-	remove_quotes(input, mask);
 }
