@@ -49,12 +49,12 @@ int	execute_simple_command(t_ast_node *node, t_data *data, bool run_in_shell)
 	int			status;
 
 	status = 0;
-	// save_stdio(stdio, data);
-	if (node->child->sibling->child && setup_redir(node->child->sibling->child, data))
-		return (/* restore_stdio(stdio), */ FAILIURE);
 	argv = extract_args(&node->child->args, data->env);
 	if (argv && *argv == NULL)
-		return restore_stdio(stdio), SUCCESS;
+		return SUCCESS;
+	save_stdio(stdio, data);
+	if (node->child->sibling->child && setup_redir(node->child->sibling->child, data))
+		return (restore_stdio(stdio), FAILIURE);
 	builtin = find_builtin(argv[0]);
 	if (builtin)
 		status = builtin->function(argv, &(data->env), data);
