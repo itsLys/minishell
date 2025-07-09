@@ -55,7 +55,7 @@ t_str_arr	split_input(t_str *input, t_str *mask)
 		else
 			str_peek_advance(input);
 	}
-	if (input->peek > start)
+	if (input->peek > start || !input->peek)
 		push_segment(&result, input, start, input->peek);
 	return (result);
 }
