@@ -36,9 +36,9 @@ int	ft_execvpe(char *file, char **av, char **envp)
 	int		status;
 
 	if (ft_strchr(file, '/') && execve(file, av, envp) == ERROR)
-		return (ERROR);
+		return (CMD_NOT_FOUND);
 	path = ft_getenv(envp, "PATH=");
-	if (path == NULL)
+	if (path == NULL && execve(file, av, envp) == ERROR)
 		return (CMD_NOT_FOUND);
 	path_list = ft_getpath(path);
 	if (path_list == NULL)

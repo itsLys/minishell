@@ -63,7 +63,7 @@ int	export(char **argv, t_env **env, t_data *data)
 	{
 		if (export_arg(argv[i], env))
 		{
-			err = 2;
+			err = 1;
 			ft_dprintf(STDERR, "%s: %s: not a valid identifier\n",
 				argv[0], argv[i]);
 		}

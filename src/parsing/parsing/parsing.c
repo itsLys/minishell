@@ -61,7 +61,7 @@ t_ast_node	*subshell(t_token **tokens)
 	if (!(*tokens))
 		return (NULL);
 	delete_token(tokens);
-	if (*tokens && is_word((*tokens)->t_type))
+	if (*tokens && (is_word((*tokens)->t_type) || (*tokens)->t_type == T_LPAR))
 		return (NULL);
 	while (*tokens && is_redi((*tokens)->t_type))
 		consume_redir(tokens, node[I_RED_LIST]);
@@ -127,8 +127,8 @@ t_ast_node	*compound_command(t_token **tokens, bool in_subshell)
 			&& is_operator((*tokens)->t_type) && in_subshell)
 			return (ast_add_child(node[I_COMPOUND_COMMAND], node[I_PIPELINE]),
 				node[I_COMPOUND_COMMAND]);
-		else if (!node[I_PIPELINE])
-			return (NULL);
+		else if (!node[I_PIPELINE] && !(*tokens))
+			return (syntax_err(tokens, node[I_COMPOUND_COMMAND]), NULL);
 		ast_add_child(node[I_COMPOUND_COMMAND], node[I_PIPELINE]);
 		if (*tokens && is_and_or((*tokens)->t_type))
 		{

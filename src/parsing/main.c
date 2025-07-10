@@ -44,15 +44,11 @@ void	add_token(t_token **head, char *type, t_str *value,
 
 void	parse_input(char *input, t_token **tokens, t_ast_node **node)
 {
-	// t_token *tmp;
-	//
-	// tmp = *tokens;
 	lexer(tokens, input);
 	trait_redir(tokens);
 	trait_word(tokens);
 	if (*tokens)
 		*node = compound_command(tokens, false);
-	// ast_print(*node, 0, "", 1);
 	if (g_interrupted[0] == 1)
 	{
 		free_all_ast(*node);
@@ -63,5 +59,4 @@ void	parse_input(char *input, t_token **tokens, t_ast_node **node)
 		syntax_err(tokens, *node);
 	if (*input)
 		add_history(input);
-	// free_tokens(&tmp);
 }

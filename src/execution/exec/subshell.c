@@ -19,7 +19,7 @@ int execute_subshell(t_ast_node *node, t_data *data)
 	int	status;
 
 	save_stdio(stdio, data);
-	if (node->child->sibling && setup_redir(node->child->sibling->child, data))
+	if (node->child->sibling && setup_redir(node->child->sibling->child, stdio, data))
 		return (restore_stdio(stdio), FAILIURE);
 	pid = fork();
 	if (pid == 0)
