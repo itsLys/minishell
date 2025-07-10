@@ -28,6 +28,7 @@ static int setup_redir_trunc(char *file)
 
 static int setup_redir_append(char *file)
 {
+	// dprintf(2, "%s\n", file);
 	int	fd;
 
 	fd = open(file, O_WRONLY | O_APPEND | O_CREAT,
@@ -76,12 +77,9 @@ int setup_redir(t_ast_node *redir, int stdio[2], t_data *data)
 	(void) stdio;
 	while (redir/*  && dprintf(2, "%p\n", redir) */)
 	{
-		if (redir)
-		{
-			file = expand_filename(&redir->value, data->env);
-			if (file == NULL)
-				return (ft_dprintf(STDERR_FILENO, "ambiguous redirect\n"), FAILIURE);
-		}
+		file = expand_filename(&redir->value, data->env);
+		if (file == NULL)
+			return (ft_dprintf(STDERR_FILENO, "ambiguous redirect\n"), FAILIURE);
 		if (redir->type == G_REDI_TRUNC)
 			status = setup_redir_trunc(file);
 		else if (redir->type == G_REDI_APPEND)
