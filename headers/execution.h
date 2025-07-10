@@ -125,6 +125,7 @@ bool				contains_wildcard(const char *str);
 bool				match_wildcard_from(t_str *pattern, t_str *mask, const char *str, size_t p_index);
 bool				match_wildcard(t_str *pattern, t_str *mask, const char *str);
 void				expand_all_wildcards(t_str_arr *args, t_str_arr *masks);
+void				expand_wildcard_in_str(t_str *input, t_str *mask);
 void				expand_wildcard_at(t_str_arr *args,
 						t_str_arr *masks, size_t index);
 void				expand_heredoc(t_str *filename, t_env *env);

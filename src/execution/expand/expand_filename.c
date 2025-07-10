@@ -23,15 +23,25 @@ char	*expand_filename(t_str *filename, t_env *env)
 	str_peek_reset(filename);
 	if (!str_peek(filename))
 		return (NULL);
-	if (str_find(filename, " ") == -1 && str_find(filename, "\n") == -1
-		&& str_find(filename, "\t") == -1 )
-		return (filename->data);
+	// if (str_find(filename, " ") == -1 && str_find(filename, "\n") == -1
+	// 	&& str_find(filename, "\t") == -1 )
+	// 	return (filename->data);
 	while (i < filename->size)
 	{
 		if ((str_char_at(filename, i) == '\t'
 			|| str_char_at(filename, i) == '\n'
 			|| str_char_at(filename, i) == ' ')
 			&& (str_char_at(&mask, i) == 'N'))
+			return (str_destroy(&mask), NULL);
+		i++;
+	}
+	expand_wildcard_in_str(filename, &mask);
+	i = 0;
+	while (i < filename->size)
+	{
+		if ((str_char_at(filename, i) == '\t'
+			|| str_char_at(filename, i) == '\n'
+			|| str_char_at(filename, i) == ' '))
 			return (str_destroy(&mask), NULL);
 		i++;
 	}
