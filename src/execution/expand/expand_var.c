@@ -14,7 +14,7 @@
 
 bool	is_valid_first_char(char c)
 {
-	return (ft_isalpha((unsigned char)c) || c == '_' || c == '"' || c == '\''
+	return (ft_isalpha((unsigned char)c) || c == '_'
 			|| c == '?');
 }
 
@@ -80,12 +80,11 @@ void	expand(t_str *input, t_str *mask, t_env *env)
 	variable = extreact_variable(input);
 	value = get_env_value(env, variable.data);
 	str_prepend(&variable, "$");
-	str_replace(input, variable.data, value.data, ONE);
+	// str_replace(input, variable.data, value.data, ONE);
+	str_segment_replace(input, input->peek, variable.size + 1, value.data);
 	expand_mask(mask, &variable, &value);
-	input->peek += *(size_t *)ternary((variable.size > value.size),
-		&value.size, &variable.size);
-	mask->peek += *(size_t *)ternary((variable.size > value.size),
-		&value.size, &variable.size);
+	input->peek += value.size;
+	mask->peek += value.size;
 	str_destroy(&variable);
 	str_destroy(&value);
 }
