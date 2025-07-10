@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 18:38:36 by ihajji            #+#    #+#             */
-/*   Updated: 2025/07/02 18:38:41 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/07/02 18:38:36 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 int save_stdio(int stdio[2], t_data *data)
 {
-	int	stdin;
-	int	stdout;
+	int	s_stdin;
+	int	s_stdout;
 
-	stdout = dup(STDOUT_FILENO);
-	stdin = dup(STDIN_FILENO);
-	if (stdout == ERROR || stdin == ERROR)
+	s_stdout = dup(STDOUT_FILENO);
+	s_stdin = dup(STDIN_FILENO);
+	if (s_stdout == ERROR || s_stdin == ERROR)
 		return perror("dup"), clean_exit(FAILIURE, data), FAILIURE;
-	stdio[STDOUT_FILENO] =  stdout;
-	stdio[STDIN_FILENO] = stdin;
+	stdio[STDOUT_FILENO] =  s_stdout;
+	stdio[STDIN_FILENO] = s_stdin;
 	return SUCCESS;
 }
 

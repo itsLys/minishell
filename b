@@ -1,7 +1,6 @@
-*
+a
+b
 compile_flags.txt
-f
-file
 headers
 libft
 machakil.sh
@@ -11,6 +10,3 @@ obj
 README.md
 src
 temp
-test
-test.sh
-test*test

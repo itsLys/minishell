@@ -133,7 +133,7 @@ char				*expand_filename(t_str *filename, t_env *env);
 void 				remove_contextual_quotes(t_str *str, t_str *mask);
 
 // redirections
-int					setup_redir(t_ast_node *redir, t_data *data);
+int					setup_redir(t_ast_node *redir, int stdio[2], t_data *data);
 int					save_stdio(int stdio[2], t_data *data);
 void				restore_stdio(int stdio[2]);
 
