@@ -83,9 +83,9 @@ void	expand(t_str *input, t_str *mask, t_env *env)
 	str_replace(input, variable.data, value.data, ONE);
 	expand_mask(mask, &variable, &value);
 	input->peek += *(size_t *)ternary((variable.size > value.size),
-		&variable.size, &value.size);
+		&value.size, &variable.size);
 	mask->peek += *(size_t *)ternary((variable.size > value.size),
-		&variable.size, &value.size);
+		&value.size, &variable.size);
 	str_destroy(&variable);
 	str_destroy(&value);
 }
