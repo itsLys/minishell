@@ -6,7 +6,7 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 17:53:35 by zbengued          #+#    #+#             */
-/*   Updated: 2025/07/01 12:31:48 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/07/10 15:59:37 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,7 @@ void	trait_word(t_token **tokens)
 			continue ;
 		}
 		if (!check_quote(tmp->val.data))
-		{
-			*tokens = NULL;
-			g_interrupted[2] = 2;
-			printf("SYNTAXE ERROR\n");
-			return ;
-		}
+			syntax_err(tokens, NULL);
 		tmp = tmp->next;
 	}
 }
@@ -69,12 +64,7 @@ void	trait_redir(t_token **tokens)
 		}
 		else if (is_redi(tmp->t_type)
 			&& ((tmp->next && !is_word(tmp->next->t_type)) || !tmp->next))
-		{
-			printf("SYNTAXE ERROR\n");
-			g_interrupted[2] = 2;
-			*tokens = NULL;
-			return ;
-		}
+			syntax_err(tokens, NULL);
 		tmp = tmp->next;
 	}
 }

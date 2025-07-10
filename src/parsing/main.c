@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 07:54:13 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/01 08:02:08 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/07/10 15:57:33 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,7 @@ void	parse_input(char *input, t_token **tokens, t_ast_node **node)
 		return ;
 	}
 	if (!*node && *tokens)
-	{
-		g_interrupted[2] = 2;
-		printf("SYNTAXE ERROR\n");
-	}
+		syntax_err(tokens, *node);
 	if (*input)
 		add_history(input);
 	// free_tokens(&tmp);

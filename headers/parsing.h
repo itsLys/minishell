@@ -6,7 +6,7 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 22:25:21 by zbengued          #+#    #+#             */
-/*   Updated: 2025/07/08 01:28:28 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/07/10 15:56:24 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,8 @@ void					trait_word(t_token **tokens);
 void					erase(char *str, size_t index);
 char					*quote_mask(const char *str);
 void					remove_quotes(t_str *str, t_str *mask);
+
+void					syntax_err(t_token **tokens, t_ast_node *node);
 
 t_ast_node				*ast_new(t_grammar type, char *value);
 t_ast_node				*compound_command(t_token **tokens, bool is_subshell);

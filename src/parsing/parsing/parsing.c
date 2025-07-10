@@ -12,7 +12,15 @@
 
 #include "parsing.h"
 #include <stddef.h>
-#include <stdio.h>
+
+void	syntax_err(t_token **tokens, t_ast_node *node)
+{
+	g_interrupted[2] = 2;
+	ft_dprintf(STDERR, "SYNTAX ERROR\n");
+	free_tokens(tokens);
+	*tokens = NULL;
+	free_all_ast(node);
+}
 
 // WARN: SHOULD EXIT IN CASE OF CALLOC FAILING
 t_ast_node	*simple_command(t_token **tokens)
@@ -102,14 +110,7 @@ t_ast_node	*pipeline(t_token **tokens)
 	{
 		delete_token(tokens);
 		if ((*tokens && !valid_pipe(tokens)) || !(*tokens))
-		{
-			g_interrupted[2] = 2;
-			printf("SYNTAX ERROR\n");
-			free_all_ast(node[I_PIPELINE]);
-			free_tokens(tokens);
-			*tokens = NULL;
-			return (NULL);
-		}
+			return (syntax_err(tokens, node[I_PIPELINE]), NULL);
 	}
 	return (node[I_PIPELINE]);
 }
@@ -135,13 +136,7 @@ t_ast_node	*compound_command(t_token **tokens, bool in_subshell)
 				ast_new((t_grammar)(*tokens)->t_type, NULL));
 			delete_token(tokens);
 			if ((*tokens && !valid_compound(tokens)) || !(*tokens))
-			{
-				g_interrupted[2] = 2;
-				printf("SYNTAX ERROR\n");
-				free_tokens(tokens);
-				*tokens = NULL;
-				return (free_all_ast(node[I_COMPOUND_COMMAND]), NULL);
-			}
+				return (syntax_err(tokens, node[I_COMPOUND_COMMAND]), NULL);
 		}
 		else if (*tokens && !in_subshell && (*tokens)->t_type == T_RPAR)
 			return (NULL);
