@@ -68,5 +68,6 @@ void	consume_redir(t_token **tokens, t_ast_node *red_list)
 	}
 	ast_add_child(red_list,
 			ast_new((t_grammar)(*tokens)->t_type, (*tokens)->val.data));
-	*tokens = (*tokens)->next;
+	delete_token(tokens);
+	// *tokens = (*tokens)->next;
 }

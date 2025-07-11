@@ -13,6 +13,14 @@
 #include "execution.h"
 #include "signals.h"
 
+static void	print_exec_error(int status, char *cmd)
+{
+	if (status == NON_EXEC)
+		ft_dprintf(STDERR, "%s: cannot execute\n", cmd);
+	else
+		ft_dprintf(STDERR, "%s: command not found\n", cmd);
+}
+
 static int	execute_bin(char **argv, t_data *data)
 {
 	int			status;
@@ -20,7 +28,7 @@ static int	execute_bin(char **argv, t_data *data)
 
 	envp = make_envp(data->env);
 	status = ft_execvpe(argv[0], argv, envp);
-	ft_dprintf(STDERR, "%s: command not found\n", argv[0]);
+	print_exec_error(status, argv[0]);
 	ft_free_vector(argv);
 	ft_free_vector(envp);
 	clean_exit(status, data);

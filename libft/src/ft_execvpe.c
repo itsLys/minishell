@@ -12,6 +12,17 @@
 
 #include "libft.h"
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <errno.h>
+
+static int get_status(void)
+{
+	if (errno == EACCES || errno == EISDIR)
+		return (NON_EXEC);
+	return (CMD_NOT_FOUND);
+}
+
 static int	execute_file(char **path_list, char *file, char **av, char **envp)
 {
 	char	*file_path;
@@ -26,8 +37,9 @@ static int	execute_file(char **path_list, char *file, char **av, char **envp)
 		execve(file_path, av, envp);
 		free(file_path);
 	}
-	return (CMD_NOT_FOUND);
+	return (get_status());
 }
+
 
 int	ft_execvpe(char *file, char **av, char **envp)
 {
@@ -36,16 +48,14 @@ int	ft_execvpe(char *file, char **av, char **envp)
 	int		status;
 
 	if (ft_strchr(file, '/') && execve(file, av, envp) == ERROR)
-		return (CMD_NOT_FOUND);
+		return (get_status());
 	path = ft_getenv(envp, "PATH=");
 	if (path == NULL && execve(file, av, envp) == ERROR)
-		return (CMD_NOT_FOUND);
+		return (get_status());	
 	path_list = ft_getpath(path);
 	if (path_list == NULL)
 		return (ERROR);
 	status = execute_file(path_list, file, av, envp);
 	ft_free_vector(path_list);
-	if (status == CMD_NOT_FOUND)
-		return CMD_NOT_FOUND;
-	return (ERROR);
+	return (status);
 }

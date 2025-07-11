@@ -23,6 +23,7 @@
 # define STDERR 2
 # define SUCCESS 0
 # define CMD_NOT_FOUND 127
+# define NON_EXEC 126
 # define ERROR -1
 # define FAILIURE 1
 # define FALSE 0
