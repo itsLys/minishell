@@ -12,11 +12,11 @@
 
 #include <parsing.h>
 
-void	syntax_err(t_token **tokens, t_ast_node *node)
-{
-	g_interrupted[2] = 2;
-	ft_dprintf(STDERR, "SYNTAX ERROR\n");
-	free_tokens(tokens);
-	*tokens = NULL;
-	free_all_ast(node);
-}
+// void	syntax_err(t_token **tokens, t_ast_node *node)
+// {
+// 	g_interrupted[2] = 2;
+// 	ft_dprintf(STDERR, "SYNTAX ERROR\n");
+// 	free_tokens(tokens);
+// 	*tokens = NULL;
+// 	free_all_ast(node);
+// }

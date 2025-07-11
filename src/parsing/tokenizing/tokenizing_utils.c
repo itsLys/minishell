@@ -59,12 +59,16 @@ void	trait_redir(t_token **tokens)
 	{
 		if (is_redi(tmp->t_type) && tmp->next && is_word(tmp->next->t_type))
 		{
+			str_destroy(&tmp->val);
 			tmp->val = tmp->next->val;
 			pop_token(tokens, tmp->next);
 		}
 		else if (is_redi(tmp->t_type)
 			&& ((tmp->next && !is_word(tmp->next->t_type)) || !tmp->next))
-			syntax_err(tokens, NULL);
+			{
+				syntax_err(tokens, NULL);
+				break ;
+			}
 		tmp = tmp->next;
 	}
 }
@@ -85,4 +89,5 @@ void	pop_token(t_token **tokens, t_token *token)
 	if (next)
 		next->prev = prev;
 	free(token);
+	// delete_token(&token);
 }
