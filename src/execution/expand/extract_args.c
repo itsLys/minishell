@@ -67,10 +67,9 @@ static bool	process_arg(t_str_arr *args, t_env *env,
 	mask = build_mask(str_arr_peek(args));
 	if (!mask.data)
 		return (false);
-
 	expand_var(str_arr_peek(args), env, &mask);
 	if (str_arr_peek(args)->data[0] == '\0')
-		return(true);
+		return(str_destroy(&mask), true);
 	remove_quotes(str_arr_peek(args), &mask);
 	split = split_input(str_arr_peek(args), &mask);
 	str_arr_extend(out, &split);
@@ -81,7 +80,6 @@ static bool	process_arg(t_str_arr *args, t_env *env,
 	return (true);
 }
 
-// BUG: wildcard should be fixed
 char	**extract_args(t_str_arr *args, t_env *env_list)
 {
 	t_str_arr	new_args;

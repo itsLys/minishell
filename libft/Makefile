@@ -6,7 +6,7 @@ RESET		= \033[0m
 CLEAR		= \033[K\r
 NAME		= libft.a
 INCLUDES	= -I./headers/
-CC			= cc -c -Wall -Wextra -Werror
+CC			= cc -c -Wall -Wextra -Werror -g3
 AR			= ar rcs
 SRC			= src/ft_isalnum.c \
 			  src/ft_isalpha.c \

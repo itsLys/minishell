@@ -62,7 +62,7 @@ int	execute_simple_command(t_ast_node *node, t_data *data, bool run_in_shell)
 		return (restore_stdio(stdio), FAILIURE);
 	argv = extract_args(&node->child->args, data->env);
 	if (argv && *argv == NULL)
-		return (restore_stdio(stdio), SUCCESS);
+		return (restore_stdio(stdio), ft_free_vector(argv), SUCCESS); // NOTE : free argv
 	builtin = find_builtin(argv[0]);
 	if (builtin)
 		status = builtin->function(argv, &(data->env), data);

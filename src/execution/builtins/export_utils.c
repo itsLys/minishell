@@ -80,6 +80,7 @@ void	concat_var(char *arg, t_env **env)
 		}
 		node = node->next;
 	}
+	free(new_val); // NOTE : free new_val
 	env_add_last(new_env_node(ft_strndup(arg, plus - arg), ft_strdup(plus + 2),
 			true), env);
 }
