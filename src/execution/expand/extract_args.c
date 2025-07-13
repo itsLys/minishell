@@ -80,6 +80,34 @@ static bool	process_arg(t_str_arr *args, t_env *env,
 	return (true);
 }
 
+void	process_assignment(t_str_arr *args)
+{
+	t_str	*str;
+	t_str	mask;
+
+	str_arr_peek_advance(args);
+	str = &args->items[args->peek] ;
+	if (!str->data)
+		return ;
+	while (str_peek(str) && str_peek(str) != '=')
+	{
+		if (str_peek(str) == '$')
+		{
+			str_peek_reset(str);
+			return ;
+		}
+		str_peek_advance(str);
+	}
+	str_peek_reset(str);
+	mask = build_mask(str);
+	remove_quotes(str, &mask);
+	size_t	pos = str_find(str, "=");
+	str_insert(str, pos + 1, "\"");
+	str_insert(str, str->size, "\"");
+	str_peek_reset(str);
+	str_destroy(&mask);
+}
+
 char	**extract_args(t_str_arr *args, t_env *env_list)
 {
 	t_str_arr	new_args;
@@ -89,6 +117,11 @@ char	**extract_args(t_str_arr *args, t_env *env_list)
 	str_arr_init(&new_args);
 	str_arr_init(&new_masks);
 	str_arr_peek_reset(args);
+	if (!ft_strcmp(str_arr_peek(args)->data, "export"))
+	{
+		process_assignment(args);
+		str_arr_peek_reset(args);
+	}
 	while (args->peek < args->size)
 	{
 		if (!process_arg(args, env_list, &new_args, &new_masks))
