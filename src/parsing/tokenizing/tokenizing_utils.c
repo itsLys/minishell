@@ -45,7 +45,10 @@ void	trait_word(t_token **tokens)
 			continue ;
 		}
 		if (!check_quote(tmp->val.data))
+		{
 			syntax_err(tokens, NULL);
+			break ;
+		}
 		tmp = tmp->next;
 	}
 }

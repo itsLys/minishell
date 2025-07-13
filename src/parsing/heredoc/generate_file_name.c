@@ -49,5 +49,6 @@ t_str	generate_file_name(void)
 	generate_safe_random_string(suffix);
 	str_append(&prefix, suffix);
 	str_append(&filename, prefix.data);
+	str_destroy(&prefix);
 	return (filename);
 }

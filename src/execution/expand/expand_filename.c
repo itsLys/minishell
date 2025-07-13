@@ -12,36 +12,35 @@
 
 #include <execution.h>
 
-char	*expand_filename(t_str *filename, t_env *env)
+bool	is_ambigusous(t_str *filename, t_str *mask)
 {
-	t_str	mask;
 	size_t	i;
 
 	i = 0;
-	mask = build_mask(filename);
-	expand_var(filename, env, &mask);
-	str_peek_reset(filename);
-	if (!str_peek(filename))
-		return (NULL);
 	while (i < filename->size)
 	{
 		if ((str_char_at(filename, i) == '\t'
 			|| str_char_at(filename, i) == '\n'
 			|| str_char_at(filename, i) == ' ')
-			&& (str_char_at(&mask, i) == 'N'))
-			return (remove_quotes(filename, &mask), str_destroy(&mask), NULL);
+			&& (str_char_at(mask, i) == 'N'))
+			return (true);
 		i++;
 	}
+	return (false);
+}
+
+char	*expand_filename(t_str *filename, t_env *env)
+{
+	t_str	mask;
+
+	mask = build_mask(filename);
+	expand_var(filename, env, &mask);
+	str_peek_reset(filename);
+	if (!str_peek(filename) || is_ambigusous(filename, &mask))
+		return (remove_quotes(filename, &mask), str_destroy(&mask), NULL);
 	expand_wildcard_in_str(filename, &mask);
-	i = 0;
-	while (i < filename->size)
-	{
-		if ((str_char_at(filename, i) == '\t'
-			|| str_char_at(filename, i) == '\n'
-			|| str_char_at(filename, i) == ' '))
-			return (remove_quotes(filename, &mask), str_destroy(&mask), NULL);
-		i++;
-	}
+	if (is_ambigusous(filename, &mask))
+		return (remove_quotes(filename, &mask), str_destroy(&mask), NULL);
 	remove_quotes(filename, &mask); 
 	return (str_destroy(&mask), filename->data);
 }

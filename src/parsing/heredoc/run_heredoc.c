@@ -15,9 +15,6 @@
 #include <parsing.h>
 #include <signals.h>
 
-#define EXIT_STATUS 2
-#define SIGNAL_INTERRUPT 1
-#define HEREDOC_INTERRUPT 0
 static void	sigint_handler_heredoc(int sig)
 {
 	(void)sig;
@@ -27,7 +24,7 @@ static void	sigint_handler_heredoc(int sig)
 
 static int	my_rl_event_hook(void)
 {
-	if (g_interrupted[0])
+	if (g_interrupted[HEREDOC_INTERRUPT])
 		rl_done = 1;
 	return (0);
 }
@@ -94,5 +91,5 @@ int	run_heredoc(char *delim, t_str *filename)
 	signal(SIGINT, SIG_DFL);
 	close(fd_hered);
 	str_destroy(&str_delim);
-	return (*(int *)ternary((!status), &(int){-1}, &(int){0}));
+	return (*(int *)ternary((status), &(int){-1}, &(int){0}));
 }

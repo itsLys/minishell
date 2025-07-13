@@ -13,6 +13,10 @@
 #ifndef SIGNALS_H
 # define SIGNALS_H
 
+# define EXIT_STATUS 2
+# define SIGNAL_INTERRUPT 1
+# define HEREDOC_INTERRUPT 0
+
 extern int	g_interrupted[3];
 
 void	setup_signals(void);

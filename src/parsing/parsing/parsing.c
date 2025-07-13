@@ -22,12 +22,10 @@ void	syntax_err(t_token **tokens, t_ast_node *node)
 	free_all_ast(node);
 }
 
-// WARN: SHOULD EXIT IN CASE OF CALLOC FAILING
 t_ast_node	*simple_command(t_token **tokens)
 {
 	t_ast_node	*node[7];
 
-	node[I_SIMPLE_COMMAND] = ast_new(G_SIMPLE_COMMAND, NULL);
 	node[I_RED_LIST] = ast_new(G_REDIRECT_LIST, NULL);
 	node[I_ARGLIST] = ast_new(G_ARGS, NULL);
 	while (*tokens && is_word_or_redir((*tokens)->t_type))
@@ -38,9 +36,14 @@ t_ast_node	*simple_command(t_token **tokens)
 			consume_redir(tokens, node[I_RED_LIST]);
 		else if (!(*tokens) || !is_word_or_redir((*tokens)->t_type))
 			break ;
+		if (g_interrupted[HEREDOC_INTERRUPT])
+			return (free_all_ast(node[I_RED_LIST]),
+					free_all_ast(node[I_ARGLIST]), NULL);
 	}
-	if (*tokens && (*tokens)->t_type == T_LPAR)
-		return (NULL);
+	if ((*tokens && (*tokens)->t_type == T_LPAR))
+		return (free_all_ast(node[I_RED_LIST]), free_all_ast(node[I_ARGLIST]),
+			NULL);
+	node[I_SIMPLE_COMMAND] = ast_new(G_SIMPLE_COMMAND, NULL);
 	return (ast_add_child(node[I_SIMPLE_COMMAND], node[I_ARGLIST]),
 		ast_add_child(node[I_SIMPLE_COMMAND], node[I_RED_LIST]),
 		node[I_SIMPLE_COMMAND]);
@@ -50,8 +53,6 @@ t_ast_node	*subshell(t_token **tokens)
 {
 	t_ast_node	*node[7];
 
-	node[I_RED_LIST] = ast_new(G_REDIRECT_LIST, NULL);
-	node[I_SUBSHELL] = ast_new(G_SUBSHELL, NULL);
 	delete_token(tokens);
 	if ((!(*tokens) || is_and_or((*tokens)->t_type)) || (*tokens)->t_type == T_RPAR)
 		return (NULL);
@@ -61,8 +62,10 @@ t_ast_node	*subshell(t_token **tokens)
 	delete_token(tokens);
 	if (*tokens && (is_word((*tokens)->t_type) || (*tokens)->t_type == T_LPAR))
 		return (NULL);
+	node[I_RED_LIST] = ast_new(G_REDIRECT_LIST, NULL);
 	while (*tokens && is_redi((*tokens)->t_type))
 		consume_redir(tokens, node[I_RED_LIST]);
+	node[I_SUBSHELL] = ast_new(G_SUBSHELL, NULL);
 	ast_add_child(node[I_SUBSHELL], node[I_COMPOUND_COMMAND]);
 	ast_add_child(node[I_SUBSHELL], node[I_RED_LIST]);
 	return (node[I_SUBSHELL]);
@@ -72,12 +75,12 @@ t_ast_node	*command(t_token **tokens)
 {
 	t_ast_node	*node[7];
 
-	node[I_COMMAND] = ast_new(G_COMMAND, NULL);
 	if (is_word((*tokens)->t_type) || is_redi((*tokens)->t_type))
 	{
 		node[I_SIMPLE_COMMAND] = simple_command(tokens);
 		if (!node[I_SIMPLE_COMMAND])
 			return (NULL);
+		node[I_COMMAND] = ast_new(G_COMMAND, NULL);
 		ast_add_child(node[I_COMMAND], node[I_SIMPLE_COMMAND]);
 		return (node[I_COMMAND]);
 	}
@@ -86,6 +89,7 @@ t_ast_node	*command(t_token **tokens)
 		node[I_SUBSHELL] = subshell(tokens);
 		if (!node[I_SUBSHELL])
 			return (NULL);
+		node[I_COMMAND] = ast_new(G_COMMAND, NULL);
 		ast_add_child(node[I_COMMAND], node[I_SUBSHELL]);
 		return (node[I_COMMAND]);
 	}
@@ -99,10 +103,10 @@ t_ast_node	*pipeline(t_token **tokens)
 {
 	t_ast_node	*node[7];
 
-	node[I_PIPELINE] = ast_new(G_PIPELINE, NULL);
 	node[I_COMMAND] = command(tokens);
 	if (!node[I_COMMAND])
 		return (NULL);
+	node[I_PIPELINE] = ast_new(G_PIPELINE, NULL);
 	ast_add_child(node[I_PIPELINE], node[I_COMMAND]);
 	if (*tokens && (*tokens)->t_type == T_PIPE)
 	{
@@ -126,7 +130,7 @@ t_ast_node	*compound_command(t_token **tokens, bool in_subshell)
 			return (ast_add_child(node[I_COMPOUND_COMMAND], node[I_PIPELINE]),
 				node[I_COMPOUND_COMMAND]);
 		else if (!node[I_PIPELINE])
-			return (NULL);
+			return (free_all_ast(node[I_COMPOUND_COMMAND]), NULL);
 		ast_add_child(node[I_COMPOUND_COMMAND], node[I_PIPELINE]);
 		if (*tokens && is_and_or((*tokens)->t_type))
 		{
@@ -136,7 +140,7 @@ t_ast_node	*compound_command(t_token **tokens, bool in_subshell)
 			if ((*tokens && !valid_compound(tokens)) || !(*tokens))
 				return (syntax_err(tokens, node[I_COMPOUND_COMMAND]), NULL);
 		}
-		else if (*tokens && !in_subshell && (*tokens)->t_type == T_RPAR)
+		else if (*tokens && !in_subshell && (*tokens)->t_type == T_LPAR)
 			return (NULL);
 	}
 	return (node[I_COMPOUND_COMMAND]);

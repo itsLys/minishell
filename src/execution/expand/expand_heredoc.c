@@ -44,6 +44,7 @@ static void	expand_heredoc_content(t_str *content, t_env *env)
 		str_peek_advance(&mask);
 	}
 	expand_var(content, env, &mask);
+	str_destroy(&mask);
 }
 
 void	expand_heredoc(t_str *filename, t_env *env)
@@ -60,5 +61,6 @@ void	expand_heredoc(t_str *filename, t_env *env)
 	if (fd_heredoc == -1)
 		return ;
 	ft_dprintf(fd_heredoc, "%s", content.data);
+	str_destroy(&content);
 	close(fd_heredoc);
 }
