@@ -14,6 +14,7 @@
 #include "parsing.h"
 #include "execution.h"
 #include <signals.h>
+#include <linux/limits.h>
 
 // t_data *g_data(void)
 // {
@@ -34,7 +35,7 @@ char *get_branch(void)
 
 	branch = ft_getoutput((char *[]){"git","rev-parse", "--abbrev-ref", "HEAD", NULL}, __environ);
 	if (branch == NULL)
-		return ft_strdup("not a repo");
+		return ft_strdup("~");
 	return branch;
 }
 
@@ -71,16 +72,8 @@ char	*build_prompt(t_data *data)
 			// "-(" COLOR_MAGENTA "%s" COLOR_RESET ")"
 			"-(" COLOR_RED "%s" COLOR_RESET ")\n"
 			"┗━━━(" COLOR_CYAN "%s" COLOR_RESET ")"
-			" (" COLOR_MAGENTA "%s" COLOR_RESET ")-> ",
+			"-(" COLOR_MAGENTA "%s" COLOR_RESET ")-> ",
 			get_status_color(), g_interrupted[2], user, time, data->pwd, branch);
-	// else
-	// 	ft_snprintf(prompt, sizeof(prompt),
-	// 			"┏[" COLOR_RED "%d" COLOR_RESET "]"
-	// 			"-(" COLOR_BLUE "%s" COLOR_RESET ")"
-	// 			"-(" COLOR_MAGENTA "%s" COLOR_RESET ")"
-	// 			"-(" COLOR_RED "%s" COLOR_RESET ")\n"
-	// 			"┗━━━(" COLOR_CYAN "%s" COLOR_RESET ")-> ",
-	// 			g_interrupted[2], user, branch, time, pwd);
 	free(branch);
 	free(time);
 	free(user);

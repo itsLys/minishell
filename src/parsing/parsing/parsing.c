@@ -140,8 +140,8 @@ t_ast_node	*compound_command(t_token **tokens, bool in_subshell)
 			if ((*tokens && !valid_compound(tokens)) || !(*tokens))
 				return (syntax_err(tokens, node[I_COMPOUND_COMMAND]), NULL);
 		}
-		else if (*tokens && !in_subshell && (*tokens)->t_type == T_LPAR)
-			return (NULL);
+		// else if (*tokens && !in_subshell && (*tokens)->t_type == T_LPAR)
+		// 	return (printf("here!!!!!! 2\n"), NULL);
 	}
 	return (node[I_COMPOUND_COMMAND]);
 }
