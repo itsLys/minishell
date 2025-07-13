@@ -27,6 +27,7 @@ static int	execute_bin(char **argv, t_data *data)
 	char		**envp;
 
 	envp = make_envp(data->env);
+	signal(SIGQUIT, SIG_DFL);
 	status = ft_execvpe(argv[0], argv, envp);
 	print_exec_error(status, argv[0]);
 	ft_free_vector(argv);

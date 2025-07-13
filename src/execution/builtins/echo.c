@@ -44,10 +44,9 @@ int	echo(char **argv, t_env **env, t_data *data)
 	}
 	while (argv[i])
 	{
-		ft_putstr_fd(argv[i++], STDOUT_FILENO);
-		// printf("%s", argv[i++]);
+		ft_printf("%s", argv[i++]);
 		if (argv[i])
-			printf(" ");
+			ft_printf(" ");
 	}
 	if (!n_flaged)
 		printf("\n");

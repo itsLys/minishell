@@ -160,6 +160,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)),
 	// status = 0;
 	// data = g_data(); // change to init data later, allocates to it
 	init_minishell(env, &data);
+	// signal(SIGQUIT, SIG_DFL);
 	data.tokens = NULL;
 	data.ast = NULL;
 	while (1)
