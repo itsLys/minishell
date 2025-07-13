@@ -113,7 +113,8 @@ SRC			= src/ft_isalnum.c \
 			  src/string/string7.c \
 			  src/string/string8.c \
 			  src/string/string9.c \
-			  src/ternary.c
+			  src/ternary.c \
+			  src/ft_getoutput.c
 OBJ			= $(patsubst src/%.c, obj/%.o, $(SRC))
 RM			= rm -rf
 

@@ -15,6 +15,11 @@
 
 void init_default_var(t_data *data, t_env **env)
 {
+	t_env	*pwd;
+	
+	pwd = env_find_var(*env, "PWD");
+	if (pwd)
+		env_remove_node(pwd, env);
 	env_add_last(new_env_node(ft_strdup("PWD"), ft_strdup(data->pwd), true), env);
 	if (env_find_var(*env, "OLDPWD") == NULL)
 		env_add_last(new_env_node(ft_strdup("OLDPWD"), NULL, true), env);

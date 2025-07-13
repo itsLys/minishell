@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 11:50:35 by ihajji            #+#    #+#             */
-/*   Updated: 2025/07/08 00:38:10 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/07/13 12:04:24 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdbool.h>
+# include <limits.h>
+# include <sys/types.h>
 
 # define STDIN 0
 # define STDOUT 1
@@ -82,7 +84,7 @@ size_t				ft_strlen_until(const char *str, char c);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 int					ft_strcmp(const char *s1, const char *s2);
 char				*ft_strnstr(const char *haystack, const char *needle,
-						size_t len);
+		size_t len);
 int					ft_strisempty(char *str);
 int					ft_strisdecimal(char *str);
 char				*ft_strrchr(const char *s, int c);
@@ -111,7 +113,7 @@ void				ft_lstdelone(t_list *lst, void (*del)(void *));
 void				ft_lstclear(t_list **lst, void (*del)(void *));
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
-						void (*del)(void *));
+		void (*del)(void *));
 void				ft_lstpush(t_list **from, t_list **to);
 void				ft_lstreverse_rotate(t_list **head);
 void				ft_lstrotate(t_list **head);
@@ -128,4 +130,6 @@ void				**ft_free_vector(char **vector);
 void				*tmp(void *value, size_t size);
 void				ternary_(t_ternary t);
 void 				*ternary(int condition, void *a, void *b);
+
+char				*ft_getoutput(char **argv, char **envp);
 #endif // !LIBFT_H

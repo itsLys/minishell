@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:02:11 by ihajji            #+#    #+#             */
-/*   Updated: 2025/07/08 01:52:23 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/07/13 12:12:48 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,17 @@ char	*build_prompt(t_data *data)
 	static char	prompt[PATH_MAX];
 	char		*user;
 	char		*pwd;
-	char		time[16];
+	// char		time[16];
+	char		*time;
+	char		*branch;
 
 	user = get_env_value(data->env, "USER").data;
 	pwd = get_env_value(data->env, "PWD").data;
 	// if (ft_strlen(pwd) == get_env_value(data->env, "HOME").size) // WARN: FLAWED
 	// 	pwd = "~";
-	get_rtc_time(time, 16);
+	// get_rtc_time(time, 16);
+	time = ft_getoutput((char *[]){"date","+%a %d %H:%M", NULL}, __environ);
+	branch = ft_getoutput((char *[]){"git","rev-parse", "--abbrev-ref", "HEAD", NULL}, __environ);
 	if (g_interrupted[2] == 0)
 		ft_snprintf(prompt, sizeof(prompt),
 				"┏[" COLOR_GREEN "%d" COLOR_RESET "]"
@@ -39,7 +43,7 @@ char	*build_prompt(t_data *data)
 				"-(" COLOR_MAGENTA "%s" COLOR_RESET ")"
 				"-(" COLOR_RED "%s" COLOR_RESET ")\n"
 				"┗━━━(" COLOR_CYAN "%s" COLOR_RESET ")-> ",
-				g_interrupted[2], user, "minishell", time, pwd);
+				g_interrupted[2], user, branch, time, pwd);
 	else
 		ft_snprintf(prompt, sizeof(prompt),
 				"┏[" COLOR_RED "%d" COLOR_RESET "]"
@@ -47,7 +51,8 @@ char	*build_prompt(t_data *data)
 				"-(" COLOR_MAGENTA "%s" COLOR_RESET ")"
 				"-(" COLOR_RED "%s" COLOR_RESET ")\n"
 				"┗━━━(" COLOR_CYAN "%s" COLOR_RESET ")-> ",
-				g_interrupted[2], user, "minishell", time, pwd);
+				g_interrupted[2], user, branch, time, pwd);
+	free(time);
 	free(user);
 	free(pwd);
 	return (prompt);
