@@ -117,7 +117,8 @@ char	**extract_args(t_str_arr *args, t_env *env_list)
 	str_arr_init(&new_args);
 	str_arr_init(&new_masks);
 	str_arr_peek_reset(args);
-	if (!ft_strcmp(str_arr_peek(args)->data, "export"))
+	if (args->size > args->peek
+		&& !ft_strcmp(str_arr_peek(args)->data, "export"))
 	{
 		process_assignment(args);
 		str_arr_peek_reset(args);

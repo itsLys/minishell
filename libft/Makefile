@@ -79,23 +79,23 @@ SRC			= src/ft_isalnum.c \
 			  src/ft_printf/print_unsigned.c \
 			  src/ft_printf/utils.c \
 			  src/ft_snprintf/ft_snprintf.c \
-			  src/ft_snprintf/parsing.c \
-			  src/ft_snprintf/print_char.c \
-			  src/ft_snprintf/print_hex.c \
-			  src/ft_snprintf/print_nbr.c \
-			  src/ft_snprintf/print_ptr.c \
-			  src/ft_snprintf/print_str.c \
-			  src/ft_snprintf/print_unsigned.c \
-			  src/ft_snprintf/utils.c \
+			  src/ft_snprintf/sn_parsing.c \
+			  src/ft_snprintf/sn_print_char.c \
+			  src/ft_snprintf/sn_print_hex.c \
+			  src/ft_snprintf/sn_print_nbr.c \
+			  src/ft_snprintf/sn_print_ptr.c \
+			  src/ft_snprintf/sn_print_str.c \
+			  src/ft_snprintf/sn_print_unsigned.c \
+			  src/ft_snprintf/sn_utils.c \
 			  src/ft_dprintf/ft_dprintf.c \
-			  src/ft_dprintf/parsing.c \
-			  src/ft_dprintf/print_char.c \
-			  src/ft_dprintf/print_hex.c \
-			  src/ft_dprintf/print_nbr.c \
-			  src/ft_dprintf/print_ptr.c \
-			  src/ft_dprintf/print_str.c \
-			  src/ft_dprintf/print_unsigned.c \
-			  src/ft_dprintf/utils.c \
+			  src/ft_dprintf/d_parsing.c \
+			  src/ft_dprintf/d_print_char.c \
+			  src/ft_dprintf/d_print_hex.c \
+			  src/ft_dprintf/d_print_nbr.c \
+			  src/ft_dprintf/d_print_ptr.c \
+			  src/ft_dprintf/d_print_str.c \
+			  src/ft_dprintf/d_print_unsigned.c \
+			  src/ft_dprintf/d_utils.c \
 			  src/get_next_line/get_next_line.c \
 			  src/get_next_line/get_next_line_bonus.c \
 			  src/get_next_line/get_next_line_utils.c \

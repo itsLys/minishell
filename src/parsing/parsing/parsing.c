@@ -58,7 +58,7 @@ t_ast_node	*subshell(t_token **tokens)
 		return (NULL);
 	node[I_COMPOUND_COMMAND] = compound_command(tokens, true);
 	if (!node[I_COMPOUND_COMMAND] || !(*tokens))
-		return (NULL);
+		return (free_all_ast(node[I_COMPOUND_COMMAND]), NULL);
 	delete_token(tokens);
 	if (*tokens && (is_word((*tokens)->t_type) || (*tokens)->t_type == T_LPAR))
 		return (NULL);
@@ -130,7 +130,7 @@ t_ast_node	*compound_command(t_token **tokens, bool in_subshell)
 			return (ast_add_child(node[I_COMPOUND_COMMAND], node[I_PIPELINE]),
 				node[I_COMPOUND_COMMAND]);
 		else if (!node[I_PIPELINE])
-			return (free_all_ast(node[I_COMPOUND_COMMAND]), NULL);
+			return (syntax_err(tokens, node[I_COMPOUND_COMMAND]), NULL);
 		ast_add_child(node[I_COMPOUND_COMMAND], node[I_PIPELINE]);
 		if (*tokens && is_and_or((*tokens)->t_type))
 		{
