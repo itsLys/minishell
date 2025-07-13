@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:02:11 by ihajji            #+#    #+#             */
-/*   Updated: 2025/07/13 12:12:48 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/07/13 12:38:01 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,41 +20,71 @@
 // 	static t_data data;
 // 	return &data;
 // }
+
+const char	*get_status_color(void)
+{
+	if (g_interrupted[2] == 0)
+		return COLOR_GREEN;
+	return COLOR_RED;
+}
+
+char *get_branch(void)
+{
+	char	*branch;
+
+	branch = ft_getoutput((char *[]){"git","rev-parse", "--abbrev-ref", "HEAD", NULL}, __environ);
+	if (branch == NULL)
+		return ft_strdup("not a repo");
+	return branch;
+}
+
+char *get_time(void)
+{
+	char *time;
+
+	time = ft_getoutput((char *[]){"date","+%a %d %H:%M", NULL}, __environ);
+	return time;
+}
+
 char	*build_prompt(t_data *data)
 {
 	static char	prompt[PATH_MAX];
 	char		*user;
-	char		*pwd;
 	// char		time[16];
 	char		*time;
 	char		*branch;
 
 	user = get_env_value(data->env, "USER").data;
-	pwd = get_env_value(data->env, "PWD").data;
+	if (user == NULL)
+		user = ft_strdup("annonymos");
 	// if (ft_strlen(pwd) == get_env_value(data->env, "HOME").size) // WARN: FLAWED
 	// 	pwd = "~";
 	// get_rtc_time(time, 16);
-	time = ft_getoutput((char *[]){"date","+%a %d %H:%M", NULL}, __environ);
-	branch = ft_getoutput((char *[]){"git","rev-parse", "--abbrev-ref", "HEAD", NULL}, __environ);
-	if (g_interrupted[2] == 0)
-		ft_snprintf(prompt, sizeof(prompt),
-				"┏[" COLOR_GREEN "%d" COLOR_RESET "]"
-				"-(" COLOR_BLUE "%s" COLOR_RESET ")"
-				"-(" COLOR_MAGENTA "%s" COLOR_RESET ")"
-				"-(" COLOR_RED "%s" COLOR_RESET ")\n"
-				"┗━━━(" COLOR_CYAN "%s" COLOR_RESET ")-> ",
-				g_interrupted[2], user, branch, time, pwd);
-	else
-		ft_snprintf(prompt, sizeof(prompt),
-				"┏[" COLOR_RED "%d" COLOR_RESET "]"
-				"-(" COLOR_BLUE "%s" COLOR_RESET ")"
-				"-(" COLOR_MAGENTA "%s" COLOR_RESET ")"
-				"-(" COLOR_RED "%s" COLOR_RESET ")\n"
-				"┗━━━(" COLOR_CYAN "%s" COLOR_RESET ")-> ",
-				g_interrupted[2], user, branch, time, pwd);
+	// time = ft_getoutput((char *[]){"date","+%a %d %H:%M", NULL}, __environ);
+	branch = get_branch();
+	time = get_time();
+	// if (g_interrupted[2] == 0)
+	ft_snprintf(prompt, sizeof(prompt),
+			// "┏[" COLOR_GREEN "%d" COLOR_RESET "]"
+			"┏[" "%s" "%d" COLOR_RESET "]"
+			"-(" COLOR_BLUE "%s" COLOR_RESET ")"
+			// "-(" COLOR_MAGENTA "%s" COLOR_RESET ")"
+			"-(" COLOR_RED "%s" COLOR_RESET ")\n"
+			"┗━━━(" COLOR_CYAN "%s" COLOR_RESET ")"
+			" (" COLOR_MAGENTA "%s" COLOR_RESET ")-> ",
+			get_status_color(), g_interrupted[2], user, time, data->pwd, branch);
+	// else
+	// 	ft_snprintf(prompt, sizeof(prompt),
+	// 			"┏[" COLOR_RED "%d" COLOR_RESET "]"
+	// 			"-(" COLOR_BLUE "%s" COLOR_RESET ")"
+	// 			"-(" COLOR_MAGENTA "%s" COLOR_RESET ")"
+	// 			"-(" COLOR_RED "%s" COLOR_RESET ")\n"
+	// 			"┗━━━(" COLOR_CYAN "%s" COLOR_RESET ")-> ",
+	// 			g_interrupted[2], user, branch, time, pwd);
+	free(branch);
 	free(time);
 	free(user);
-	free(pwd);
+	// free(pwd);
 	return (prompt);
 }
 

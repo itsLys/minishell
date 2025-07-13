@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 11:05:43 by ihajji            #+#    #+#             */
-/*   Updated: 2025/07/13 12:08:58 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/07/13 12:28:29 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,9 @@ char	*ft_getoutput(char **argv, char **envp)
 	if (pid == CHILD_PROC)
 	{
 		dup2(pipefd[1], STDOUT_FILENO);
+		close(pipefd[1]);
+		close(pipefd[0]);
+		close(STDERR_FILENO);
 		status = ft_execvpe(argv[0], argv, envp);
 		// ft_free_vector(argv);
 		exit(status);
