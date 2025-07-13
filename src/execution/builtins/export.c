@@ -6,13 +6,12 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 18:56:36 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/16 12:31:35 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/07/13 12:46:58 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-// if one name is not valid return 1, regardless of others
 static int	export_arg(char *arg, t_env **env)
 {
 	t_mode	mode;
@@ -49,8 +48,6 @@ int	export_print(t_env *env)
 
 int	export(char **argv, t_env **env, t_data *data)
 {
-	// printf("arg:	|%s|\n", argv[0]);
-	// printf("arg:	|%s|\n", argv[1]);
 	int	i;
 	int	err;
 

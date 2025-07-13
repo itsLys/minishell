@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 09:15:21 by ihajji            #+#    #+#             */
-/*   Updated: 2025/07/02 19:50:31 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/07/13 12:56:21 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,17 @@ int	execute_simple_command(t_ast_node *node, t_data *data, bool run_in_shell)
 		return (restore_stdio(stdio), FAILIURE);
 	argv = extract_args(&node->child->args, data->env);
 	if (argv && *argv == NULL)
-		return (restore_stdio(stdio), ft_free_vector(argv), SUCCESS); // NOTE : free argv
+		return (restore_stdio(stdio), ft_free_vector(argv), SUCCESS);
 	builtin = find_builtin(argv[0]);
 	if (builtin)
 		status = builtin->function(argv, &(data->env), data);
 	else
+	{
 		if (run_in_shell)
 			execute_bin(argv, data);
 		else
 			status = execute_subprocess(argv, data);
+	}
 	restore_stdio(stdio);
 	ft_free_vector(argv);
 	g_interrupted[2] = status;

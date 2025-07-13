@@ -6,34 +6,11 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 18:57:22 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/21 15:57:54 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/07/13 12:46:58 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
-
-// void	free_env_node(t_env *node)
-// {
-// 	free(node->name);
-// 	free(node->value);
-// 	free(node);
-// }
-//
-// void	env_remove_node(t_env *node, t_env **env)
-// {
-// 	t_env	*tmp;
-//
-// 	tmp = *env;
-// 	if (tmp == NULL)
-// 		return ;
-// 	while (tmp->next && tmp->next != node)
-// 		tmp = tmp->next;
-// 	if (tmp->next)
-// 	{
-// 		tmp->next = node->next;
-// 		free_env_node(node);
-// 	}
-// }
 
 void	unset_var(char *arg, t_env **env)
 {

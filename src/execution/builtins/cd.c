@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 17:49:52 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/21 16:28:33 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/07/13 12:48:28 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,19 @@ static char	*get_dir(char **argv, char *home)
 		return (ft_strdup(argv[1]));
 }
 
-static void update_pwd(char *cwd, t_data *data, t_env *env)
+static void	update_pwd(char *cwd, t_data *data, t_env *env)
 {
-	t_env *old;
-	t_env *pwd;
+	t_env	*old;
+	t_env	*pwd;
 
 	if (cwd == NULL)
-		perror("getcwd"); // clean exit
+		perror("getcwd");
 	old = env_find_var(env, "OLDPWD");
 	pwd = env_find_var(env, "PWD");
 	if (old && pwd)
 	{
 		free(old->value);
-		old->value = data->pwd; 
+		old->value = data->pwd;
 		free(data->oldpwd);
 		data->oldpwd = ft_strdup(old->value);
 	}
@@ -53,7 +53,6 @@ static void update_pwd(char *cwd, t_data *data, t_env *env)
 		free(data->pwd);
 		data->pwd = ft_strdup(cwd);
 	}
-
 }
 
 int	cd(char **argv, t_env **env, t_data *data)
@@ -79,11 +78,7 @@ int	cd(char **argv, t_env **env, t_data *data)
 		if (chdir(dir) != SUCCESS)
 			return (free(dir), perror(argv[0]), FAILIURE);
 		update_pwd(getcwd(NULL, 0), data, *env);
-		return free(dir), SUCCESS;
+		return (free(dir), SUCCESS);
 	}
 	return (FAILIURE);
 }
-// check errno and print accordingly, I guess
-// TODO: implement error messages close to bash
-// use av[0] instead of the bare name
-// use dprintf instead of pf

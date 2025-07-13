@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 15:04:38 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/16 12:29:00 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/07/13 12:45:56 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,14 +80,13 @@ void	concat_var(char *arg, t_env **env)
 		}
 		node = node->next;
 	}
-	free(new_val); // NOTE : free new_val
+	free(new_val);
 	env_add_last(new_env_node(ft_strndup(arg, plus - arg), ft_strdup(plus + 2),
 			true), env);
 }
 
 void	assign_var(char *arg, t_env **env)
 {
-	// printf("arg:	|%s|\n", arg);
 	t_env	*node;
 	char	*tmp;
 	char	*eq;
@@ -107,8 +106,6 @@ void	assign_var(char *arg, t_env **env)
 		}
 		node = node->next;
 	}
-	// printf("name: %s\n", ft_strndup(arg, eq - arg));
-	// printf("value: %s\n", ft_strdup(eq + 1));
 	env_add_last(new_env_node(ft_strndup(arg, eq - arg), ft_strdup(eq + 1),
 			true), env);
 }

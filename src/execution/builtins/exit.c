@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 18:56:20 by ihajji            #+#    #+#             */
-/*   Updated: 2025/06/21 11:30:20 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/07/13 12:48:38 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	ft_exit(char **argv, t_env **env, t_data *data)
 	else if (argv[1])
 		status = ft_atol(argv[1]) % 256;
 	else
-		status = 0; // exit with last exit status that is cached
+		status = 0;
 	clean_exit(status, data);
-	return SUCCESS;
+	return (SUCCESS);
 }
