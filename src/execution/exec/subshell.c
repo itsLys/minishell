@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 11:23:43 by ihajji            #+#    #+#             */
-/*   Updated: 2025/07/13 12:55:09 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/07/14 18:50:03 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	execute_subshell(t_ast_node *node, t_data *data)
 
 	save_stdio(stdio, data);
 	if (node->child->sibling
-		&& setup_redir(node->child->sibling->child, stdio, data))
+		&& setup_redir(node->child->sibling->child, data))
 		return (restore_stdio(stdio), FAILIURE);
 	pid = fork();
 	if (pid == 0)

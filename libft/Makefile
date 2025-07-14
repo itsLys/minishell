@@ -78,15 +78,6 @@ SRC			= src/ft_isalnum.c \
 			  src/ft_printf/print_str.c \
 			  src/ft_printf/print_unsigned.c \
 			  src/ft_printf/utils.c \
-			  src/ft_snprintf/ft_snprintf.c \
-			  src/ft_snprintf/sn_parsing.c \
-			  src/ft_snprintf/sn_print_char.c \
-			  src/ft_snprintf/sn_print_hex.c \
-			  src/ft_snprintf/sn_print_nbr.c \
-			  src/ft_snprintf/sn_print_ptr.c \
-			  src/ft_snprintf/sn_print_str.c \
-			  src/ft_snprintf/sn_print_unsigned.c \
-			  src/ft_snprintf/sn_utils.c \
 			  src/ft_dprintf/ft_dprintf.c \
 			  src/ft_dprintf/d_parsing.c \
 			  src/ft_dprintf/d_print_char.c \
