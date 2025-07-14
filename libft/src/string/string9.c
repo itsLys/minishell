@@ -26,3 +26,9 @@ void	str_replace_char(t_str *str, char old_char, char new_char)
 		i++;
 	}
 }
+
+void	str_surround(t_str *str, size_t start, size_t size, char *to_add)
+{
+	str_insert(str, start, to_add);
+	str_insert(str, size - start, to_add);
+}

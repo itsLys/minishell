@@ -60,6 +60,7 @@ t_str		str_new_fill(size_t size, char c);
 
 void		str_clear(t_str *str);
 void		str_insert(t_str *str, size_t pos, char *to_insert);
+void		str_surround(t_str *str, size_t start, size_t size, char *to_add);
 void		str_erase(t_str *str, size_t pos, size_t len);
 void		str_append(t_str *str, char *to_add);
 void		str_prepend(t_str *str, char *to_add);

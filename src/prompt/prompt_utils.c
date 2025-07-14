@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 10:10:31 by ihajji            #+#    #+#             */
-/*   Updated: 2025/07/14 14:41:37 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/07/14 18:45:56 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*get_time(void)
 {
 	char	*time;
 
-	time = ft_getoutput((char *[]){"date", "+%a %d %H:%M", NULL}, __environ);
+	time = ft_getoutput((char *[]){"date", "'+%a %d %H:%M'", NULL}, __environ);
 	return (time);
 }
 
