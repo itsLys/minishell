@@ -29,7 +29,7 @@ t_env	*dup_env(char **env)
 		node = new_env_node(ft_strndup(env[i], eq - env[i]), ft_strdup(eq + 1),
 				true);
 		if (node == NULL)
-			return (free_env(env_dup)); // NOTE: exit_clean
+			return (free_env(env_dup));
 		env_add_last(node, &env_dup);
 		i++;
 	}
@@ -65,7 +65,6 @@ void	sort_env(t_env **env)
 
 void	free_env_node(t_env *node)
 {
-	// printf("free env node\n");
 	free(node->name);
 	free(node->value);
 	free(node);

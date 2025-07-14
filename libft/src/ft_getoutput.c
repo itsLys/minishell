@@ -10,57 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "libft.h"
-#include <sys/wait.h>
-#include <linux/limits.h>
-
-#define CHILD_PROC 0
-
-// static int save_stdio(int stdio[2])
-// {
-// 	int	s_stdin;
-// 	int	s_stdout;
-//
-// 	s_stdout = dup(STDOUT_FILENO);
-// 	s_stdin = dup(STDIN_FILENO);
-// 	if (s_stdout == ERROR || s_stdin == ERROR)
-// 		return FAILIURE;
-// 	stdio[STDOUT_FILENO] =  s_stdout;
-// 	stdio[STDIN_FILENO] = s_stdin;
-// 	return SUCCESS;
-// }
-//
-// static void restore_stdio(int stdio[2])
-// {
-// 	dup2(stdio[STDOUT_FILENO], STDOUT_FILENO);
-// 	dup2(stdio[STDIN_FILENO], STDIN_FILENO);
-// 	close(stdio[STDOUT_FILENO]);
-// 	close(stdio[STDIN_FILENO]);
-// }
 
 #include <stdio.h>
-char	*ft_getoutput(char **argv, char **envp)
+
+int	run_command(char **argv, char **envp, int pipefd[2])
 {
 	pid_t	pid;
-	int		pipefd[2];
-	char	*output;
-	int		bytes_read;
-	// char	**argv;
 	int		status;
-	// int		stdio[2];
 
-	if (pipe(pipefd) == ERROR)
-		return NULL;
 	pid = fork();
-	// argv = ft_tokenize(cmd);
-	// while (argv)
-	// 	printf("token: %s\n", *(argv++));
-	// exit(31);
-	// if (argv == NULL)
-	// 	return NULL;
-	// if (save_stdio(stdio) == ERROR)
-	// 	return NULL;
 	if (pid == CHILD_PROC)
 	{
 		dup2(pipefd[1], STDOUT_FILENO);
@@ -68,24 +27,40 @@ char	*ft_getoutput(char **argv, char **envp)
 		close(pipefd[0]);
 		close(STDERR_FILENO);
 		status = ft_execvpe(argv[0], argv, envp);
-		// ft_free_vector(argv);
 		exit(status);
 	}
 	else if (pid == ERROR)
-		return /* restore_stdio(stdio), */ NULL;
+		return (FAILIURE);
 	waitpid(pid, &status, 0);
-	// restore_stdio(stdio);
-	if (WEXITSTATUS(status) != 0)
-		return /* restore_stdio(stdio), */ NULL;
+	return (WEXITSTATUS(status));
+}
+
+char	*ft_getoutput(char **argv, char **envp)
+{
+	int		pipefd[2];
+	char	*output;
+	int		bytes_read;
+	int		status;
+
+	if (pipe(pipefd) == ERROR)
+		return (NULL);
+	status = run_command(argv, envp, pipefd);
+	if (status != SUCCESS)
+		return (NULL);
 	output = malloc(PIPE_BUF + 1);
 	if (output == NULL)
-		return /* restore_stdio(stdio), */ NULL;
+		return (NULL);
 	bytes_read = read(pipefd[0], output, PIPE_BUF);
 	if (bytes_read == ERROR)
-		return /* restore_stdio(stdio), */ free(output), NULL;
-	if (output[bytes_read - 1] ==  '\n')
+		return (NULL);
+	if (output[bytes_read - 1] == '\n')
 		output[bytes_read - 1] = 0;
 	else
 		output[bytes_read] = 0;
-	return (/* restore_stdio(stdio), */ output);
+	return (NULL);
 }
+
+/* 
+ * 	TODO: give output as is without removing newline, the caller must handle
+ *		the string as they wish
+ * */

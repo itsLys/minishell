@@ -35,17 +35,17 @@ t_str	str_new(char *src)
 	return (new);
 }
 
-t_str str_from_cstr(const char *cstr)
+t_str	str_from_cstr(const char *cstr)
 {
-	t_str str;
-	size_t len;
+	t_str	str;
+	size_t	len;
 
 	if (!cstr)
 	{
 		str.data = NULL;
 		str.size = 0;
 		str.capacity = 0;
-		return str;
+		return (str);
 	}
 	len = ft_strlen(cstr);
 	str.data = malloc(len + 1);
@@ -53,39 +53,40 @@ t_str str_from_cstr(const char *cstr)
 	{
 		str.size = 0;
 		str.capacity = 0;
-		return str;
+		return (str);
 	}
 	ft_memcpy(str.data, cstr, len);
 	str.data[len] = '\0';
 	str.size = len;
 	str.capacity = len + 1;
-	return str;
+	return (str);
 }
 
-char *str_to_cstr(t_str *str)
+char	*str_to_cstr(t_str *str)
 {
-	char *copy;
+	char	*copy;
 
 	if (!str || !str->data)
-		return NULL;
+		return (NULL);
 	copy = malloc(str->size + 1);
 	if (!copy)
-		return NULL;
+		return (NULL);
 	ft_memcpy(copy, str->data, str->size);
 	copy[str->size] = '\0';
-	return copy;
+	return (copy);
 }
 
-char str_char_at(t_str *str, size_t i)
+char	str_char_at(t_str *str, size_t i)
 {
 	if (!str || i >= str->size)
-		return '\0';
+		return ('\0');
 	return (str->data[i]);
 }
 
 void	str_append_char(t_str *str, char c)
 {
-	char tmp[2];
+	char	tmp[2];
+
 	tmp[0] = c;
 	tmp[1] = '\0';
 	str_append(str, tmp);

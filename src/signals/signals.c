@@ -6,7 +6,7 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 15:06:33 by zbengued          #+#    #+#             */
-/*   Updated: 2025/07/01 16:27:59 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/07/14 14:38:45 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	sigint_handler_prompt(int sig)
 	}
 }
 
-static int	my_rl_event_hook()
+static int	my_rl_event_hook(void)
 {
 	if (g_interrupted[1])
 	{

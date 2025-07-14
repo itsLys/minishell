@@ -28,7 +28,7 @@ char	**convert_str_arr(t_str_arr *arr)
 	{
 		vec[i] = convert_str(arr->items + i);
 		if (vec[i] == NULL)
-			return ((char **) ft_free_vector(vec));
+			return ((char **)ft_free_vector(vec));
 		i++;
 	}
 	return (vec);
@@ -42,14 +42,12 @@ t_str_arr	convert_vec_strarr(char **og)
 	arr.size = 0;
 	while (og[arr.size])
 		arr.size++;
-
 	arr.items = ft_calloc(arr.size, sizeof(t_str));
 	if (!arr.items)
 	{
 		arr.size = 0;
 		return (arr);
 	}
-
 	i = 0;
 	while (i < arr.size)
 	{

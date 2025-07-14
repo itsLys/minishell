@@ -27,20 +27,24 @@ static int	execute_bin(char **argv, t_data *data)
 	char		**envp;
 
 	envp = make_envp(data->env);
+	if (envp == NULL)
+		clean_exit(FAILIURE, data);
 	signal(SIGQUIT, SIG_DFL);
 	status = ft_execvpe(argv[0], argv, envp);
 	print_exec_error(status, argv[0]);
 	ft_free_vector(argv);
 	ft_free_vector(envp);
 	clean_exit(status, data);
-	return status;
+	return (status);
 }
 
-static int	execute_subprocess(char **argv, t_data *data)
+static int	execute_process(char **argv, bool run_in_shell, t_data *data)
 {
 	pid_t	pid;
 	int		status;
 
+	if (run_in_shell)
+		execute_bin(argv, data);
 	pid = fork();
 	if (pid == 0)
 		execute_bin(argv, data);
@@ -59,7 +63,8 @@ int	execute_simple_command(t_ast_node *node, t_data *data, bool run_in_shell)
 
 	status = 0;
 	save_stdio(stdio, data);
-	if (node->child->sibling->child && setup_redir(node->child->sibling->child, stdio, data))
+	if (node->child->sibling->child
+		&& setup_redir(node->child->sibling->child, data))
 		return (restore_stdio(stdio), FAILIURE);
 	argv = extract_args(&node->child->args, data->env);
 	if (argv && *argv == NULL)
@@ -68,12 +73,7 @@ int	execute_simple_command(t_ast_node *node, t_data *data, bool run_in_shell)
 	if (builtin)
 		status = builtin->function(argv, &(data->env), data);
 	else
-	{
-		if (run_in_shell)
-			execute_bin(argv, data);
-		else
-			status = execute_subprocess(argv, data);
-	}
+		status = execute_process(argv, run_in_shell, data);
 	restore_stdio(stdio);
 	ft_free_vector(argv);
 	g_interrupted[2] = status;

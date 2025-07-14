@@ -45,7 +45,8 @@ void	str_erase(t_str *str, size_t pos, size_t len)
 	if (pos + len > str->size)
 		len = str->size - pos;
 	ft_memmove(str->data + pos,
-		str->data + pos + len, str->size - pos - len + 1);
+		str->data + pos + len,
+		str->size - pos - len + 1);
 	str->size -= len;
 }
 

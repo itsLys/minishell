@@ -12,25 +12,24 @@
 
 #include "execution.h"
 
-static char *make_name_eq_value(char *name, char *value)
+static char	*make_name_eq_value(char *name, char *value)
 {
-	// NOTE: CHECK MALLOC
-	char *name_eq;
-	char *name_eq_value;
+	char	*name_eq;
+	char	*name_eq_value;
 
 	name_eq = ft_strjoin(name, "=");
 	if (name_eq == NULL)
-		return NULL;
+		return (NULL);
 	name_eq_value = ft_strjoin(name_eq, value);
 	free(name_eq);
 	if (name_eq_value == NULL)
-		return NULL;
-	return name_eq_value;
+		return (NULL);
+	return (name_eq_value);
 }
 
 static int	env_count_len(t_env *env)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (env)
@@ -39,19 +38,19 @@ static int	env_count_len(t_env *env)
 			i++;
 		env = env->next;
 	}
-	return i;
+	return (i);
 }
 
-char **make_envp(t_env *env)
+char	**make_envp(t_env *env)
 {
-	int len;
-	int i;
-	char **envp;
+	char	**envp;
+	int		len;
+	int		i;
 
 	len = env_count_len(env);
 	envp = ft_calloc(sizeof(char *), (len + 1));
 	if (envp == NULL)
-		exit(321); // clean exit
+		return (NULL);
 	i = 0;
 	while (env)
 	{
@@ -63,6 +62,5 @@ char **make_envp(t_env *env)
 		}
 		env = env->next;
 	}
-	return envp;
+	return (envp);
 }
-

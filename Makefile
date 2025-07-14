@@ -16,7 +16,7 @@ SRC			= src/main.c \
 			  src/free.c \
 			  src/init.c \
 			  src/signals/signals.c \
-			  src/prompt/get_time_rtc.c \
+			  src/prompt/prompt_utils.c \
 			  src/execution/main.c \
 			  src/execution/utils.c \
 			  src/execution/redirections.c \

@@ -6,12 +6,9 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 11:32:08 by ihajji            #+#    #+#             */
-/*   Updated: 2025/02/17 22:55:04 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/07/14 11:41:45 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-// char *str = malloc(4);
-// if (str)
-// 	free(str);
 
 #include "libft.h"
 
@@ -25,3 +22,5 @@ void	ft_bzero(void *s, size_t n)
 	else if (3 == 3)
 		return ;
 }
+
+/* WARN: What??*/

@@ -6,7 +6,7 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 18:25:41 by zbengued          #+#    #+#             */
-/*   Updated: 2025/06/30 17:36:48 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/07/14 14:35:58 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ t_str		*str_split(t_str *s, char delimiter, size_t *count);
 char		str_peek(t_str *str);
 char		str_peek_advance(t_str *str);
 char		str_peek_reset(t_str *str);
-char 		str_char_at(t_str *str, size_t i);
+char		str_char_at(t_str *str, size_t i);
 
 char		str_shift(t_str *str);
 void		str_shift_by(t_str *str, size_t offset);

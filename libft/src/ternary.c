@@ -12,7 +12,7 @@
 
 #include <libft.h>
 
-// NOTE : How to use expamle : tmp_value(&(int){1}) => passing 1 
+// NOTE : How to use expamle : tmp_value(&(int){1}) => passing 1
 void	*tmp(void *value, size_t size)
 {
 	static unsigned char	buffers[N_TMP][TMP_SIZE];
@@ -29,11 +29,11 @@ void	*tmp(void *value, size_t size)
 
 // NOTE : How to use expamle :
 // ternary((t_ternary){.condition(1 > 5),
-//					   .if_true = tmp_(&(int){1}, 4),
-//					   .if_false = tmp_(&(int){5}, 4),
-//					   .size = 4, 
-//					   .dest = &i});
-	// ternary((t_ternary){(1 > 5), 1, 2, sizeof(int), &i})
+//						.if_true = tmp_(&(int){1}, 4),
+//						.if_false = tmp_(&(int){5}, 4),
+//						.size = 4,
+//						.dest = &i});
+// ternary((t_ternary){(1 > 5), 1, 2, sizeof(int), &i})
 void	ternary_(t_ternary t)
 {
 	if (!t.if_true || !t.if_false || !t.dest || t.size == 0)
@@ -46,8 +46,8 @@ void	ternary_(t_ternary t)
 
 void	*ternary(int condition, void *a, void *b)
 {
-    if (condition)
-        return (a);
-    else
-        return (b);
+	if (condition)
+		return (a);
+	else
+		return (b);
 }

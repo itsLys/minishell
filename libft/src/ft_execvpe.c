@@ -11,12 +11,11 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <errno.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 
-static int get_status(void)
+static int	get_status(void)
 {
 	if (errno == EACCES || errno == EISDIR)
 		return (NON_EXEC);
@@ -40,7 +39,6 @@ static int	execute_file(char **path_list, char *file, char **av, char **envp)
 	return (get_status());
 }
 
-
 int	ft_execvpe(char *file, char **av, char **envp)
 {
 	char	*path;
@@ -51,7 +49,7 @@ int	ft_execvpe(char *file, char **av, char **envp)
 		return (get_status());
 	path = ft_getenv(envp, "PATH=");
 	if (path == NULL && execve(file, av, envp) == ERROR)
-		return (get_status());	
+		return (get_status());
 	path_list = ft_getpath(path);
 	if (path_list == NULL)
 		return (ERROR);

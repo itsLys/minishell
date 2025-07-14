@@ -6,7 +6,7 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 18:49:56 by zbengued          #+#    #+#             */
-/*   Updated: 2025/07/06 16:40:14 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/07/14 14:40:36 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 void	delete_token(t_token **head)
 {
 	t_token	*tmp;
-	
+
 	tmp = (*head)->next;
 	str_destroy(&(*head)->val);
 	free(*head);

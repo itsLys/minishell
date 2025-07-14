@@ -6,7 +6,7 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 22:25:21 by zbengued          #+#    #+#             */
-/*   Updated: 2025/07/10 15:56:24 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/07/14 14:52:26 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void					free_tokens(t_token **head);
 void					delete_token(t_token **head);
 void					pop_token(t_token **tokens, t_token *token);
 void					add_token(t_token **head, char *type, t_str *value,
-						t_token_type t_type);
+							t_token_type t_type);
 void					lexer(t_token **tokens, char *line);
 void					ast_print_(t_ast_node *node, size_t depth);
 void					ast_print(t_ast_node *node, size_t depth,

@@ -3,12 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/15 22:30:19 by zbengued          #+#    #+#             */
-
-/*   Updated: 2025/06/18 16:01:02 by ihajji           ###   ########.fr       */
-
+/*   Created: 2025/07/14 14:51:47 by ihajji            #+#    #+#             */
+/*   Updated: 2025/07/14 14:51:54 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +33,16 @@
 # include <fcntl.h>
 # include <sys/stat.h>
 # include <signals.h>
+# include <linux/limits.h>
 
-int	get_rtc_time(char *out, int max_len);
+int		get_rtc_time(char *out, int max_len);
+
+// prompt engineering
+char	*get_time(void);
+char	*get_branch(void);
+char	*get_status_color(void);
+void	build_first_line(char *prompt, char *status, char *user, char *time);
+void	build_second_line(char *prompt, char *pwd, char *branch);
 
 // test
 #endif // !MINISHELL_H

@@ -41,8 +41,7 @@ void	str_shift_while(t_str *str, char *charset)
 		str_shift(str);
 }
 
-void	str_segment_set(t_str *str, size_t start,
-		size_t length, size_t end)
+void	str_segment_set(t_str *str, size_t start, size_t length, size_t end)
 {
 	char	*ptr;
 

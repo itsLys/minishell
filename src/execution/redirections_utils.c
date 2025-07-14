@@ -12,7 +12,7 @@
 
 #include "execution.h"
 
-int save_stdio(int stdio[2], t_data *data)
+int	save_stdio(int stdio[2], t_data *data)
 {
 	int	s_stdin;
 	int	s_stdout;
@@ -20,13 +20,13 @@ int save_stdio(int stdio[2], t_data *data)
 	s_stdout = dup(STDOUT_FILENO);
 	s_stdin = dup(STDIN_FILENO);
 	if (s_stdout == ERROR || s_stdin == ERROR)
-		return perror("dup"), clean_exit(FAILIURE, data), FAILIURE;
-	stdio[STDOUT_FILENO] =  s_stdout;
+		return (perror("dup"), clean_exit(FAILIURE, data), FAILIURE);
+	stdio[STDOUT_FILENO] = s_stdout;
 	stdio[STDIN_FILENO] = s_stdin;
-	return SUCCESS;
+	return (SUCCESS);
 }
 
-void restore_stdio(int stdio[2])
+void	restore_stdio(int stdio[2])
 {
 	dup2(stdio[STDOUT_FILENO], STDOUT_FILENO);
 	dup2(stdio[STDIN_FILENO], STDIN_FILENO);

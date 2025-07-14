@@ -12,74 +12,70 @@
 
 #include "execution.h"
 
-static int setup_redir_trunc(char *file)
+static int	setup_redir_trunc(char *file)
 {
 	int	fd;
 
 	fd = open(file, O_WRONLY | O_TRUNC | O_CREAT,
 			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-	// dprintf(2, "%s\n", file);
 	if (fd == ERROR)
-		return perror(file), ERROR;
+		return (perror(file), ERROR);
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
-	return SUCCESS;
+	return (SUCCESS);
 }
 
-static int setup_redir_append(char *file)
+static int	setup_redir_append(char *file)
 {
-	// dprintf(2, "%s\n", file);
 	int	fd;
 
 	fd = open(file, O_WRONLY | O_APPEND | O_CREAT,
 			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	if (fd == ERROR)
-		return perror(file), ERROR;
+		return (perror(file), ERROR);
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
-	return SUCCESS;
+	return (SUCCESS);
 }
 
-static int setup_redir_heredoc(t_str *file, t_data *data)
+static int	setup_redir_heredoc(t_str *file, t_data *data)
 {
 	int	fd;
 
 	expand_heredoc(file, data->env);
 	fd = open(file->data, O_RDONLY);
-	// printf("fd:	%d\n", fd);
 	if (fd == ERROR)
-		return perror(file->data), ERROR;
+		return (perror(file->data), ERROR);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
-	return SUCCESS;
+	return (SUCCESS);
 }
 
-static int setup_redir_in(char *file)
+static int	setup_redir_in(char *file)
 {
 	int	fd;
 
 	fd = open(file, O_RDONLY);
 	if (fd == ERROR)
-		return perror(file), ERROR;
+		return (perror(file), ERROR);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
-	return SUCCESS;
+	return (SUCCESS);
 }
 
-int setup_redir(t_ast_node *redir, int stdio[2], t_data *data)
+int	setup_redir(t_ast_node *redir, t_data *data)
 {
-	int status;
-	char *file;
+	char	*file;
+	int		status;
 
 	status = 0;
 	file = NULL;
-	// print_ast_type(redir);
-	(void) stdio;
-	while (redir/*  && dprintf(2, "%p\n", redir) */)
+	while (redir)
 	{
 		file = expand_filename(&redir->value, data->env);
 		if (file == NULL)
-			return (ft_dprintf(STDERR_FILENO, "ambiguous redirect\n"), FAILIURE);
+			return (ft_dprintf(STDERR_FILENO, "ambiguous redirect\n"),
+				FAILIURE);
 		if (redir->type == G_REDI_TRUNC)
 			status = setup_redir_trunc(file);
 		else if (redir->type == G_REDI_APPEND)
@@ -88,9 +84,9 @@ int setup_redir(t_ast_node *redir, int stdio[2], t_data *data)
 			status = setup_redir_heredoc(&redir->value, data);
 		else if (redir->type == G_REDI_IN)
 			status = setup_redir_in(file);
-		if (status == ERROR/*  && dprintf(2, "error redir\n") */)
-			return ERROR;
+		if (status == ERROR)
+			return (ERROR);
 		redir = redir->sibling;
 	}
-	return  SUCCESS;
+	return (SUCCESS);
 }

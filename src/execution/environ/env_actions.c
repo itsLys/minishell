@@ -29,11 +29,11 @@ t_env	*new_env_node(char *name, char *value, bool exported)
 {
 	t_env	*new;
 
-	if (name == NULL)  // I can accept a NULL value, but not a null name
-		return (NULL); // NOTE: exit_clean on return (address);
+	if (name == NULL)
+		return (NULL);
 	new = ft_calloc(sizeof(t_env), 1);
 	if (new == NULL)
-		return (NULL); // NOTE: exit_clean on return address
+		return (NULL);
 	new->name = name;
 	new->value = value;
 	new->exported = exported;
@@ -46,7 +46,7 @@ void	env_add_last(t_env *node, t_env **env)
 	t_env	*tmp;
 
 	if (env == NULL)
-		return ; // silenty fail
+		return ;
 	tmp = *env;
 	if (tmp == NULL)
 	{

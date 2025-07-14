@@ -12,23 +12,23 @@
 
 #include "execution.h"
 
-static bool resolve_logical(int status, t_ast_node *node)
+static bool	resolve_logical(int status, t_ast_node *node)
 {
 	if (node && node->type == G_AND_NODE)
 	{
 		node = node->sibling;
 		if (status == SUCCESS)
-			return true;
-		return false;
+			return (true);
+		return (false);
 	}
 	else if (node && node->type == G_OR_NODE)
 	{
 		node = node->sibling;
 		if (status == SUCCESS)
-			return false;
-		return true;
+			return (false);
+		return (true);
 	}
-	return false;
+	return (false);
 }
 
 int	execute_compound(t_ast_node *node, t_data *data)
@@ -52,5 +52,5 @@ int	execute_compound(t_ast_node *node, t_data *data)
 			child = child->sibling;
 		}
 	}
-	return status;
+	return (status);
 }
