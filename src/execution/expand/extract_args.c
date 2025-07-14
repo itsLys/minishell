@@ -6,7 +6,7 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 23:46:26 by zbengued          #+#    #+#             */
-/*   Updated: 2025/07/14 18:22:27 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/07/14 22:57:27 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,12 @@ bool	is_assign(t_str_arr *args)
 	const char	*ptr;
 
 	if (!(args->size > args->peek
-		&& !ft_strcmp(args->items[0].data, "export")))
+		&& !ft_strcmp(args->items[0].data, "export")
+		&& args->size > 1))
 		return (false);
-	ptr = args->items[1].data;
+	if (args->size == 1)
+		return (false);
+	ptr = args->items[args->peek].data;
 	while (*ptr && *ptr != '=')
 	{
 		if (*ptr == '$')
@@ -91,44 +94,25 @@ static bool	process_arg(t_str_arr *args, t_env *env,
 	if (str_arr_peek(args)->data[0] == '\0')
 		return(str_destroy(&mask), true);
 	remove_quotes(str_arr_peek(args), &mask);
-	if (is_assign(args) == true)
-		split = (t_str_arr){&args->items[1], 1, 1, 0};
-	else
+	// printf("--------avant-------\n");
+	// printf("le mask qu'on doit push est %s\n", mask.data);
+	// printf("le str qu'on doit push est %s\n", str_arr_peek(args)->data);
+	// printf("--------apres-------\n");
+	// if (is_assign(args) == true)
+	// {
+	// 	printf("it s an assign\n");
+	// 	str_arr_init(&split);
+	// 	str_arr_push(&split, args->items[args->peek].data);
+	// }
+	// else
 		split = split_input(str_arr_peek(args), &mask);
+	// printf("le mask qu'on doit push est %s\n", mask.data);
+	// printf("le str qu'on doit push est %s\n", str_arr_peek(args)->data);
 	str_arr_extend(out, &split);
 	str_arr_destroy(&split);
 	str_arr_push(masks, mask.data);
 	str_destroy(&mask);
 	return (true);
-}
-
-void	process_assignment(t_str_arr *args)
-{
-	t_str	*str;
-	t_str	mask;
-
-	str_arr_peek_advance(args);
-	str = &args->items[args->peek] ;
-	if (!str->data)
-		return ;
-	mask = build_mask(str);
-	while (str_peek(str) && str_peek(str) != '=')
-	{
-		if (str_peek(str) == '$')
-		{
-			str_peek_reset(str);
-			return ;
-		}
-		str_peek_advance(str);
-		str_peek_advance(&mask);
-	}
-	// str_peek_reset(str);
-	// remove_quotes(str, &mask);
-	size_t	pos = str_find(str, "=");
-	str_insert(str, pos + 1, "\"");
-	str_insert(str, str->size, "\"");
-	str_peek_reset(str);
-	str_destroy(&mask);
 }
 
 char	**extract_args(t_str_arr *args, t_env *env_list)
@@ -140,12 +124,6 @@ char	**extract_args(t_str_arr *args, t_env *env_list)
 	str_arr_init(&new_args);
 	str_arr_init(&new_masks);
 	str_arr_peek_reset(args);
-	// if (args->size > args->peek
-	// 	&& !ft_strcmp(str_arr_peek(args)->data, "export"))
-	// {
-	// 	process_assignment(args);
-	// 	str_arr_peek_reset(args);
-	// }
 	while (args->peek < args->size)
 	{
 		if (!process_arg(args, env_list, &new_args, &new_masks))
@@ -156,6 +134,8 @@ char	**extract_args(t_str_arr *args, t_env *env_list)
 		}
 		str_arr_peek_advance(args);
 	}
+	// print_str_arr(&new_args);
+	// print_str_arr(&new_masks);
 	expand_all_wildcards(&new_args, &new_masks);
 	str_arr_destroy(&new_masks);
 	argv = convert_str_arr(&new_args);

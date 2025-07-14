@@ -6,24 +6,24 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 05:02:49 by zbengued          #+#    #+#             */
-/*   Updated: 2025/06/24 05:27:53 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/07/14 22:56:55 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <execution.h>
 
-bool	contains_wildcard_masked(t_str *str, t_str *mask)
+bool	contains_wildcard_masked(t_str str, t_str mask)
 {
-	size_t	i;
-
-	if (!str->data || !mask->data)
+	if (!str.data || !mask.data)
 		return (false);
-	i = 0;
-	while (str->data[i])
+	str_peek_reset(&str);
+	str_peek_reset(&mask);
+	while (str_peek(&str) && str_peek(&mask))
 	{
-		if (str->data[i] == '*' && mask->data[i] == 'N')
+		if (str_peek(&str) == '*' && str_peek(&mask) == 'N')
 			return (true);
-		i++;
+		str_peek_advance(&str);
+		str_peek_advance(&mask);
 	}
 	return (false);
 }
@@ -76,7 +76,7 @@ void	expand_wildcard_in_str(t_str *input, t_str *mask)
 	struct dirent	*entry;
 	bool			found;
 
-	if (!contains_wildcard_masked(input, mask))
+	if (!contains_wildcard_masked(*input, *mask))
 		return ;
 	found = false;
 	result = str_new("");
@@ -117,9 +117,12 @@ void	expand_all_wildcards(t_str_arr *args, t_str_arr *masks)
 
 	i = 0;
 	limit = args->size;
+	// printf("%zu = limit\n", limit);
 	while (i < limit)
 	{
-		if (contains_wildcard_masked(&args->items[i], &masks->items[i]))
+		// printf("size masks = %zu\n", masks->size);
+		// printf("size args = %zu\n", args->size);
+		if (contains_wildcard_masked(args->items[i], masks->items[i]))
 			expand_wildcard_at(args, masks, i++);
 		else
 			i++;

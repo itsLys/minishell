@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 11:05:43 by ihajji            #+#    #+#             */
-/*   Updated: 2025/07/14 18:46:13 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/07/14 18:54:54 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	run_command(char **argv, char **envp, int pipefd[2])
 	else if (pid == ERROR)
 		return (FAILIURE);
 	waitpid(pid, &status, 0);
-	// dprintf(2, "%d\n\n\n",WEXITSTATUS(status));
 	return (WEXITSTATUS(status));
 }
 
@@ -58,9 +57,8 @@ char	*ft_getoutput(char **argv, char **envp)
 		output[bytes_read - 1] = 0;
 	else
 		output[bytes_read] = 0;
-	return (NULL);
+	return (output);
 }
-
 /* 
  * 	TODO: give output as is without removing newline, the caller must handle
  *		the string as they wish

@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 15:02:11 by ihajji            #+#    #+#             */
-/*   Updated: 2025/07/14 18:46:17 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/07/14 19:54:36 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ char	*build_prompt(t_data *data)
 		user = ft_strdup("annonymos");
 	branch = get_branch();
 	time = get_time();
-	// dprintf(2, "%p\n\n\n", time);
 	status = ft_itoa(g_interrupted[2]);
 	build_first_line(prompt, status, user, time);
 	build_second_line(prompt, data->pwd, branch);
@@ -76,6 +75,7 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)),
 		parse_input(data.input, &data.tokens, &data.ast);
 		if (data.ast)
 			g_interrupted[2] = execute(data.ast, &data, false);
+		// ast_print(data.ast, 0, "", 0);
 		free_resources(data.input, &data.tokens, &data.ast);
 	}
 }
