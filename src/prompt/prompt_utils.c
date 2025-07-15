@@ -50,7 +50,7 @@ void	build_first_line(char *prompt, char *status, char *user, char *time)
 	ft_strlcat(prompt, status, PATH_MAX);
 	ft_strlcat(prompt, COLOR_RESET, PATH_MAX);
 	ft_strlcat(prompt, "]", PATH_MAX);
-	ft_strlcat(prompt, "-(", PATH_MAX);
+	ft_strlcat(prompt, "-(@", PATH_MAX);
 	ft_strlcat(prompt, COLOR_BLUE, PATH_MAX);
 	ft_strlcat(prompt, user, PATH_MAX);
 	ft_strlcat(prompt, COLOR_RESET, PATH_MAX);
@@ -64,12 +64,12 @@ void	build_first_line(char *prompt, char *status, char *user, char *time)
 
 void	build_second_line(char *prompt, char *pwd, char *branch)
 {
-	ft_strlcat(prompt, "┗━["COLOR_CYAN"󰉋](", PATH_MAX);
+	ft_strlcat(prompt, "┗━[""](", PATH_MAX);
 	ft_strlcat(prompt, COLOR_CYAN, PATH_MAX);
 	ft_strlcat(prompt, pwd, PATH_MAX);
 	ft_strlcat(prompt, COLOR_RESET, PATH_MAX);
 	ft_strlcat(prompt, ")", PATH_MAX);
-	ft_strlcat(prompt, "-(", PATH_MAX);
+	ft_strlcat(prompt, "-( :", PATH_MAX);
 	ft_strlcat(prompt, COLOR_MAGENTA, PATH_MAX);
 	ft_strlcat(prompt, branch, PATH_MAX);
 	ft_strlcat(prompt, COLOR_RESET, PATH_MAX);
