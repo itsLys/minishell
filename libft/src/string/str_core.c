@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   string1.c                                          :+:      :+:    :+:   */
+/*   str_core.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/19 18:34:27 by zbengued          #+#    #+#             */
-/*   Updated: 2025/06/19 18:50:17 by zbengued         ###   ########.fr       */
+/*   Created: 2025/07/15 20:15:31 by ihajji            #+#    #+#             */
+/*   Updated: 2025/07/15 20:17:28 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft_string.h>
+#include "ft_string.h"
 
 void	str_init(t_str *str)
 {
@@ -52,29 +52,31 @@ void	str_ensure_capacity(t_str *str, size_t needed_capacity)
 	str->capacity = new_capacity;
 }
 
-void	str_set(t_str *str, char *new_data)
+void	str_create(t_str *str, char *text)
 {
-	size_t	new_len;
-
-	if (!str || !new_data)
-		return ;
-	new_len = ft_strlen(new_data);
-	str_ensure_capacity(str, new_len);
-	ft_memcpy(str->data, new_data, new_len);
-	str->data[new_len] = '\0';
-	str->size = new_len;
-	str->peek = 0;
+	str_init(str);
+	str_set(str, text);
 }
 
-void	str_append(t_str *str, char *to_add)
+t_str	str_new(char *src)
 {
-	size_t	len;
+	t_str	new;
 
-	if (!str || !to_add)
-		return ;
-	len = ft_strlen(to_add);
-	str_ensure_capacity(str, str->size + len);
-	ft_memcpy(str->data + str->size, to_add, len);
-	str->size += len;
-	str->data[str->size] = '\0';
+	new.peek = 0;
+	if (!src)
+	{
+		new.data = NULL;
+		new.size = 0;
+		new.capacity = 0;
+		return (new);
+	}
+	new.size = ft_strlen(src);
+	new.data = ft_strdup(src);
+	new.capacity = new.size + 1;
+	if (!new.data)
+	{
+		new.size = 0;
+		new.capacity = 0;
+	}
+	return (new);
 }

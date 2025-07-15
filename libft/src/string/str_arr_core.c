@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   arr_string1.c                                      :+:      :+:    :+:   */
+/*   str_arr_core.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/22 16:43:19 by zbengued          #+#    #+#             */
-/*   Updated: 2025/06/24 01:08:46 by zbengued         ###   ########.fr       */
+/*   Created: 2025/07/15 19:22:17 by ihajji            #+#    #+#             */
+/*   Updated: 2025/07/15 19:22:27 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft_string.h>
+#include "ft_string.h"
 
 void	str_arr_init(t_str_arr *arr)
 {
@@ -19,6 +19,22 @@ void	str_arr_init(t_str_arr *arr)
 		return ;
 	arr->size = 0;
 	arr->capacity = 4;
+}
+
+void	str_arr_destroy(t_str_arr *arr)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < arr->size)
+	{
+		str_destroy(&arr->items[i]);
+		i++;
+	}
+	free(arr->items);
+	arr->items = NULL;
+	arr->size = 0;
+	arr->capacity = 0;
 }
 
 void	str_arr_push(t_str_arr *arr, char *text)
@@ -47,29 +63,6 @@ void	str_arr_push(t_str_arr *arr, char *text)
 	arr->items[arr->size++] = new_str;
 }
 
-void	str_arr_destroy(t_str_arr *arr)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < arr->size)
-	{
-		str_destroy(&arr->items[i]);
-		i++;
-	}
-	free(arr->items);
-	arr->items = NULL;
-	arr->size = 0;
-	arr->capacity = 0;
-}
-
-t_str	*str_arr_get(t_str_arr *arr, size_t index)
-{
-	if (index >= arr->size)
-		return (NULL);
-	return (&arr->items[index]);
-}
-
 void	str_arr_extend(t_str_arr *dest, t_str_arr *src)
 {
 	size_t	i;
@@ -77,4 +70,11 @@ void	str_arr_extend(t_str_arr *dest, t_str_arr *src)
 	i = 0;
 	while (i < src->size)
 		str_arr_push(dest, src->items[i++].data);
+}
+
+t_str	*str_arr_get(t_str_arr *arr, size_t index)
+{
+	if (index >= arr->size)
+		return (NULL);
+	return (&arr->items[index]);
 }

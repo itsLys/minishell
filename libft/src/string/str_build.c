@@ -1,38 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   string6.c                                          :+:      :+:    :+:   */
+/*   str_build.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/20 09:40:02 by zbengued          #+#    #+#             */
-/*   Updated: 2025/06/20 23:07:42 by zbengued         ###   ########.fr       */
+/*   Created: 2025/07/15 20:19:26 by ihajji            #+#    #+#             */
+/*   Updated: 2025/07/15 20:24:33 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft_string.h>
+#include "ft_string.h"
 
-size_t	str_segments_count(t_str *str, char delimiter)
+void	str_set(t_str *str, char *new_data)
 {
-	size_t	count;
+	size_t	new_len;
+
+	if (!str || !new_data)
+		return ;
+	new_len = ft_strlen(new_data);
+	str_ensure_capacity(str, new_len);
+	ft_memcpy(str->data, new_data, new_len);
+	str->data[new_len] = '\0';
+	str->size = new_len;
+	str->peek = 0;
+}
+
+t_str	str_new_fill(size_t size, char c)
+{
+	t_str	str;
 	size_t	i;
 
-	if (!str || !str->size)
-		return (0);
-	count = 0;
+	str_init(&str);
+	str_ensure_capacity(&str, size + 1);
 	i = 0;
-	while (i < str->size)
+	while (i < size)
 	{
-		while (i < str->size && str->data[i] == delimiter)
-			i++;
-		if (i < str->size)
-		{
-			count++;
-			while (i < str->size && str->data[i] != delimiter)
-				i++;
-		}
+		str.data[i] = c;
+		i++;
 	}
-	return (count);
+	str.size = size;
+	return (str);
 }
 
 t_str	str_substr(t_str *str, size_t start, size_t len)
@@ -51,28 +59,22 @@ t_str	str_substr(t_str *str, size_t start, size_t len)
 	return (sub);
 }
 
-static void	str_fill_split(t_str *str, char d, t_str *arr, size_t c)
+t_str	str_join(t_str *array, size_t len, char *delimiter)
 {
-	size_t	i;
-	size_t	start;
-	size_t	part;
+	t_str	result;
+	size_t	delim_len;
+	size_t	total;
 
-	i = 0;
-	start = 0;
-	part = 0;
-	while (i <= str->size && part < c)
-	{
-		if (i == str->size || str->data[i] == d)
-		{
-			if (i > start)
-				arr[part++] = str_substr(str, start, i - start);
-			while (i < str->size && str->data[i] == d)
-				i++;
-			start = i;
-		}
-		else
-			i++;
-	}
+	str_init(&result);
+	if (!array || len == 0)
+		return (result);
+	delim_len = 0;
+	if (delimiter)
+		delim_len = ft_strlen(delimiter);
+	total = str_total_size(array, len, delim_len);
+	str_ensure_capacity(&result, total);
+	str_fill(&result, array, len, delimiter);
+	return (result);
 }
 
 t_str	*str_split(t_str *s, char delimiter, size_t *count)

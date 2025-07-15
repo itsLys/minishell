@@ -44,11 +44,11 @@ int	echo(char **argv, t_env **env, t_data *data)
 	}
 	while (argv[i])
 	{
-		printf("%s", argv[i++]);
+		ft_putstr_fd(argv[i++], STDOUT_FILENO);
 		if (argv[i])
-			printf(" ");
+			ft_putstr_fd(" ", STDOUT_FILENO);
 	}
 	if (!n_flaged)
-		printf("\n");
+		ft_putstr_fd("\n", STDOUT_FILENO);
 	return (0);
 }

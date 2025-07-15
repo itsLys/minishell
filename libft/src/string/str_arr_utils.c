@@ -1,26 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   arr_string2.c                                      :+:      :+:    :+:   */
+/*   str_arr_extra.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/23 17:56:47 by zbengued          #+#    #+#             */
-/*   Updated: 2025/06/24 01:07:07 by zbengued         ###   ########.fr       */
+/*   Created: 2025/07/15 19:23:37 by ihajji            #+#    #+#             */
+/*   Updated: 2025/07/15 20:08:55 by ihajji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft_string.h>
-
-void	print_str_arr(t_str_arr *arr)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < arr->size)
-		printf("[%s] ", arr->items[i++].data);
-	printf("\n");
-}
 
 t_str	*str_arr_peek(t_str_arr *arr)
 {
@@ -39,4 +29,40 @@ t_str	*str_arr_peek_advance(t_str_arr *arr)
 void	str_arr_peek_reset(t_str_arr *arr)
 {
 	arr->peek = 0;
+}
+
+void	str_arr_insert(t_str_arr *arr, size_t index, char *text)
+{
+	t_str	new_str;
+	size_t	i;
+
+	if (index > arr->size)
+		return ;
+	if (!str_arr_resize_if_needed(arr))
+		return ;
+	i = arr->size;
+	while (i > index)
+	{
+		arr->items[i] = arr->items[i - 1];
+		i--;
+	}
+	str_create(&new_str, text);
+	arr->items[index] = new_str;
+	arr->size++;
+}
+
+void	str_arr_remove(t_str_arr *arr, size_t index)
+{
+	size_t	i;
+
+	if (index >= arr->size)
+		return ;
+	str_destroy(&arr->items[index]);
+	i = index;
+	while (i + 1 < arr->size)
+	{
+		arr->items[i] = arr->items[i + 1];
+		i++;
+	}
+	arr->size--;
 }
