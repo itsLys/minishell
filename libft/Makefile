@@ -91,19 +91,20 @@ SRC			= src/ft_isalnum.c \
 			  src/get_next_line/get_next_line_bonus.c \
 			  src/get_next_line/get_next_line_utils.c \
 			  src/get_next_line/get_next_line_utils_bonus.c \
-			  src/string/arr_string1.c \
-			  src/string/arr_string2.c \
-			  src/string/arr_string3.c \
-			  src/string/arr_string4.c \
-			  src/string/string1.c \
-			  src/string/string2.c \
-			  src/string/string3.c \
-			  src/string/string4.c \
-			  src/string/string5.c \
-			  src/string/string6.c \
-			  src/string/string7.c \
-			  src/string/string8.c \
-			  src/string/string9.c \
+			  src/string/str_arr_core.c \
+			  src/string/str_arr_extra.c \
+			  src/string/str_arr_utils.c \
+			  src/string/str_build.c \
+			  src/string/str_convert1.c \
+			  src/string/str_convert2.c \
+			  src/string/str_core.c \
+			  src/string/str_mod1.c \
+			  src/string/str_mod2.c \
+			  src/string/str_peek.c \
+			  src/string/str_seg1.c \
+			  src/string/str_seg2.c \
+			  src/string/str_shift.c \
+			  src/string/str_utils.c \
 			  src/ternary.c \
 			  src/ft_getoutput.c
 OBJ			= $(patsubst src/%.c, obj/%.o, $(SRC))
