@@ -64,6 +64,7 @@ void	build_first_line(char *prompt, char *status, char *user, char *time)
 
 void	build_second_line(char *prompt, char *pwd, char *branch)
 {
+	ft_strlcat(prompt, "┗━["COLOR_CYAN"󰉋](", PATH_MAX);
 	ft_strlcat(prompt, COLOR_CYAN, PATH_MAX);
 	ft_strlcat(prompt, pwd, PATH_MAX);
 	ft_strlcat(prompt, COLOR_RESET, PATH_MAX);

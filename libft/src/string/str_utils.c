@@ -66,3 +66,22 @@ void	str_fill_split(t_str *str, char d, t_str *arr, size_t c)
 			i++;
 	}
 }
+
+int	str_arr_resize_if_needed(t_str_arr *arr)
+{
+	t_str	*tmp;
+	size_t	i;
+
+	if (arr->size < arr->capacity)
+		return (1);
+	tmp = ft_calloc(sizeof(t_str), arr->capacity * 2);
+	if (!tmp)
+		return (0);
+	i = arr->size;
+	while (i--)
+		tmp[i] = arr->items[i];
+	free(arr->items);
+	arr->items = tmp;
+	arr->capacity *= 2;
+	return (1);
+}

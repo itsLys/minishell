@@ -95,8 +95,7 @@ SRC			= src/ft_isalnum.c \
 			  src/string/str_arr_extra.c \
 			  src/string/str_arr_utils.c \
 			  src/string/str_build.c \
-			  src/string/str_convert1.c \
-			  src/string/str_convert2.c \
+			  src/string/str_convert.c \
 			  src/string/str_core.c \
 			  src/string/str_mod1.c \
 			  src/string/str_mod2.c \

@@ -22,6 +22,7 @@ static void	sigint_handler_prompt(int sig)
 	{
 		g_interrupted[1] = 1;
 		g_interrupted[2] = 130;
+
 	}
 }
 
@@ -30,6 +31,8 @@ static int	my_rl_event_hook(void)
 	if (g_interrupted[1])
 	{
 		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
 		rl_done = 1;
 	}
 	return (0);

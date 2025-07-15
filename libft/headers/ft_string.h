@@ -122,7 +122,6 @@ char		*convert_str(t_str *str);
 char		**convert_str_arr(t_str_arr *arr);
 char		*str_to_cstr(t_str *str);
 // str_convert2.c
-t_str		convert_cstr(char *cstr);
 t_str_arr	convert_vec_strarr(char **og);
 t_str		str_from_cstr(const char *cstr);
 
@@ -130,6 +129,7 @@ t_str		str_from_cstr(const char *cstr);
 size_t		str_total_size(t_str *arr, size_t len, size_t delim_len);
 void		str_fill(t_str *result, t_str *arr, size_t len, char *d);
 void		str_fill_split(t_str *str, char d, t_str *arr, size_t c);
+int			str_arr_resize_if_needed(t_str_arr *arr);
 // str_arr_core.c
 // str_arr_utils.c
 // str_arr_extra.c
