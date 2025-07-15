@@ -6,14 +6,15 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 00:41:47 by zbengued          #+#    #+#             */
-/*   Updated: 2025/06/24 05:41:21 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/07/15 18:14:14 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <execution.h>
 #include <parsing.h>
 
-static void	collect_wildcard_matches(t_str_arr *matches, t_str *pattern, t_str *mask)
+static void	collect_wildcard_matches(t_str_arr *matches,
+		t_str *pattern, t_str *mask)
 {
 	DIR				*dir;
 	struct dirent	*entry;

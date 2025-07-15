@@ -75,7 +75,6 @@ int	main(int ac __attribute__((unused)), char **av __attribute__((unused)),
 		parse_input(data.input, &data.tokens, &data.ast);
 		if (data.ast)
 			g_interrupted[2] = execute(data.ast, &data, false);
-		// ast_print(data.ast, 0, "", 0);
 		free_resources(data.input, &data.tokens, &data.ast);
 	}
 }

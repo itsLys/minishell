@@ -39,6 +39,8 @@ SRC			= src/main.c \
 			  src/execution/builtins/export_utils.c \
 			  src/execution/expand/build_mask.c \
 			  src/execution/expand/expand_var.c \
+			  src/execution/expand/expand_conditons.c \
+			  src/execution/expand/expand_wildcard_at_str.c \
 			  src/execution/expand/extract_args.c \
 			  src/execution/expand/get_name_value.c \
 			  src/execution/expand/split_input.c \
@@ -47,13 +49,13 @@ SRC			= src/main.c \
 			  src/execution/expand/expand_heredoc.c \
 			  src/execution/expand/expand_filename.c \
 			  src/parsing/main.c \
-			  src/parsing/test.c \
 			  src/parsing/ast_functions.c \
 			  src/parsing/tokenizing/tokenizing_utils.c \
 			  src/parsing/tokenizing/tokenizing.c \
-			  src/parsing/parsing/parsing.c \
-			  src/parsing/parsing/parsing_utils_1.c \
-			  src/parsing/parsing/parsing_utils_2.c \
+			  src/parsing/ast/build_ast.c \
+			  src/parsing/ast/parsing_utils_1.c \
+			  src/parsing/ast/parsing_utils_2.c \
+			  src/parsing/ast/syn_err.c \
 			  src/parsing/heredoc/run_heredoc.c \
 			  src/parsing/heredoc/generate_file_name.c \
 			  src/freeing/free_all_ast.c

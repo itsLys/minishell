@@ -6,7 +6,7 @@
 /*   By: ihajji <ihajji@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 20:21:39 by ihajji            #+#    #+#             */
-/*   Updated: 2025/07/14 18:49:22 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/07/15 18:23:16 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,9 +121,11 @@ bool			is_shell_variable(t_str str);
 bool			is_valid_first_char(char c);
 bool			is_valid_var_char(char c);
 bool			is_shell_variable(t_str str);
+bool			can_expand(t_str *input, t_str *mask);
 t_str_arr		split_input(t_str *input, t_str *mask);
 char			**extract_args(t_str_arr *args, t_env *env_list);
 bool			contains_wildcard(const char *str);
+bool			contains_wildcard_masked(t_str str, t_str mask);
 bool			match_wildcard_from(t_str *pattern,
 					t_str *mask,
 					const char *str,

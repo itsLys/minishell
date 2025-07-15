@@ -49,7 +49,6 @@ void	consume_word(t_token **tokens, t_ast_node *args_node)
 	delete_token(tokens);
 }
 
-// NOTE : if heredoc exit with signal should clean_exit
 void	consume_redir(t_token **tokens, t_ast_node *red_list)
 {
 	t_str	filename;
@@ -68,6 +67,6 @@ void	consume_redir(t_token **tokens, t_ast_node *red_list)
 		str_destroy(&filename);
 	}
 	ast_add_child(red_list,
-			ast_new((t_grammar)(*tokens)->t_type, (*tokens)->val.data));
+		ast_new((t_grammar)(*tokens)->t_type, (*tokens)->val.data));
 	delete_token(tokens);
 }

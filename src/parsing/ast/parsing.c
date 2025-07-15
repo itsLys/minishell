@@ -6,21 +6,12 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 16:27:18 by zbengued          #+#    #+#             */
-/*   Updated: 2025/06/30 18:17:05 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/07/15 19:21:01 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 #include <stddef.h>
-
-void	syntax_err(t_token **tokens, t_ast_node *node)
-{
-	g_interrupted[2] = 2;
-	ft_dprintf(STDERR, "SYNTAX ERROR\n");
-	free_tokens(tokens);
-	*tokens = NULL;
-	free_all_ast(node);
-}
 
 t_ast_node	*simple_command(t_token **tokens)
 {
@@ -38,7 +29,7 @@ t_ast_node	*simple_command(t_token **tokens)
 			break ;
 		if (g_interrupted[HEREDOC_INTERRUPT])
 			return (free_all_ast(node[I_RED_LIST]),
-					free_all_ast(node[I_ARGLIST]), NULL);
+				free_all_ast(node[I_ARGLIST]), NULL);
 	}
 	if ((*tokens && (*tokens)->t_type == T_LPAR))
 		return (free_all_ast(node[I_RED_LIST]), free_all_ast(node[I_ARGLIST]),
@@ -54,7 +45,8 @@ t_ast_node	*subshell(t_token **tokens)
 	t_ast_node	*node[7];
 
 	delete_token(tokens);
-	if ((!(*tokens) || is_and_or((*tokens)->t_type)) || (*tokens)->t_type == T_RPAR)
+	if ((!(*tokens) || is_and_or((*tokens)->t_type))
+		|| (*tokens)->t_type == T_RPAR)
 		return (NULL);
 	node[I_COMPOUND_COMMAND] = compound_command(tokens, true);
 	if (!node[I_COMPOUND_COMMAND] || !(*tokens))
@@ -140,8 +132,6 @@ t_ast_node	*compound_command(t_token **tokens, bool in_subshell)
 			if ((*tokens && !valid_compound(tokens)) || !(*tokens))
 				return (syntax_err(tokens, node[I_COMPOUND_COMMAND]), NULL);
 		}
-		// else if (*tokens && !in_subshell && (*tokens)->t_type == T_LPAR)
-		// 	return (printf("here!!!!!! 2\n"), NULL);
 	}
 	return (node[I_COMPOUND_COMMAND]);
 }

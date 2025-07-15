@@ -6,27 +6,27 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 23:46:26 by zbengued          #+#    #+#             */
-/*   Updated: 2025/07/14 22:57:27 by ihajji           ###   ########.fr       */
+/*   Updated: 2025/07/15 19:04:57 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <execution.h>
 
-void    remove_quotes(t_str *str, t_str *mask)
+void	remove_quotes(t_str *str, t_str *mask)
 {
 	str_peek_reset(str);
 	str_peek_reset(mask);
-    while (str_peek(str))
-    {
-        if (str_peek(mask) == 'Q')
-        {
-            str_erase(str, str->peek, 1);
-            str_erase(mask, str->peek, 1);
-            continue ;
-        }
+	while (str_peek(str))
+	{
+		if (str_peek(mask) == 'Q')
+		{
+			str_erase(str, str->peek, 1);
+			str_erase(mask, str->peek, 1);
+			continue ;
+		}
 		str_peek_advance(str);
 		str_peek_advance(mask);
-    }
+	}
 }
 
 void	remove_quote(t_str *str)
@@ -45,13 +45,13 @@ void	remove_quote(t_str *str)
 			{
 				current_quote = c;
 				str_erase(str, str->peek, 1);
-				continue;
+				continue ;
 			}
 			else if (current_quote == c)
 			{
 				current_quote = 0;
 				str_erase(str, str->peek, 1);
-				continue;
+				continue ;
 			}
 		}
 		str_peek_advance(str);
@@ -63,8 +63,8 @@ bool	is_assign(t_str_arr *args)
 	const char	*ptr;
 
 	if (!(args->size > args->peek
-		&& !ft_strcmp(args->items[0].data, "export")
-		&& args->size > 1))
+			&& !ft_strcmp(args->items[0].data, "export")
+			&& args->size > 1))
 		return (false);
 	if (args->size == 1)
 		return (false);
@@ -72,13 +72,12 @@ bool	is_assign(t_str_arr *args)
 	while (*ptr && *ptr != '=')
 	{
 		if (*ptr == '$')
-			return false;
+			return (false);
 		ptr++;
 	}
 	if (*ptr == '\0')
 		return (false);
 	return (true);
-		
 }
 
 static bool	process_arg(t_str_arr *args, t_env *env,
@@ -93,7 +92,7 @@ static bool	process_arg(t_str_arr *args, t_env *env,
 		return (false);
 	expand_var(str_arr_peek(args), env, &mask);
 	if (str_arr_peek(args)->data[0] == '\0')
-		return(str_destroy(&mask), true);
+		return (str_destroy(&mask), true);
 	remove_quotes(str_arr_peek(args), &mask);
 	if (is_assign(args) == true)
 	{
@@ -130,8 +129,6 @@ char	**extract_args(t_str_arr *args, t_env *env_list)
 		}
 		str_arr_peek_advance(args);
 	}
-	// print_str_arr(&new_args);
-	// print_str_arr(&new_masks);
 	expand_all_wildcards(&new_args, &new_masks);
 	str_arr_destroy(&new_masks);
 	argv = convert_str_arr(&new_args);

@@ -6,37 +6,11 @@
 /*   By: zbengued <zbengued@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 23:34:55 by zbengued          #+#    #+#             */
-/*   Updated: 2025/06/24 05:43:32 by zbengued         ###   ########.fr       */
+/*   Updated: 2025/07/15 19:05:12 by zbengued         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <execution.h>
-
-bool	is_valid_first_char(char c)
-{
-	return (ft_isalpha((unsigned char)c) || c == '_'
-			|| c == '?');
-}
-
-bool	is_valid_var_char(char c)
-{
-	return (ft_isalnum((unsigned char)c) || c == '_' || c == '?');
-}
-
-bool	is_shell_variable(t_str str)
-{
-	if (str_peek(&str) != '$')
-		return false;
-	return true;
-}
-
-bool	can_expand(t_str *input, t_str *mask)
-{
-	if (str_peek(input) == '$'
-		&& (str_peek(mask) == 'N' || str_peek(mask) == 'D'))
-		return (true);
-	return (false);
-}
 
 t_str	extreact_variable(t_str *input)
 {
@@ -45,7 +19,7 @@ t_str	extreact_variable(t_str *input)
 
 	str_create(&variable_name, "");
 	i = input->peek + 1;
-	if (str_char_at(input, i) == '\'' || str_char_at(input, i) == '\"') 
+	if (str_char_at(input, i) == '\'' || str_char_at(input, i) == '\"')
 		return (variable_name);
 	while (str_char_at(input, i) && is_valid_var_char(str_char_at(input, i)))
 	{
@@ -80,7 +54,6 @@ void	expand(t_str *input, t_str *mask, t_env *env)
 	variable = extreact_variable(input);
 	value = get_env_value(env, variable.data);
 	str_prepend(&variable, "$");
-	// str_replace(input, variable.data, value.data, ONE);
 	str_segment_replace(input, input->peek, variable.size + 1, value.data);
 	expand_mask(mask, &variable, &value);
 	input->peek += value.size;
@@ -98,7 +71,7 @@ void	expand_var(t_str *input, t_env *env, t_str *mask)
 		if (can_expand(input, mask)
 			&& is_valid_first_char(input->data[input->peek + 1]))
 			expand(input, mask, env);
-		else 
+		else
 		{
 			str_peek_advance(mask);
 			str_peek_advance(input);

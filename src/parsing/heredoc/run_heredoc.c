@@ -49,7 +49,8 @@ static void	read_until_sigint_or_delim(int fd_hered, char *delim)
 		free(line);
 	}
 	close(fd_hered);
-	exit(*(int *)ternary((g_interrupted[HEREDOC_INTERRUPT]), &(int){-1}, &(int){0}));
+	exit(*(int *)ternary((g_interrupted[HEREDOC_INTERRUPT]),
+			&(int){-1}, &(int){0}));
 }
 
 static int	init_heredoc(t_str *filename, t_str *str_delim, char *delim)
