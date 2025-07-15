@@ -105,3 +105,24 @@ t_str_arr	str_arr_from_cstr_array(char **cstr)
 	}
 	return (arr);
 }
+
+t_str_arr	str_arr_split(t_str *str, char c)
+{
+	size_t		i;
+	size_t		count;
+	t_str		*split;
+	t_str_arr	result;
+
+	i = 0;
+	count = 0;
+	str_arr_init(&result);
+	split = str_split(str, c, &count);
+	while(i < count)
+	{
+		str_arr_push(&result, split[i].data);
+		str_destroy(&split[i]);
+		i++;
+	}
+	free(split);
+	return (result);
+}

@@ -16,7 +16,10 @@ static void	skip_blank(t_str *input, t_str *mask)
 {
 	while (ft_isblank(str_peek(input))
 		&& mask->data[input->peek] == 'N')
+	{
+		mask->data[input->peek] = ' ';
 		str_peek_advance(input);
+	}
 }
 
 static void	push_segment(t_str_arr *result, t_str *input, size_t start,

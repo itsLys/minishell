@@ -48,6 +48,7 @@ void		str_arr_peek_reset(t_str_arr *arr);
 void		str_arr_insert(t_str_arr *arr, size_t index, char *text);
 void		str_arr_remove(t_str_arr *arr, size_t index);
 void		str_arr_free(t_str_arr *arr);
+t_str_arr	str_arr_split(t_str *str, char c);
 
 void		str_init(t_str *str);
 void		str_destroy(t_str *str);

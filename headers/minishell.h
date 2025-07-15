@@ -16,11 +16,11 @@
 # include <libft.h>
 # include <get_next_line.h>
 # include <limits.h>
+# include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
 # include <stddef.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/types.h>

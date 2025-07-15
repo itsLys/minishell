@@ -84,7 +84,8 @@ bool	is_assign(t_str_arr *args)
 static bool	process_arg(t_str_arr *args, t_env *env,
 		t_str_arr *out, t_str_arr *masks)
 {
-	t_str_arr	split;
+	t_str_arr	splited_input;
+	t_str_arr	splited_mask;
 	t_str		mask;
 
 	mask = build_mask(str_arr_peek(args));
@@ -94,23 +95,18 @@ static bool	process_arg(t_str_arr *args, t_env *env,
 	if (str_arr_peek(args)->data[0] == '\0')
 		return(str_destroy(&mask), true);
 	remove_quotes(str_arr_peek(args), &mask);
-	// printf("--------avant-------\n");
-	// printf("le mask qu'on doit push est %s\n", mask.data);
-	// printf("le str qu'on doit push est %s\n", str_arr_peek(args)->data);
-	// printf("--------apres-------\n");
-	// if (is_assign(args) == true)
-	// {
-	// 	printf("it s an assign\n");
-	// 	str_arr_init(&split);
-	// 	str_arr_push(&split, args->items[args->peek].data);
-	// }
-	// else
-		split = split_input(str_arr_peek(args), &mask);
-	// printf("le mask qu'on doit push est %s\n", mask.data);
-	// printf("le str qu'on doit push est %s\n", str_arr_peek(args)->data);
-	str_arr_extend(out, &split);
-	str_arr_destroy(&split);
-	str_arr_push(masks, mask.data);
+	if (is_assign(args) == true)
+	{
+		str_arr_init(&splited_input);
+		str_arr_push(&splited_input, args->items[args->peek].data);
+	}
+	else
+		splited_input = split_input(str_arr_peek(args), &mask);
+	splited_mask = str_arr_split(&mask, ' ');
+	str_arr_extend(out, &splited_input);
+	str_arr_extend(masks, &splited_mask);
+	str_arr_destroy(&splited_input);
+	str_arr_destroy(&splited_mask);
 	str_destroy(&mask);
 	return (true);
 }
