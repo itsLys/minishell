@@ -22,7 +22,6 @@ static void	sigint_handler_prompt(int sig)
 	{
 		g_interrupted[1] = 1;
 		g_interrupted[2] = 130;
-
 	}
 }
 

@@ -101,15 +101,15 @@ ssize_t		str_find(t_str *str, char *to_find);
 void		str_segment_remove(t_str *str, size_t start, size_t length);
 char		*str_segment_extract(t_str *str, size_t start, size_t length);
 char		*str_segment_slice(t_str *str, size_t start, size_t length);
-void		str_segment_replace(t_str *str, 
-				size_t start, 
-				size_t length, 
+void		str_segment_replace(t_str *str,
+				size_t start,
+				size_t length,
 				char *new_text);
 
 // str_seg2.c
 void		str_segment_set(t_str *str,
-				size_t start, 
-				size_t lenght, 
+				size_t start,
+				size_t lenght,
 				size_t end);
 size_t		str_segments_count(t_str *str, char delimiter);
 int			str_match(t_str *str,

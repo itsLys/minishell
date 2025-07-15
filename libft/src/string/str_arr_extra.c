@@ -40,7 +40,7 @@ t_str_arr	str_arr_split(t_str *str, char c)
 	count = 0;
 	str_arr_init(&result);
 	split = str_split(str, c, &count);
-	while(i < count)
+	while (i < count)
 	{
 		str_arr_push(&result, split[i].data);
 		str_destroy(&split[i]);
@@ -108,4 +108,3 @@ t_str_arr	str_arr_from_cstr_array(char **cstr)
 	}
 	return (arr);
 }
-
