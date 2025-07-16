@@ -29,6 +29,7 @@ char	*strip_home_prefix(char *pwd, t_data *data)
 			return (str_destroy(&user), free(prefix), "~");
 		return (str_destroy(&user), free(prefix), pwd + len);
 	}
+	str_destroy(&user);
 	free(prefix);
 	return (pwd);
 }

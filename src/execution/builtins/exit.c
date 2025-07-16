@@ -21,6 +21,7 @@ int	ft_exit(char **argv, t_env **env, t_data *data)
 	if (argv[1] && ft_strisnum(argv[1]) == false)
 	{
 		print_error(argv[0], "numeric argument required");
+		ft_free_vector(argv);
 		clean_exit(2, data);
 	}
 	if (argv[1] && argv[2])
@@ -28,7 +29,8 @@ int	ft_exit(char **argv, t_env **env, t_data *data)
 	else if (argv[1])
 		status = ft_atol(argv[1]) % 256;
 	else
-		status = 0;
+		status = g_interrupted[2];
+	ft_free_vector(argv);
 	clean_exit(status, data);
 	return (SUCCESS);
 }
