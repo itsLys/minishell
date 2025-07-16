@@ -1,0 +1,12 @@
+compile_flags.txt
+headers
+hl
+libft
+ls
+Makefile
+minishell
+obj
+out
+README.md
+src
+suppressions.supp

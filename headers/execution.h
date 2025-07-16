@@ -52,8 +52,6 @@ typedef struct t_builtin
 	char			*name;
 	int				(*function)(char **argv, t_env **env, t_data *data);
 }	t_builtin;
-//testing function
-void			print_env(t_env *env);
 
 t_data			*g_data(void);
 

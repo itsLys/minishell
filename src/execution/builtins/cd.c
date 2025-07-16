@@ -53,6 +53,7 @@ static void	update_pwd(char *cwd, t_data *data, t_env *env)
 		free(data->pwd);
 		data->pwd = ft_strdup(cwd);
 	}
+	free(cwd);
 }
 
 int	cd(char **argv, t_env **env, t_data *data)

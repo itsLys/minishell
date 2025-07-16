@@ -13,14 +13,13 @@ INCLUDES	= -I./headers/ -I./libft/headers/
 LIBFT_DIR	= libft
 LIBFT		= $(addprefix $(LIBFT_DIR)/, libft.a)
 SRC			= src/main.c \
-			  src/free.c \
 			  src/init.c \
 			  src/signals/signals.c \
 			  src/prompt/prompt_utils.c \
 			  src/execution/main.c \
 			  src/execution/utils.c \
-			  src/execution/redirections.c \
-			  src/execution/redirections_utils.c \
+			  src/execution/redirections/redirections.c \
+			  src/execution/redirections/redirections_utils.c \
 			  src/execution/environ/make_env.c \
 			  src/execution/environ/env_utils.c \
 			  src/execution/environ/env_actions.c \
@@ -58,7 +57,8 @@ SRC			= src/main.c \
 			  src/parsing/ast/syn_err.c \
 			  src/parsing/heredoc/run_heredoc.c \
 			  src/parsing/heredoc/generate_file_name.c \
-			  src/freeing/free_all_ast.c
+			  src/freeing/free_all_ast.c \
+			  src/freeing/free.c
 OBJ			= $(patsubst src/%.c, obj/%.o, $(SRC))
 all: $(NAME)
 	@echo "$(GREEN)$(BOLD)$(NAME) done!$(RESET)"
